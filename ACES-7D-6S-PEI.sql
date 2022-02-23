@@ -131,6 +131,7 @@ INSERT INTO "technologies" VALUES ('E_BIO','p','electricity','generation','Bioma
 INSERT INTO "technologies" VALUES ('E_BECCS','p','electricity','generation','BECCS','','GW','#77d96f','5');
 INSERT INTO "technologies" VALUES ('E_BATT_2HR','ps','electricity','storage','Battery Storage (2hr)','','GW','#dea6ff','112');
 INSERT INTO "technologies" VALUES ('E_BATT_4HR','ps','electricity','storage','Battery Storage (4hr)','','GW','#b12bff','111');
+INSERT INTO "technologies" VALUES ('E_DIESEL-CT','p','electricity','generation','Diesel CT','Oil & Diesel','GW','#4a3a0f','12');
 INSERT INTO "technologies" VALUES ('E_GEO-F','p','electricity','generation','Geothermal (Flash)','Geothermal','GW','#e3bc34','7');
 INSERT INTO "technologies" VALUES ('E_GEO-B','p','electricity','generation','Geothermal (Binary)','Geothermal','GW','#e3bc34','7');
 INSERT INTO "technologies" VALUES ('E_NUC-LWR','pb','electricity','generation','Nuclear','Nuclear','GW','#db075c','0');
@@ -138,7 +139,7 @@ INSERT INTO "technologies" VALUES ('E_H2CC','p','electricity','generation','Hydr
 INSERT INTO "technologies" VALUES ('E_ELCZR-ALK','p','electricity','misc.','Electrolyzer (Alkaline)','Electrolyzer','GW','#159bed','');
 INSERT INTO "technologies" VALUES ('E_ELCZR-PEM','p','electricity','misc.','Electrolyzer (PEM)','Electrolyzer','GW','#159bed','');
 
-INSERT INTO "technologies" VALUES ('E_DIESEL-CT_EX','p','electricity','generation','Desiel CT (Existing)','Oil & Diesel','GW','#4a3a0f','12');
+INSERT INTO "technologies" VALUES ('E_DIESEL-CT_EX','p','electricity','generation','Diesel CT (Existing)','Oil & Diesel','GW','#4a3a0f','12');
 INSERT INTO "technologies" VALUES ('E_WIND-ON_EX','p','electricity','generation','Wind (Onshore; Existing)','Wind','GW','#b3e1f5','21');
 
 INSERT INTO "technologies" VALUES ('E_BECCS-emissions','p','electricity','dummy','linked process that produces emissions associated with BECCS','','kt','','');
@@ -361,6 +362,7 @@ INSERT INTO `tech_reserve` VALUES ('E_GEO-B','');
 INSERT INTO `tech_reserve` VALUES ('E_NUC-LWR','');
 INSERT INTO `tech_reserve` VALUES ('E_H2CC','');
 INSERT INTO `tech_reserve` VALUES ('E_DIESEL-CT_EX','');
+INSERT INTO `tech_reserve` VALUES ('E_DIESEL-CT','');
 INSERT INTO `tech_reserve` VALUES ('E_WIND-ON_EX','');
 
 
@@ -384,6 +386,7 @@ CREATE TABLE IF NOT EXISTS "tech_ramping" (
 	FOREIGN KEY("tech") REFERENCES "technologies"("tech")
 );
 INSERT INTO `tech_ramping` VALUES ('E_DIESEL-CT_EX','');
+INSERT INTO `tech_ramping` VALUES ('E_DIESEL-CT','');
 INSERT INTO `tech_ramping` VALUES ('E_BIO','');
 INSERT INTO `tech_ramping` VALUES ('E_BECCS','');
 INSERT INTO `tech_ramping` VALUES ('E_H2CC','');
@@ -1770,6 +1773,7 @@ CREATE TABLE IF NOT EXISTS "RampUp" (
 
 
 INSERT INTO "RampUp" VALUES ('PEI','E_DIESEL-CT_EX',0.25,'[E21]','');
+INSERT INTO "RampUp" VALUES ('PEI','E_DIESEL-CT',0.25,'[E21]','');
 INSERT INTO "RampUp" VALUES ('PEI','E_BIO',0.25,'[E21]','');
 INSERT INTO "RampUp" VALUES ('PEI','E_BECCS',0.25,'','Assumption: Same as E_BIO.');
 INSERT INTO "RampUp" VALUES ('PEI','E_NUC-LWR',0.01,'[E21]','');
@@ -1800,6 +1804,7 @@ CREATE TABLE IF NOT EXISTS "RampDown" (
 
 
 INSERT INTO "RampDown" VALUES ('PEI','E_DIESEL-CT_EX',0.25,'[E21]','');
+INSERT INTO "RampDown" VALUES ('PEI','E_DIESEL-CT',0.25,'[E21]','');
 INSERT INTO "RampDown" VALUES ('PEI','E_BIO',0.25,'[E21]','');
 INSERT INTO "RampDown" VALUES ('PEI','E_BECCS',0.25,'','Assumption: Same as E_BIO.');
 INSERT INTO "RampDown" VALUES ('PEI','E_NUC-LWR',0.01,'[E21]','');
@@ -1881,6 +1886,7 @@ INSERT INTO `LifetimeTech` VALUES ('PEI','E_BIO',               45,'[E3]','');
 INSERT INTO `LifetimeTech` VALUES ('PEI','E_BECCS',             30,'[E1]','');
 INSERT INTO `LifetimeTech` VALUES ('PEI','E_BATT_2HR',          15,'[E3]','');
 INSERT INTO `LifetimeTech` VALUES ('PEI','E_BATT_4HR',          15,'[E3]','');
+INSERT INTO `LifetimeTech` VALUES ('PEI','E_DIESEL-CT',         55,'[E3]','Assume the same as NGCT');
 INSERT INTO `LifetimeTech` VALUES ('PEI','E_GEO-F',             30,'[E3]','');
 INSERT INTO `LifetimeTech` VALUES ('PEI','E_GEO-B',             30,'[E3]','');
 INSERT INTO `LifetimeTech` VALUES ('PEI','E_NUC-LWR',           60,'[E3]','');
@@ -2088,6 +2094,7 @@ INSERT INTO `LifetimeLoanTech` VALUES ('PEI','E_BIO',               30,'[E3]',''
 INSERT INTO `LifetimeLoanTech` VALUES ('PEI','E_BECCS',             30,'[E1]','');
 INSERT INTO `LifetimeLoanTech` VALUES ('PEI','E_BATT_2HR',          15,'[E3]','');
 INSERT INTO `LifetimeLoanTech` VALUES ('PEI','E_BATT_4HR',          15,'[E3]','');
+INSERT INTO `LifetimeLoanTech` VALUES ('PEI','E_DIESEL-CT',         30,'[E3]','Assume the same as NGCT');
 INSERT INTO `LifetimeLoanTech` VALUES ('PEI','E_GEO-F',             30,'[E3]','');
 INSERT INTO `LifetimeLoanTech` VALUES ('PEI','E_GEO-B',             30,'[E3]','');
 INSERT INTO `LifetimeLoanTech` VALUES ('PEI','E_NUC-LWR',           30,'[E3]','');
@@ -2415,6 +2422,13 @@ INSERT INTO `EmissionActivity` VALUES ('PEI','CO2e','E_WOOD','E_BECCS',         
 INSERT INTO `EmissionActivity` VALUES ('PEI','CO2e','E_WOOD','E_BECCS',             2040, 'ELC', -345.652,      'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
 INSERT INTO `EmissionActivity` VALUES ('PEI','CO2e','E_WOOD','E_BECCS',             2045, 'ELC', -345.652,      'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
 INSERT INTO `EmissionActivity` VALUES ('PEI','CO2e','E_WOOD','E_BECCS',             2050, 'ELC', -345.652,      'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO "EmissionActivity" VALUES ('PEI','NOX','E_DSL','E_DIESEL-CT',2020,'ELC',0.005,'kt/PJout','[Ex3]','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','NOX','E_DSL','E_DIESEL-CT',2025,'ELC',0.005,'kt/PJout','[Ex3]','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','NOX','E_DSL','E_DIESEL-CT',2030,'ELC',0.005,'kt/PJout','[Ex3]','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','NOX','E_DSL','E_DIESEL-CT',2035,'ELC',0.005,'kt/PJout','[Ex3]','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','NOX','E_DSL','E_DIESEL-CT',2040,'ELC',0.005,'kt/PJout','[Ex3]','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','NOX','E_DSL','E_DIESEL-CT',2045,'ELC',0.005,'kt/PJout','[Ex3]','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','NOX','E_DSL','E_DIESEL-CT',2050,'ELC',0.005,'kt/PJout','[Ex3]','');
 
 ---------------------------------- New Industry --------------------------------------
 
@@ -3322,6 +3336,13 @@ INSERT INTO `Efficiency` VALUES ('PEI', 'ELC',      'E_BATT_4HR',          2035,
 INSERT INTO `Efficiency` VALUES ('PEI', 'ELC',      'E_BATT_4HR',          2040, 'ELC', 0.85,'[E3]', 'Moderate case');
 INSERT INTO `Efficiency` VALUES ('PEI', 'ELC',      'E_BATT_4HR',          2045, 'ELC', 0.85,'[E3]', 'Moderate case');
 INSERT INTO `Efficiency` VALUES ('PEI', 'ELC',      'E_BATT_4HR',          2050, 'ELC', 0.85,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('PEI', 'E_DSL',    'E_DIESEL-CT',         2020, 'ELC', 0.39,'[E21]', '');
+INSERT INTO `Efficiency` VALUES ('PEI', 'E_DSL',    'E_DIESEL-CT',         2025, 'ELC', 0.39,'[E21]', '');
+INSERT INTO `Efficiency` VALUES ('PEI', 'E_DSL',    'E_DIESEL-CT',         2030, 'ELC', 0.39,'[E21]', '');
+INSERT INTO `Efficiency` VALUES ('PEI', 'E_DSL',    'E_DIESEL-CT',         2035, 'ELC', 0.39,'[E21]', '');
+INSERT INTO `Efficiency` VALUES ('PEI', 'E_DSL',    'E_DIESEL-CT',         2040, 'ELC', 0.39,'[E21]', '');
+INSERT INTO `Efficiency` VALUES ('PEI', 'E_DSL',    'E_DIESEL-CT',         2045, 'ELC', 0.39,'[E21]', '');
+INSERT INTO `Efficiency` VALUES ('PEI', 'E_DSL',    'E_DIESEL-CT',         2050, 'ELC', 0.39,'[E21]', '');
 INSERT INTO `Efficiency` VALUES ('PEI', 'URN',      'E_NUC-LWR',           2020, 'ELC', 0.3262,'[E3]', 'Moderate case');
 INSERT INTO `Efficiency` VALUES ('PEI', 'URN',      'E_NUC-LWR',           2025, 'ELC', 0.3262,'[E3]', 'Moderate case');
 INSERT INTO `Efficiency` VALUES ('PEI', 'URN',      'E_NUC-LWR',           2030, 'ELC', 0.3262,'[E3]', 'Moderate case');
@@ -4442,6 +4463,34 @@ INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2050, 'E_BECCS',             
 INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2050, 'E_BECCS',             2045, 0.123,      'k jobs/GW', '[E28]','');
 INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2050, 'E_BECCS',             2050, 0.469,      'k jobs/GW', '[E28]','');
 
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2020, 'E_DIESEL-CT',               2020, 0.469,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2025, 'E_DIESEL-CT',               2020, 0.123,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2025, 'E_DIESEL-CT',               2025, 0.469,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2030, 'E_DIESEL-CT',               2020, 0.123,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2030, 'E_DIESEL-CT',               2025, 0.123,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2030, 'E_DIESEL-CT',               2030, 0.469,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2035, 'E_DIESEL-CT',               2020, 0.123,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2035, 'E_DIESEL-CT',               2025, 0.123,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2035, 'E_DIESEL-CT',               2030, 0.123,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2035, 'E_DIESEL-CT',               2035, 0.469,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2040, 'E_DIESEL-CT',               2020, 0.123,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2040, 'E_DIESEL-CT',               2025, 0.123,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2040, 'E_DIESEL-CT',               2030, 0.123,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2040, 'E_DIESEL-CT',               2035, 0.123,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2040, 'E_DIESEL-CT',               2040, 0.469,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2045, 'E_DIESEL-CT',               2020, 0.123,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2045, 'E_DIESEL-CT',               2025, 0.123,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2045, 'E_DIESEL-CT',               2030, 0.123,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2045, 'E_DIESEL-CT',               2035, 0.123,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2045, 'E_DIESEL-CT',               2040, 0.123,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2045, 'E_DIESEL-CT',               2045, 0.469,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2050, 'E_DIESEL-CT',               2020, 0.123,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2050, 'E_DIESEL-CT',               2025, 0.123,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2050, 'E_DIESEL-CT',               2030, 0.123,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2050, 'E_DIESEL-CT',               2035, 0.123,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2050, 'E_DIESEL-CT',               2040, 0.123,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2050, 'E_DIESEL-CT',               2045, 0.123,        'k jobs/GW', '[E28]', '');
+INSERT INTO `EmploymentPerCapacity` VALUES ('PEI', 2050, 'E_DIESEL-CT',               2050, 0.469,        'k jobs/GW', '[E28]', '');
 
 
 
@@ -4597,6 +4646,13 @@ INSERT INTO `DiscountRate` VALUES ('PEI','E_BATT_4HR',          2035, 0.05,     
 INSERT INTO `DiscountRate` VALUES ('PEI','E_BATT_4HR',          2040, 0.05,           '[E11]', '');
 INSERT INTO `DiscountRate` VALUES ('PEI','E_BATT_4HR',          2045, 0.05,           '[E11]', '');
 INSERT INTO `DiscountRate` VALUES ('PEI','E_BATT_4HR',          2050, 0.05,           '[E11]', '');
+INSERT INTO `DiscountRate` VALUES ('PEI','E_DIESEL-CT',         2020, 0.06,           '[E11]', 'Assume the same as NGCT');
+INSERT INTO `DiscountRate` VALUES ('PEI','E_DIESEL-CT',         2025, 0.06,           '[E11]', 'Assume the same as NGCT');
+INSERT INTO `DiscountRate` VALUES ('PEI','E_DIESEL-CT',         2030, 0.06,           '[E11]', 'Assume the same as NGCT');
+INSERT INTO `DiscountRate` VALUES ('PEI','E_DIESEL-CT',         2035, 0.06,           '[E11]', 'Assume the same as NGCT');
+INSERT INTO `DiscountRate` VALUES ('PEI','E_DIESEL-CT',         2040, 0.06,           '[E11]', 'Assume the same as NGCT');
+INSERT INTO `DiscountRate` VALUES ('PEI','E_DIESEL-CT',         2045, 0.06,           '[E11]', 'Assume the same as NGCT');
+INSERT INTO `DiscountRate` VALUES ('PEI','E_DIESEL-CT',         2050, 0.06,           '[E11]', 'Assume the same as NGCT');
 INSERT INTO `DiscountRate` VALUES ('PEI','E_GEO-F',             2020, 0.04,           '[E3]', '');
 INSERT INTO `DiscountRate` VALUES ('PEI','E_GEO-F',             2025, 0.04,           '[E3]', '');
 INSERT INTO `DiscountRate` VALUES ('PEI','E_GEO-F',             2030, 0.04,           '[E3]', '');
@@ -5065,6 +5121,34 @@ INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_BECCS',             2035, 2.9
 INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_BECCS',             2040, 2.9397,        '$M/PJ', '[E1]', 'Modelling follows that in [1], which cites [7] as the primary source for the E_BECCS technology data.');
 INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_BECCS',             2045, 2.9158,        '$M/PJ', '[E1]', 'Modelling follows that in [1], which cites [7] as the primary source for the E_BECCS technology data.');
 INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_BECCS',             2050, 2.868,         '$M/PJ', '[E1]', 'Modelling follows that in [1], which cites [7] as the primary source for the E_BECCS technology data.');
+INSERT INTO `CostVariable` VALUES ('PEI', 2020, 'E_DIESEL-CT',         2020, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2025, 'E_DIESEL-CT',         2020, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2025, 'E_DIESEL-CT',         2025, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2030, 'E_DIESEL-CT',         2020, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2030, 'E_DIESEL-CT',         2025, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2030, 'E_DIESEL-CT',         2030, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2035, 'E_DIESEL-CT',         2020, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2035, 'E_DIESEL-CT',         2025, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2035, 'E_DIESEL-CT',         2030, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2035, 'E_DIESEL-CT',         2035, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2020, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2025, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2030, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2035, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2040, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2020, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2025, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2030, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2035, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2040, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2045, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2020, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2025, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2030, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2035, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2040, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2045, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2050, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
 INSERT INTO `CostVariable` VALUES ('PEI', 2020, 'E_NUC-LWR',           2020, 0.88384,       '$M/PJ', '[E3]', 'Moderate case');
 INSERT INTO `CostVariable` VALUES ('PEI', 2025, 'E_NUC-LWR',           2020, 0.88384,       '$M/PJ', '[E3]', 'Moderate case');
 INSERT INTO `CostVariable` VALUES ('PEI', 2025, 'E_NUC-LWR',           2025, 0.84272,       '$M/PJ', '[E3]', 'Moderate case');
@@ -6098,6 +6182,13 @@ INSERT INTO `CostInvest` VALUES ('PEI','E_BATT_4HR',          2035, 893.63634,  
 INSERT INTO `CostInvest` VALUES ('PEI','E_BATT_4HR',          2040, 827.33429,     'M$/GW', '[E3]','Moderate case');
 INSERT INTO `CostInvest` VALUES ('PEI','E_BATT_4HR',          2045, 761.99314,     'M$/GW', '[E3]','Moderate case');
 INSERT INTO `CostInvest` VALUES ('PEI','E_BATT_4HR',          2050, 691.84749,     'M$/GW', '[E3]','Moderate case');
+INSERT INTO `CostInvest` VALUES ('PEI','E_DIESEL-CT',         2020, 831.0,         'M$/GW', '[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostInvest` VALUES ('PEI','E_DIESEL-CT',         2025, 831.0,         'M$/GW', '[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostInvest` VALUES ('PEI','E_DIESEL-CT',         2030, 831.0,         'M$/GW', '[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostInvest` VALUES ('PEI','E_DIESEL-CT',         2035, 831.0,         'M$/GW', '[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostInvest` VALUES ('PEI','E_DIESEL-CT',         2040, 831.0,         'M$/GW', '[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostInvest` VALUES ('PEI','E_DIESEL-CT',         2045, 831.0,         'M$/GW', '[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostInvest` VALUES ('PEI','E_DIESEL-CT',         2050, 831.0,         'M$/GW', '[E21]','Values only quoted for 2020. Assume no change in price over time.');
 INSERT INTO `CostInvest` VALUES ('PEI','E_GEO-F',             2020, 8851.0374,     'M$/GW', '[E3]','Moderate case');
 INSERT INTO `CostInvest` VALUES ('PEI','E_GEO-F',             2025, 7630.16595,    'M$/GW', '[E3]','Moderate case');
 INSERT INTO `CostInvest` VALUES ('PEI','E_GEO-F',             2030, 6910.50111,    'M$/GW', '[E3]','Moderate case');
@@ -7007,6 +7098,35 @@ INSERT INTO `CostFixed` VALUES ('PEI', 2045, 'E_BATT_4HR',          2045, 19.049
 INSERT INTO `CostFixed` VALUES ('PEI', 2050, 'E_BATT_4HR',          2040, 20.68336,      'M$/GW-yr','[E3]','Moderate case');
 INSERT INTO `CostFixed` VALUES ('PEI', 2050, 'E_BATT_4HR',          2045, 19.04983,      'M$/GW-yr','[E3]','Moderate case');
 INSERT INTO `CostFixed` VALUES ('PEI', 2050, 'E_BATT_4HR',          2050, 17.29619,      'M$/GW-yr','[E3]','Moderate case');
+
+INSERT INTO `CostFixed` VALUES ('PEI', 2020, 'E_DIESEL-CT',         2020, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2025, 'E_DIESEL-CT',         2020, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2025, 'E_DIESEL-CT',         2025, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2030, 'E_DIESEL-CT',         2020, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2030, 'E_DIESEL-CT',         2025, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2030, 'E_DIESEL-CT',         2030, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2035, 'E_DIESEL-CT',         2020, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2035, 'E_DIESEL-CT',         2025, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2035, 'E_DIESEL-CT',         2030, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2035, 'E_DIESEL-CT',         2035, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2020, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2025, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2030, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2035, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2040, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2020, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2025, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2030, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2035, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2040, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2045, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2020, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2025, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2030, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2035, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2040, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2045, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
+INSERT INTO `CostFixed` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2050, 19.181,        'M$/GW-yr','[E21]','Values only quoted for 2020. Assume no change in price over time.');
 INSERT INTO `CostFixed` VALUES ('PEI', 2020, 'E_GEO-F',             2020, 185.43193,     'M$/GW-yr','[E3]','Moderate case');
 INSERT INTO `CostFixed` VALUES ('PEI', 2025, 'E_GEO-F',             2020, 185.43193,     'M$/GW-yr','[E3]','Moderate case');
 INSERT INTO `CostFixed` VALUES ('PEI', 2025, 'E_GEO-F',             2025, 167.34212,     'M$/GW-yr','[E3]','Moderate case');
@@ -7706,6 +7826,7 @@ INSERT INTO `CapacityToActivity` VALUES ('PEI','E_BECCS',31.536,'1 GW of capacit
 INSERT INTO `CapacityToActivity` VALUES ('PEI','E_H2CC',31.536,'1 GW of capacity produces 31.536 PJ of energy if run all year at full capacity.');
 INSERT INTO `CapacityToActivity` VALUES ('PEI','E_BATT_2HR',31.536,'1 GW of capacity produces 31.536 PJ of energy if run all year at full capacity.');
 INSERT INTO `CapacityToActivity` VALUES ('PEI','E_BATT_4HR',31.536,'1 GW of capacity produces 31.536 PJ of energy if run all year at full capacity.');
+INSERT INTO `CapacityToActivity` VALUES ('PEI','E_DIESEL-CT',31.536,'1 GW of capacity produces 31.536 PJ of energy if run all year at full capacity.');
 INSERT INTO `CapacityToActivity` VALUES ('PEI','E_GEO-F',31.536,'1 GW of capacity produces 31.536 PJ of energy if run all year at full capacity.');
 INSERT INTO `CapacityToActivity` VALUES ('PEI','E_GEO-B',31.536,'1 GW of capacity produces 31.536 PJ of energy if run all year at full capacity.');
 INSERT INTO `CapacityToActivity` VALUES ('PEI','E_NUC-LWR',31.536,'1 GW of capacity produces 31.536 PJ of energy if run all year at full capacity.');
@@ -8257,6 +8378,34 @@ INSERT INTO `CapacityCredit` VALUES ('PEI', 2050, 'E_BATT_4HR',          2035, 0
 INSERT INTO `CapacityCredit` VALUES ('PEI', 2050, 'E_BATT_4HR',          2040, 0.55, '[E4]', 'The marginal and average ELCC for storage is nonlinear. Value taken from Average ELCC at 200 MW installed capacity.');
 INSERT INTO `CapacityCredit` VALUES ('PEI', 2050, 'E_BATT_4HR',          2045, 0.55, '[E4]', 'The marginal and average ELCC for storage is nonlinear. Value taken from Average ELCC at 200 MW installed capacity.');
 INSERT INTO `CapacityCredit` VALUES ('PEI', 2050, 'E_BATT_4HR',          2050, 0.55, '[E4]', 'The marginal and average ELCC for storage is nonlinear. Value taken from Average ELCC at 200 MW installed capacity.');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2020, 'E_DIESEL-CT',         2020, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2025, 'E_DIESEL-CT',         2020, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2025, 'E_DIESEL-CT',         2025, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2030, 'E_DIESEL-CT',         2020, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2030, 'E_DIESEL-CT',         2025, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2030, 'E_DIESEL-CT',         2030, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2035, 'E_DIESEL-CT',         2020, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2035, 'E_DIESEL-CT',         2025, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2035, 'E_DIESEL-CT',         2030, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2035, 'E_DIESEL-CT',         2035, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2020, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2025, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2030, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2035, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2040, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2020, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2025, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2030, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2035, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2040, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2045, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2020, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2025, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2030, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2035, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2040, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2045, 1.0, '[E4]', '');
+INSERT INTO `CapacityCredit` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2050, 1.0, '[E4]', '');
 INSERT INTO `CapacityCredit` VALUES ('PEI', 2020, 'E_GEO-F',             2020, 1.0, ' ', ' ');
 INSERT INTO `CapacityCredit` VALUES ('PEI', 2025, 'E_GEO-F',             2020, 1.0, ' ', ' ');
 INSERT INTO `CapacityCredit` VALUES ('PEI', 2025, 'E_GEO-F',             2025, 1.0, ' ', ' ');
@@ -11805,7 +11954,7 @@ INSERT INTO `CapacityFactorTech` VALUES ('PEI','11-16','H23','E_SOLPV-RES',0.000
 
 
 
-INSERT INTO 'technologies' VALUES ('E_TRANS_EXPORT','p','electricity','transmission','Electricity transmission','','GW','#f28900','301');
+INSERT INTO 'technologies' VALUES ('E_TRANS_EXPORT','p','electricity','transmission','Transmission','','GW','#f28900','301');
 
 INSERT INTO 'tech_reserve' VALUES ('E_TRANS_EXPORT','');
 INSERT INTO 'tech_exchange' VALUES ('E_TRANS_EXPORT','');

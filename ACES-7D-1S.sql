@@ -6879,62 +6879,62 @@ INSERT INTO `CostVariable` VALUES ('NL', 2050, 'E_BECCS',             2035, 2.96
 INSERT INTO `CostVariable` VALUES ('NL', 2050, 'E_BECCS',             2040, 2.9397,        '$M/PJ', '[E1]', 'Modelling follows that in [1], which cites [7] as the primary source for the E_BECCS technology data.');
 INSERT INTO `CostVariable` VALUES ('NL', 2050, 'E_BECCS',             2045, 2.9158,        '$M/PJ', '[E1]', 'Modelling follows that in [1], which cites [7] as the primary source for the E_BECCS technology data.');
 INSERT INTO `CostVariable` VALUES ('NL', 2050, 'E_BECCS',             2050, 2.868,         '$M/PJ', '[E1]', 'Modelling follows that in [1], which cites [7] as the primary source for the E_BECCS technology data.');
-INSERT INTO `CostVariable` VALUES ('PEI', 2020, 'E_DIESEL-CT',         2020, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2025, 'E_DIESEL-CT',         2020, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2025, 'E_DIESEL-CT',         2025, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2030, 'E_DIESEL-CT',         2020, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2030, 'E_DIESEL-CT',         2025, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2030, 'E_DIESEL-CT',         2030, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2035, 'E_DIESEL-CT',         2020, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2035, 'E_DIESEL-CT',         2025, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2035, 'E_DIESEL-CT',         2030, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2035, 'E_DIESEL-CT',         2035, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2020, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2025, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2030, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2035, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2040, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2020, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2025, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2030, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2035, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2040, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2045, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2020, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2025, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2030, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2035, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2040, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2045, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2050, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2020, 'E_DIESEL-CT',         2020, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2025, 'E_DIESEL-CT',         2020, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2025, 'E_DIESEL-CT',         2025, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2030, 'E_DIESEL-CT',         2020, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2030, 'E_DIESEL-CT',         2025, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2030, 'E_DIESEL-CT',         2030, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2035, 'E_DIESEL-CT',         2020, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2035, 'E_DIESEL-CT',         2025, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2035, 'E_DIESEL-CT',         2030, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2035, 'E_DIESEL-CT',         2035, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2040, 'E_DIESEL-CT',         2020, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2040, 'E_DIESEL-CT',         2025, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2040, 'E_DIESEL-CT',         2030, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2040, 'E_DIESEL-CT',         2035, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2040, 'E_DIESEL-CT',         2040, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2045, 'E_DIESEL-CT',         2020, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2045, 'E_DIESEL-CT',         2025, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2045, 'E_DIESEL-CT',         2030, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2045, 'E_DIESEL-CT',         2035, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2045, 'E_DIESEL-CT',         2040, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2045, 'E_DIESEL-CT',         2045, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2050, 'E_DIESEL-CT',         2020, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2050, 'E_DIESEL-CT',         2025, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2050, 'E_DIESEL-CT',         2030, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2050, 'E_DIESEL-CT',         2035, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2050, 'E_DIESEL-CT',         2040, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2050, 'E_DIESEL-CT',         2045, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
-INSERT INTO `CostVariable` VALUES ('NL', 2050, 'E_DIESEL-CT',         2050, 5.32778,       '$M/PJ', '[E21]', 'Moderate case');
+INSERT INTO `CostVariable` VALUES ('PEI', 2020, 'E_DIESEL-CT',         2020, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2025, 'E_DIESEL-CT',         2020, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2025, 'E_DIESEL-CT',         2025, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2030, 'E_DIESEL-CT',         2020, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2030, 'E_DIESEL-CT',         2025, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2030, 'E_DIESEL-CT',         2030, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2035, 'E_DIESEL-CT',         2020, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2035, 'E_DIESEL-CT',         2025, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2035, 'E_DIESEL-CT',         2030, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2035, 'E_DIESEL-CT',         2035, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2020, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2025, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2030, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2035, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2040, 'E_DIESEL-CT',         2040, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2020, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2025, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2030, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2035, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2040, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2045, 'E_DIESEL-CT',         2045, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2020, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2025, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2030, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2035, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2040, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2045, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('PEI', 2050, 'E_DIESEL-CT',         2050, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2020, 'E_DIESEL-CT',         2020, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2025, 'E_DIESEL-CT',         2020, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2025, 'E_DIESEL-CT',         2025, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2030, 'E_DIESEL-CT',         2020, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2030, 'E_DIESEL-CT',         2025, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2030, 'E_DIESEL-CT',         2030, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2035, 'E_DIESEL-CT',         2020, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2035, 'E_DIESEL-CT',         2025, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2035, 'E_DIESEL-CT',         2030, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2035, 'E_DIESEL-CT',         2035, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2040, 'E_DIESEL-CT',         2020, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2040, 'E_DIESEL-CT',         2025, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2040, 'E_DIESEL-CT',         2030, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2040, 'E_DIESEL-CT',         2035, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2040, 'E_DIESEL-CT',         2040, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2045, 'E_DIESEL-CT',         2020, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2045, 'E_DIESEL-CT',         2025, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2045, 'E_DIESEL-CT',         2030, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2045, 'E_DIESEL-CT',         2035, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2045, 'E_DIESEL-CT',         2040, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2045, 'E_DIESEL-CT',         2045, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2050, 'E_DIESEL-CT',         2020, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2050, 'E_DIESEL-CT',         2025, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2050, 'E_DIESEL-CT',         2030, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2050, 'E_DIESEL-CT',         2035, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2050, 'E_DIESEL-CT',         2040, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2050, 'E_DIESEL-CT',         2045, 5.328,       '$M/PJ', '[E21]', '');
+INSERT INTO `CostVariable` VALUES ('NL', 2050, 'E_DIESEL-CT',         2050, 5.328,       '$M/PJ', '[E21]', '');
 INSERT INTO `CostVariable` VALUES ('NS', 2020, 'E_NGACC',             2020, 0.65392,       '$M/PJ', '[E3]', 'Moderate case');
 INSERT INTO `CostVariable` VALUES ('NS', 2025, 'E_NGACC',             2020, 0.65392,       '$M/PJ', '[E3]', 'Moderate case');
 INSERT INTO `CostVariable` VALUES ('NS', 2025, 'E_NGACC',             2025, 0.6235,        '$M/PJ', '[E3]', 'Moderate case');
@@ -8673,8 +8673,8 @@ INSERT INTO `CostFixed` VALUES ('NB',2020,'E_COAL-BIT_EX-1',		1980,43.597,'$M/GW
 INSERT INTO `CostFixed` VALUES ('NB',2020,'E_NGACC_EX',					1977,13.624,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NB',2020,'E_NG-COGEN_EX',			1975,18.561,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NB',2020,'E_NUC-LWR_EX',				1980,84.469,'$M/GWyr','[E13]','');
-INSERT INTO `CostFixed` VALUES ('NB',2020,'E_DIESEL-CT_EX',			1976,16.349,'$M/GWyr','[E21]','');
-INSERT INTO `CostFixed` VALUES ('NB',2020,'E_DIESEL-CT_EX',			1981,16.349,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('NB',2020,'E_DIESEL-CT_EX',			1976,19.181,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('NB',2020,'E_DIESEL-CT_EX',			1981,19.181,'$M/GWyr','[E21]','');
 INSERT INTO `CostFixed` VALUES ('NB',2020,'E_BIO-COGEN_EX',	2000,24.520,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NB',2020,'E_HYDRO-LIMDSP_EX',			2000,21.798,'$M/GWyr','[E13]','');
 iNSERT INTO `CostFixed` VALUES ('NB',2020,'E_WIND-ON_EX',				2009,58.5832,'$M/GWyr','[E13]','');
@@ -8685,8 +8685,8 @@ INSERT INTO `CostFixed` VALUES ('NB',2025,'E_HFO-CT_EX',				1991,59.946,'$M/GWyr
 INSERT INTO `CostFixed` VALUES ('NB',2025,'E_COAL-BIT_EX-1',		1980,43.597,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NB',2025,'E_NGACC_EX',					1977,13.624,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NB',2025,'E_NUC-LWR_EX',				1980,84.469,'$M/GWyr','[E13]','');
-INSERT INTO `CostFixed` VALUES ('NB',2025,'E_DIESEL-CT_EX',			1976,16.349,'$M/GWyryr','[E21]','');
-INSERT INTO `CostFixed` VALUES ('NB',2025,'E_DIESEL-CT_EX',			1981,16.349,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('NB',2025,'E_DIESEL-CT_EX',			1976,19.181,'$M/GWyryr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('NB',2025,'E_DIESEL-CT_EX',			1981,19.181,'$M/GWyr','[E21]','');
 INSERT INTO `CostFixed` VALUES ('NB',2025,'E_BIO-COGEN_EX',	2000,24.520,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NB',2025,'E_HYDRO-LIMDSP_EX',			2000,1.7984,'$M/GWyr','[E13]','');
 iNSERT INTO `CostFixed` VALUES ('NB',2025,'E_WIND-ON_EX',				2009,58.5832,'$M/GWyr','[E13]','');
@@ -8695,7 +8695,7 @@ INSERT INTO `CostFixed` VALUES ('NB',2025,'E_WIND-ON_EX',				2019,58.5832,'$M/GW
 
 INSERT INTO `CostFixed` VALUES ('NB',2030,'E_HFO-CT_EX',				1991,59.946,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NB',2030,'E_NUC-LWR_EX',				1980,84.469,'$M/GWyr','[E13]','');
-INSERT INTO `CostFixed` VALUES ('NB',2030,'E_DIESEL-CT_EX',			1981,16.349,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('NB',2030,'E_DIESEL-CT_EX',			1981,19.181,'$M/GWyr','[E21]','');
 INSERT INTO `CostFixed` VALUES ('NB',2030,'E_BIO-COGEN_EX',	2000,1.4001,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NB',2030,'E_HYDRO-LIMDSP_EX',			2000,21.798,'$M/GWyr','[E13]','');
 iNSERT INTO `CostFixed` VALUES ('NB',2030,'E_WIND-ON_EX',				2009,58.5832,'$M/GWyr','[E13]','');
@@ -8736,7 +8736,7 @@ INSERT INTO `CostFixed` VALUES ('NS',2020,'E_COAL-BIT_EX-3',	1980,43.597,'$M/GWy
 INSERT INTO `CostFixed` VALUES ('NS',2020,'E_COAL-COKE_EX',		1980,59.9456,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2020,'E_NGACT_EX',				2000,15.504,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2020,'E_NGACC_EX',				2010,13.624,'$M/GWyr','[E13]','');
-INSERT INTO `CostFixed` VALUES ('NS',2020,'E_DIESEL-CT_EX',		2000,16.349,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('NS',2020,'E_DIESEL-CT_EX',		2000,19.181,'$M/GWyr','[E21]','');
 INSERT INTO `CostFixed` VALUES ('NS',2020,'E_BIO-COGEN_EX',		2000,24.52,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2020,'E_BIO_EX',					2000,148.50,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2020,'E_WIND-ON_EX',			2005,58.5832,'$M/GWyr','[E13]','');
@@ -8754,7 +8754,7 @@ INSERT INTO `CostFixed` VALUES ('NS',2025,'E_COAL-BIT_EX-3',	1980,43.597,'$M/GWy
 INSERT INTO `CostFixed` VALUES ('NS',2025,'E_COAL-COKE_EX',		1980,59.9456,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2025,'E_NGACT_EX',				2000,15.504,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2025,'E_NGACC_EX',				2010,13.624,'$M/GWyr','[E13]','');
-INSERT INTO `CostFixed` VALUES ('NS',2025,'E_DIESEL-CT_EX',		2000,16.349,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('NS',2025,'E_DIESEL-CT_EX',		2000,19.181,'$M/GWyr','[E21]','');
 INSERT INTO `CostFixed` VALUES ('NS',2025,'E_BIO-COGEN_EX',		2000,24.52,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2025,'E_BIO_EX',					2000,148.50,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2025,'E_WIND-ON_EX',			2005,58.5832,'$M/GWyr','[E13]','');
@@ -8771,7 +8771,7 @@ INSERT INTO `CostFixed` VALUES ('NS',2025,'E_HYDRO-DSP_EX',		2000,115.804,'$M/GW
 --INSERT INTO `CostFixed` VALUES ('NS',2030,'E_COAL-COKE_EX',		1980,59.9456,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2030,'E_NGACT_EX',				2000,15.504,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2030,'E_NGACC_EX',				2010,13.624,'$M/GWyr','[E13]','');
-INSERT INTO `CostFixed` VALUES ('NS',2030,'E_DIESEL-CT_EX',		2000,16.349,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('NS',2030,'E_DIESEL-CT_EX',		2000,19.181,'$M/GWyr','[E21]','');
 INSERT INTO `CostFixed` VALUES ('NS',2030,'E_BIO-COGEN_EX',		2000,24.52,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2030,'E_BIO_EX',					2000,148.50,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2030,'E_WIND-ON_EX',			2005,58.5832,'$M/GWyr','[E13]','');
@@ -8788,7 +8788,7 @@ INSERT INTO `CostFixed` VALUES ('NS',2030,'E_HYDRO-DSP_EX',		2000,115.804,'$M/GW
 --INSERT INTO `CostFixed` VALUES ('NS',2035,'E_COAL-COKE_EX',		1980,59.9456,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2035,'E_NGACT_EX',				2000,15.504,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2035,'E_NGACC_EX',				2010,13.624,'$M/GWyr','[E13]','');
-INSERT INTO `CostFixed` VALUES ('NS',2035,'E_DIESEL-CT_EX',		2000,16.349,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('NS',2035,'E_DIESEL-CT_EX',		2000,19.181,'$M/GWyr','[E21]','');
 INSERT INTO `CostFixed` VALUES ('NS',2035,'E_BIO-COGEN_EX',		2000,24.52,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2035,'E_BIO_EX',					2000,148.50,'$M/GWyr','[E13]','');
 --INSERT INTO `CostFixed` VALUES ('NS',2035,'E_WIND-ON_EX',			2005,58.5832,'$M/GWyr','[E13]','');
@@ -8805,7 +8805,7 @@ INSERT INTO `CostFixed` VALUES ('NS',2035,'E_HYDRO-DSP_EX',		2000,115.804,'$M/GW
 --INSERT INTO `CostFixed` VALUES ('NS',2040,'E_COAL-COKE_EX',		1980,59.9456,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2040,'E_NGACT_EX',				2000,15.504,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2040,'E_NGACC_EX',				2010,13.624,'$M/GWyr','[E13]','');
-INSERT INTO `CostFixed` VALUES ('NS',2040,'E_DIESEL-CT_EX',		2000,16.349,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('NS',2040,'E_DIESEL-CT_EX',		2000,19.181,'$M/GWyr','[E21]','');
 INSERT INTO `CostFixed` VALUES ('NS',2040,'E_BIO-COGEN_EX',		2000,24.52,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2040,'E_BIO_EX',					2000,148.50,'$M/GWyr','[E13]','');
 --INSERT INTO `CostFixed` VALUES ('NS',2040,'E_WIND-ON_EX',			2005,58.5832,'$M/GWyr','[E13]','');
@@ -8822,7 +8822,7 @@ INSERT INTO `CostFixed` VALUES ('NS',2040,'E_HYDRO-DSP_EX',		2000,115.804,'$M/GW
 --INSERT INTO `CostFixed` VALUES ('NS',2045,'E_COAL-COKE_EX',		1980,59.9456,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2045,'E_NGACT_EX',				2000,15.504,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2045,'E_NGACC_EX',				2010,13.624,'$M/GWyr','[E13]','');
-INSERT INTO `CostFixed` VALUES ('NS',2045,'E_DIESEL-CT_EX',		2000,16.349,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('NS',2045,'E_DIESEL-CT_EX',		2000,19.181,'$M/GWyr','[E21]','');
 INSERT INTO `CostFixed` VALUES ('NS',2045,'E_BIO-COGEN_EX',		2000,24.52,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2045,'E_BIO_EX',					2000,148.50,'$M/GWyr','[E13]','');
 --INSERT INTO `CostFixed` VALUES ('NS',2045,'E_WIND-ON_EX',			2005,58.5832,'$M/GWyr','[E13]','');
@@ -8839,7 +8839,7 @@ INSERT INTO `CostFixed` VALUES ('NS',2045,'E_HYDRO-DSP_EX',		2000,115.804,'$M/GW
 --INSERT INTO `CostFixed` VALUES ('NS',2050,'E_COAL-COKE_EX',		1980,59.9456,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2050,'E_NGACT_EX',				2000,15.504,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NS',2050,'E_NGACC_EX',				2010,13.624,'$M/GWyr','[E13]','');
-INSERT INTO `CostFixed` VALUES ('NS',2050,'E_DIESEL-CT_EX',		2000,16.349,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('NS',2050,'E_DIESEL-CT_EX',		2000,19.181,'$M/GWyr','[E21]','');
 INSERT INTO `CostFixed` VALUES ('NS',2050,'E_BIO_EX',					2000,148.50,'$M/GWyr','[E13]','');
 --INSERT INTO `CostFixed` VALUES ('NS',2050,'E_WIND-ON_EX',			2005,58.5832,'$M/GWyr','[E13]','');
 --INSERT INTO `CostFixed` VALUES ('NS',2050,'E_WIND-ON_EX',			2010,58.5832,'$M/GWyr','[E13]','');
@@ -8852,15 +8852,15 @@ INSERT INTO `CostFixed` VALUES ('NS',2050,'E_HYDRO-DSP_EX',		2000,115.804,'$M/GW
 
 
 
-INSERT INTO `CostFixed` VALUES ('PEI',2020,'E_DIESEL-CT_EX',			1979,16.349,'$M/GWyr','[E21]','');
-INSERT INTO `CostFixed` VALUES ('PEI',2020,'E_DIESEL-CT_EX',			2004,16.349,'$M/GWyr','[E21]','');
-INSERT INTO `CostFixed` VALUES ('PEI',2025,'E_DIESEL-CT_EX',			1979,16.349,'$M/GWyr','[E21]','');
-INSERT INTO `CostFixed` VALUES ('PEI',2025,'E_DIESEL-CT_EX',			2004,16.349,'$M/GWyr','[E21]','');
-INSERT INTO `CostFixed` VALUES ('PEI',2030,'E_DIESEL-CT_EX',			2004,16.349,'$M/GWyr','[E21]','');
-INSERT INTO `CostFixed` VALUES ('PEI',2035,'E_DIESEL-CT_EX',			2004,16.349,'$M/GWyr','[E21]','');
-INSERT INTO `CostFixed` VALUES ('PEI',2040,'E_DIESEL-CT_EX',			2004,16.349,'$M/GWyr','[E21]','');
-INSERT INTO `CostFixed` VALUES ('PEI',2045,'E_DIESEL-CT_EX',			2004,16.349,'$M/GWyr','[E21]','');
-INSERT INTO `CostFixed` VALUES ('PEI',2050,'E_DIESEL-CT_EX',			2004,16.349,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('PEI',2020,'E_DIESEL-CT_EX',			1979,19.181,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('PEI',2020,'E_DIESEL-CT_EX',			2004,19.181,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('PEI',2025,'E_DIESEL-CT_EX',			1979,19.181,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('PEI',2025,'E_DIESEL-CT_EX',			2004,19.181,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('PEI',2030,'E_DIESEL-CT_EX',			2004,19.181,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('PEI',2035,'E_DIESEL-CT_EX',			2004,19.181,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('PEI',2040,'E_DIESEL-CT_EX',			2004,19.181,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('PEI',2045,'E_DIESEL-CT_EX',			2004,19.181,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('PEI',2050,'E_DIESEL-CT_EX',			2004,19.181,'$M/GWyr','[E21]','');
 
 
 
@@ -8878,29 +8878,29 @@ INSERT INTO `CostFixed` VALUES ('PEI',2035,'E_WIND-ON_EX',			2011,58.5832,'$M/GW
 INSERT INTO `CostFixed` VALUES ('PEI',2040,'E_WIND-ON_EX',			2011,58.5832,'$M/GWyr','[E13]','');
 
 
-INSERT INTO `CostFixed` VALUES ('NL',2020,'E_DIESEL-CT_EX',		2001,16.349,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('NL',2020,'E_DIESEL-CT_EX',		2001,19.181,'$M/GWyr','[E21]','');
 INSERT INTO `CostFixed` VALUES ('NL',2020,'E_WIND-ON_EX',			2009,58.5832,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NL',2020,'E_HYDRO-DSP_EX',		2000,115.804,'$M/GWyr','[E13]','');
 
-INSERT INTO `CostFixed` VALUES ('NL',2025,'E_DIESEL-CT_EX',		2001,16.349,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('NL',2025,'E_DIESEL-CT_EX',		2001,19.181,'$M/GWyr','[E21]','');
 INSERT INTO `CostFixed` VALUES ('NL',2025,'E_WIND-ON_EX',			2009,58.5832,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NL',2025,'E_HYDRO-DSP_EX',		2000,115.804,'$M/GWyr','[E13]','');
 
-INSERT INTO `CostFixed` VALUES ('NL',2030,'E_DIESEL-CT_EX',		2001,16.349,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('NL',2030,'E_DIESEL-CT_EX',		2001,19.181,'$M/GWyr','[E21]','');
 INSERT INTO `CostFixed` VALUES ('NL',2030,'E_WIND-ON_EX',			2009,58.5832,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NL',2030,'E_HYDRO-DSP_EX',		2000,115.804,'$M/GWyr','[E13]','');
 
-INSERT INTO `CostFixed` VALUES ('NL',2035,'E_DIESEL-CT_EX',		2001,16.349,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('NL',2035,'E_DIESEL-CT_EX',		2001,19.181,'$M/GWyr','[E21]','');
 INSERT INTO `CostFixed` VALUES ('NL',2035,'E_WIND-ON_EX',			2009,58.5832,'$M/GWyr','[E13]','');
 INSERT INTO `CostFixed` VALUES ('NL',2035,'E_HYDRO-DSP_EX',		2000,115.804,'$M/GWyr','[E13]','');
 
-INSERT INTO `CostFixed` VALUES ('NL',2040,'E_DIESEL-CT_EX',		2001,16.349,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('NL',2040,'E_DIESEL-CT_EX',		2001,19.181,'$M/GWyr','[E21]','');
 INSERT INTO `CostFixed` VALUES ('NL',2040,'E_HYDRO-DSP_EX',		2000,115.804,'$M/GWyr','[E13]','');
 
-INSERT INTO `CostFixed` VALUES ('NL',2045,'E_DIESEL-CT_EX',		2001,16.349,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('NL',2045,'E_DIESEL-CT_EX',		2001,19.181,'$M/GWyr','[E21]','');
 INSERT INTO `CostFixed` VALUES ('NL',2045,'E_HYDRO-DSP_EX',		2000,115.804,'$M/GWyr','[E13]','');
 
-INSERT INTO `CostFixed` VALUES ('NL',2050,'E_DIESEL-CT_EX',		2001,16.349,'$M/GWyr','[E21]','');
+INSERT INTO `CostFixed` VALUES ('NL',2050,'E_DIESEL-CT_EX',		2001,19.181,'$M/GWyr','[E21]','');
 INSERT INTO `CostFixed` VALUES ('NL',2050,'E_HYDRO-DSP_EX',		2000,115.804,'$M/GWyr','[E13]','');
 
 

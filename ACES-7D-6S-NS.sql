@@ -621,6 +621,7 @@ CREATE TABLE IF NOT EXISTS "data_sources" (
 );
 
 
+INSERT INTO `data_sources` VALUES ('[A1]','Best Farm Animals, "How long do domesticated cows live? Cows lifespan according to us." [Online]. Available: https://bestfarmanimals.com/how-long-do-domesticated-cows-live-cows-lifespan-according-use/');
 INSERT INTO `data_sources` VALUES ('[A2]','Frank, Stefan, et al. "Structural change as a key component for agricultural non-CO 2 mitigation efforts." Nature communications 9.1 (2018): 1-8.');
 INSERT INTO `data_sources` VALUES ('[A3]','Statistics Canada. (2021). Table: 32-10-0139-01 Cattle statistics, supply and disposition of cattle (x 1,000) [Data table]. https://doi.org/10.25318/3210013901-eng');
 INSERT INTO `data_sources` VALUES ('[A4]','Statistics Canada. (2021). Table: 32-10-0200-01 Hogs statistics, supply and disposition of hogs, semi-annual (x 1,000) [Data table]. https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3210020001');
@@ -633,7 +634,7 @@ INSERT INTO `data_sources` VALUES ('[A10]','Statistics Canada. 2017. Newfoundlan
 INSERT INTO `data_sources` VALUES ('[A11]','Labrador. (2021). Retrieved May 11, 2021, from https://en.wikipedia.org/wiki/Labrador');
 INSERT INTO `data_sources` VALUES ('[A12]',"Canada Energy Regulator. Canada's Energy Future 2020 Data Appendices (Reference Case). DOI: https://doi.org/10.35002/zjr8-8x75");
 
-
+INSERT INTO `data_sources` VALUES ('[B1]','NRCan, "Comprehensive Energy Use Database. Residential Sector. Atlantic Provinces. Table 2: Secondary Energy Use and GHG Emissions by End-Use". [Online]. Available: https://oee.nrcan.gc.ca/corporate/statistics/neud/dpa/showTable.cfm?type=CP&sector=res&juris=atl&rn=2&page=0');
 INSERT INTO `data_sources` VALUES ('[B2]','NRCan, "Comprehensive Energy Use Database. Commercial/Institutional Sector. Atlantic Provinces. Table 2: Secondary Energy Use and GHG Emissions by End-Use". [Online]. Available: https://oee.nrcan.gc.ca/corporate/statistics/neud/dpa/showTable.cfm?type=CP&sector=com&juris=atl&rn=2&page=0');
 INSERT INTO `data_sources` VALUES ('[B3]','Natural Resources Canada (NRCan) Heat Pump Study (Confidential)');
 INSERT INTO `data_sources` VALUES ('[B4]','RSMeans Mechanical Data 2018, MF2016 Weighted Average, p. 703');
@@ -658,7 +659,7 @@ INSERT INTO `data_sources` VALUES ('[B22]','Government of Nova Scotia. (2018). S
 INSERT INTO `data_sources` VALUES ('[B23]','Statistics Canada. 2017. Newfoundland and Labrador (table). Census Profile. 2016 Census. Statistics Canada Catalogue no. 98-316-X2016001. Ottawa. Released November 29, 2017. https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/prof/index.cfm?Lang=E (accessed October 28, 2021).https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/prof/index.cfm?Lang=E (accessed May 11, 2021).');
 INSERT INTO `data_sources` VALUES ('[B24]','Labrador. (2021). Retrieved May 11, 2021, from https://en.wikipedia.org/wiki/Labrador');
 
-
+INSERT INTO `data_sources` VALUES ('[Bx1]','NRCan, "Comprehensive Energy Use Database. Residential Sector". [Online]. Available: https://oee.nrcan.gc.ca/corporate/statistics/neud/dpa/menus/trends/comprehensive_tables/list.cfm');
 INSERT INTO `data_sources` VALUES ('[Bx2]','Natural Resources Canada (NRCan) Heat Pump Study (Confidential)');
 INSERT INTO `data_sources` VALUES ('[Bx3]','Natural Resources Canada Office of Energy Efficiency (NRCan OEE) Large AC & HP Study (Confidential) ');
 INSERT INTO `data_sources` VALUES ('[Bx4]','Natural Resources Canada (NRCan), Heat Pump Study, "Commercial_bldg_electrification_results_v2_Nov 3.xls" (Confidential)');
@@ -671,7 +672,7 @@ INSERT INTO `data_sources` VALUES ('[Bx10]','State of Minnesota Techncial Refere
 INSERT INTO `data_sources` VALUES ('[Bx11]','Statistics Canada. 2017. Newfoundland and Labrador (table). Census Profile. 2016 Census. Statistics Canada Catalogue no. 98-316-X2016001. Ottawa. Released November 29, 2017. https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/prof/index.cfm?Lang=E (accessed October 28, 2021).https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/prof/index.cfm?Lang=E (accessed May 11, 2021).');
 INSERT INTO `data_sources` VALUES ('[Bx12]','Labrador. (2021). Retrieved May 11, 2021, from https://en.wikipedia.org/wiki/Labrador');
 
-
+INSERT INTO `data_sources` VALUES ('[E1]','Open Energy Outlook for the United States (2021), GitHub Repository, https://github.com/TemoaProject/oeo');
 INSERT INTO `data_sources` VALUES ('[E2]','Eshraghi, Hadi. An Assessment of the US Energy System Under Uncertainty. North Carolina State University, 2020.');
 INSERT INTO `data_sources` VALUES ('[E3]','National Renewable Energy Laboratory (NREL). (2021). 2021 Annual Technology Baseline (ATB) Cost and Performance Data for Electricity Generation Technologies [data set].  Retrieved from https://dx.doi.org/10.25984/1807473.');
 INSERT INTO `data_sources` VALUES ('[E4]','Nova Scotia Power (2020). 2020 Integrated Resource Plan. Available online: https://irp.nspower.ca/');
@@ -704,6 +705,7 @@ INSERT INTO `data_sources` VALUES ('[E30]','Maritime Electric Company, Limited (
 INSERT INTO `data_sources` VALUES ('[E31]','Synapse Energy Economics, Inc. (2019). Phase 2 Report on Muskrat Falls Project Rate Mitigation.');
 INSERT INTO `data_sources` VALUES ('[E32]','Nova Scotia Utility and Review Board (2020). 2020 10-Year System Outlook. Available online: https://www.nspower.ca/oasis/forecasts-assessments');
 
+INSERT INTO `data_sources` VALUES ('[I1]','NRCan, "Comprehensive Energy Use Database. Industrial Sector. Atlantic Provinces. Table 1: Secondary Energy Use and GHG Emissions by Energy Source". [Online]. Available: https://oee.nrcan.gc.ca/corporate/statistics/neud/dpa/showTable.cfm?type=CP&sector=agg&juris=atl&rn=1&page=0');
 INSERT INTO `data_sources` VALUES ('[I2]','Keith, David W., et al. "A process for capturing CO2 from the atmosphere." Joule 2.8 (2018): 1573-1594.');
 INSERT INTO `data_sources` VALUES ('[I3]','Open Energy Outlook for the United States (2021), GitHub Repository, https://github.com/TemoaProject/oeo');
 INSERT INTO `data_sources` VALUES ('[I4]',"Canada Energy Regulator. Canada's Energy Future 2020 Data Appendices (Reference Case). DOI: https://doi.org/10.35002/zjr8-8x75");
@@ -728,6 +730,7 @@ INSERT INTO `data_sources` VALUES ('[I22]','Evan Sherwin, 2018. "Electrofuel Syn
 INSERT INTO `data_sources` VALUES ('[I23]','Statistics Canada. 2017. Newfoundland and Labrador (table). Census Profile. 2016 Census. Statistics Canada Catalogue no. 98-316-X2016001. Ottawa. Released November 29, 2017. https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/prof/index.cfm?Lang=E (accessed October 28, 2021).https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/prof/index.cfm?Lang=E (accessed May 11, 2021).');
 INSERT INTO `data_sources` VALUES ('[I24]','Labrador. (2021). Retrieved May 11, 2021, from https://en.wikipedia.org/wiki/Labrador');
 
+INSERT INTO `data_sources` VALUES ('[T1]','NRCan, "Comprehensive Energy Use Database. Transportation Sector. Atlantic Provinces. Table 7: Secondary Energy Use by Transportation Mode". [Online]. Available: https://oee.nrcan.gc.ca/corporate/statistics/neud/dpa/showTable.cfm?type=CP&sector=tran&juris=nb&rn=7&page=0');
 INSERT INTO `data_sources` VALUES ('[T2]','Argonne National Laboratory, "Alternative Fuel Life-Cycle Environmental and Economic Transportation (AFLEET) Tool", 2019. [Online]. Available: https://greet.es.anl.gov/afleet_tool.');
 INSERT INTO `data_sources` VALUES ('[T3]','Jadun, Paige, et al. Electrification futures study: end-use electric technology cost and performance projections through 2050. No. NREL/TP-6A20-70485. National Renewable Energy Lab.(NREL), Golden, CO (United States), 2017.');
 INSERT INTO `data_sources` VALUES ('[T4]','U.S. Energy Information Administration. Annual Energy Outlook 2021. Table 52: New Light-Duty Vehicle Prices. [Online]. Available: https://www.eia.gov/outlooks/aeo/data/browser/#/?id=114-AEO2021&cases=ref2021&sourcekey=0');
@@ -755,6 +758,7 @@ INSERT INTO `data_sources` VALUES ('[T25]','Statistics Canada. 2017. Newfoundlan
 INSERT INTO `data_sources` VALUES ('[T26]','Labrador. (2021). Retrieved May 11, 2021, from https://en.wikipedia.org/wiki/Labrador');
 INSERT INTO `data_sources` VALUES ('[T27]','Evan D. Sherwin "Electrofuel synthesis from variable renewable electricity: An optimization-based techno-economic analysis".');
 
+INSERT INTO `data_sources` VALUES ('[Tx1]','NRCan, "Comprehensive Energy Use Database. Transportation Sector". [Online]. Available: https://oee.nrcan.gc.ca/corporate/statistics/neud/dpa/menus/trends/comprehensive_tables/list.cfm');
 INSERT INTO `data_sources` VALUES ('[Tx2]','Argonne National Laboratory, "Alternative Fuel Life-Cycle Environmental and Economic Transportation (AFLEET) Tool", 2019. [Online]. Available: https://greet.es.anl.gov/afleet_tool.');
 INSERT INTO `data_sources` VALUES ('[Tx3]','Open Energy Outlook for the United States (2021), GitHub Repository, https://github.com/TemoaProject/oeo');
 INSERT INTO `data_sources` VALUES ('[Tx4]','United States Environmental Protection Agency VT_EPAUS9rT_TRNLDV_v20.1.0full.xlsx database. Available at: https://www.epa.gov/air-research/epaus9rt-energy-systems-database-use-times-model');
@@ -764,6 +768,7 @@ INSERT INTO `data_sources` VALUES ('[Tx7]',"Canada Energy Regulator. Canada's E
 INSERT INTO `data_sources` VALUES ('[Tx8]','Statistics Canada. 2017. Newfoundland and Labrador (table). Census Profile. 2016 Census. Statistics Canada Catalogue no. 98-316-X2016001. Ottawa. Released November 29, 2017. https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/prof/index.cfm?Lang=E (accessed October 28, 2021).https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/prof/index.cfm?Lang=E (accessed May 11, 2021).');
 INSERT INTO `data_sources` VALUES ('[Tx9]','Labrador. (2021). Retrieved May 11, 2021, from https://en.wikipedia.org/wiki/Labrador');
 
+INSERT INTO `data_sources` VALUES ('[W1]','Ayalon, Ofira, Yoram Avnimelech, and Mordechai Shechter. "Solid waste treatment as a high-priority and low-cost alternative for greenhouse gas mitigation." Environmental management 27.5 (2001): 697-704.');
 INSERT INTO `data_sources` VALUES ('[W2]','Bank of Canada. Inflation Calculator. [Online]. Available: https://www.bankofcanada.ca/rates/related/inflation-calculator/');
 INSERT INTO `data_sources` VALUES ('[W3]','Environment and Climate Change Canada (2020). National Waste Characterization Reprot: The Composition of Canadian Residual Municipal Solid Waste. [White paper]. https://publications.gc.ca/site/archivee-archived.html?url=https://publications.gc.ca/collections/collection_2020/eccc/en14/En14-405-2020-eng.pdf');
 INSERT INTO `data_sources` VALUES ('[W4]',"Canada Energy Regulator. Canada's Energy Future 2020 Data Appendices (Reference Case). DOI: https://doi.org/10.35002/zjr8-8x75");
@@ -14436,4 +14441,3 @@ INSERT INTO 'CostVariable' VALUES ('R_EXP-NS', 2050, 'E_TRANS-NL',      2050, 15
 
 
 COMMIT;
-

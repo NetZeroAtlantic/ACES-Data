@@ -1916,7 +1916,7 @@ INSERT INTO `LifetimeTech` VALUES ('PEI','CO2_TRNSPSEQ',        200,'[E13]','Tec
 INSERT INTO `LifetimeTech` VALUES ('PEI','I_FISCHTROP',         20,'[I3]',' ');
 INSERT INTO `LifetimeTech` VALUES ('PEI','IMP_AGRESID',         200,'[I3]','Technology does not retire.');
 INSERT INTO `LifetimeTech` VALUES ('PEI','CO2_PASSTHROUGH',     200,' ','Technology does not retire.');
-
+INSERT INTO `LifetimeTech` VALUES ('PEI','CO2_PASSTHROUGH-2',     200,' ','Technology does not retire.');
 
 ------------------------------------------ Transportation ---------------------------------
 
@@ -3271,6 +3271,7 @@ INSERT INTO `Efficiency` VALUES ('PEI', 'ethos','E_BECCS-emissions',  2035, 'CO2
 INSERT INTO `Efficiency` VALUES ('PEI', 'ethos','E_BECCS-emissions',  2040, 'CO2_CAPTURED', 1.0,'','');
 INSERT INTO `Efficiency` VALUES ('PEI', 'ethos','E_BECCS-emissions',  2045, 'CO2_CAPTURED', 1.0,'','');
 INSERT INTO `Efficiency` VALUES ('PEI', 'ethos','E_BECCS-emissions',  2050, 'CO2_CAPTURED', 1.0,'','');
+
 
 
 
@@ -4778,6 +4779,7 @@ INSERT INTO `Demand` VALUES ('PEI',2035,'CO2_SEQ-SINK', 9999.9,'NULL','','Dummy 
 INSERT INTO `Demand` VALUES ('PEI',2040,'CO2_SEQ-SINK', 9999.9,'NULL','','Dummy demand. Serves as the sink for the co2 coming from CCS plant or DAC.');
 INSERT INTO `Demand` VALUES ('PEI',2045,'CO2_SEQ-SINK', 9999.9,'NULL','','Dummy demand. Serves as the sink for the co2 coming from CCS plant or DAC.');
 INSERT INTO `Demand` VALUES ('PEI',2050,'CO2_SEQ-SINK', 9999.9,'NULL','','Dummy demand. Serves as the sink for the co2 coming from CCS plant or DAC.');
+
 
 
 

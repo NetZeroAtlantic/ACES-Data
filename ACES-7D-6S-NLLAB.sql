@@ -2241,7 +2241,8 @@ INSERT INTO `LifetimeTech` VALUES ('NL','I_FISCHTROP',         20,'[I3]',' ');
 INSERT INTO `LifetimeTech` VALUES ('NL','IMP_AGRESID',         200,'[I3]','Technology does not retire.');
 INSERT INTO `LifetimeTech` VALUES ('NL','CO2_PASSTHROUGH',     200,' ','Technology does not retire.');
 INSERT INTO `LifetimeTech` VALUES ('LAB','CO2_PASSTHROUGH',     200,' ','Technology does not retire.');
-
+INSERT INTO `LifetimeTech` VALUES ('NL','CO2_PASSTHROUGH-2',     200,' ','Technology does not retire.');
+INSERT INTO `LifetimeTech` VALUES ('LAB','CO2_PASSTHROUGH-2',     200,' ','Technology does not retire.');
 
 ------------------------------------------ Transportation ---------------------------------
 
@@ -4321,6 +4322,9 @@ INSERT INTO `Efficiency` VALUES ('NL', 'ethos','E_BECCS-emissions',  2045, 'CO2_
 INSERT INTO `Efficiency` VALUES ('NL', 'ethos','E_BECCS-emissions',  2050, 'CO2_CAPTURED', 1.0,'','');
 
 
+INSERT INTO `Efficiency` VALUES ('LAB', 'CO2_DUMMY','CO2_PASSTHROUGH',   2020, 'CO2_SEQ', 1.0,'','');
+INSERT INTO `Efficiency` VALUES ('LAB', 'CO2_SEQ','CO2_PASSTHROUGH-2',   2020, 'CO2_SEQ-SINK', 1.0,'','');
+
 
 INSERT INTO `Efficiency` VALUES ('R_EXP','ELC','E_EXPORT_PASSTHROUGH',				2020,'D_ELEC_EXPORT',1.0,'','');
 
@@ -6217,6 +6221,14 @@ INSERT INTO `Demand` VALUES ('LAB',2035,'D_ELEC',0.86,	'PJ','[E31]', '2020 deman
 INSERT INTO `Demand` VALUES ('LAB',2040,'D_ELEC',0.86,	'PJ','[E31]', '2020 demand taken from [E31]. From this is subtracted the electricity demanded from the explicitly modelled sectors.');
 INSERT INTO `Demand` VALUES ('LAB',2045,'D_ELEC',0.86,	'PJ','[E31]', '2020 demand taken from [E31]. From this is subtracted the electricity demanded from the explicitly modelled sectors.');
 INSERT INTO `Demand` VALUES ('LAB',2050,'D_ELEC',0.86,	'PJ','[E31]', '2020 demand taken from [E31]. From this is subtracted the electricity demanded from the explicitly modelled sectors.');
+
+INSERT INTO `Demand` VALUES ('LAB',2020,'CO2_SEQ-SINK', 9999.9,'NULL','','Dummy demand. Serves as the sink for the co2 coming from CCS plant or DAC.');
+INSERT INTO `Demand` VALUES ('LAB',2025,'CO2_SEQ-SINK', 9999.9,'NULL','','Dummy demand. Serves as the sink for the co2 coming from CCS plant or DAC.');
+INSERT INTO `Demand` VALUES ('LAB',2030,'CO2_SEQ-SINK', 9999.9,'NULL','','Dummy demand. Serves as the sink for the co2 coming from CCS plant or DAC.');
+INSERT INTO `Demand` VALUES ('LAB',2035,'CO2_SEQ-SINK', 9999.9,'NULL','','Dummy demand. Serves as the sink for the co2 coming from CCS plant or DAC.');
+INSERT INTO `Demand` VALUES ('LAB',2040,'CO2_SEQ-SINK', 9999.9,'NULL','','Dummy demand. Serves as the sink for the co2 coming from CCS plant or DAC.');
+INSERT INTO `Demand` VALUES ('LAB',2045,'CO2_SEQ-SINK', 9999.9,'NULL','','Dummy demand. Serves as the sink for the co2 coming from CCS plant or DAC.');
+INSERT INTO `Demand` VALUES ('LAB',2050,'CO2_SEQ-SINK', 9999.9,'NULL','','Dummy demand. Serves as the sink for the co2 coming from CCS plant or DAC.');
 
 INSERT INTO `Demand` VALUES ('R_EXP',2020,'D_ELEC_EXPORT', 40.0,'NULL','','Dummy demand. Serves as the sink for exported electricity.');
 INSERT INTO `Demand` VALUES ('R_EXP',2025,'D_ELEC_EXPORT', 40.0,'NULL','','Dummy demand. Serves as the sink for exported electricity.');

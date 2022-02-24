@@ -146,7 +146,7 @@ INSERT INTO "technologies" VALUES ('E_NUC-LWR_EX','pb','electricity','generation
 INSERT INTO "technologies" VALUES ('E_NGACC_EX','p','electricity','generation','Natural Gas (Combined Cycle; Existing)','Natural Gas','GW','#a39b81','11');
 INSERT INTO "technologies" VALUES ('E_NG-COGEN_EX','p','electricity','generation','Natural Gas (Cogeneration; Existing)','Natural Gas','GW','#a39b81','11');
 INSERT INTO "technologies" VALUES ('E_HFO-CT_EX','p','electricity','generation','Heavy Fuel Oil (Combustion Turbine; Existing)','Oil & Diesel','GW','#4a3a0f','12');
-INSERT INTO "technologies" VALUES ('E_DIESEL-CT_EX','p','electricity','generation','Desiel CT (Existing)','Oil & Diesel','GW','#4a3a0f','12');
+INSERT INTO "technologies" VALUES ('E_DIESEL-CT_EX','p','electricity','generation','Diesel CT (Existing)','Oil & Diesel','GW','#4a3a0f','12');
 INSERT INTO "technologies" VALUES ('E_BIO-COGEN_EX','pb','electricity','generation','Biomass (Cogeneration; Existing)','Biomass','GW','#17940c','3');
 INSERT INTO "technologies" VALUES ('E_WIND-ON_EX','p','electricity','generation','Wind (Onshore; Existing)','Wind','GW','#b3e1f5','21');
 INSERT INTO "technologies" VALUES ('E_HYDRO-LIMDSP_EX','p','electricity','generation','Hydro (Dispatch Limited; Existing)','Hydro','GW','#3651c9','9');
@@ -8442,6 +8442,7 @@ INSERT INTO `CostFixed` VALUES ('NB', 2045, 'E_BATT_4HR',          2045, 19.0498
 INSERT INTO `CostFixed` VALUES ('NB', 2050, 'E_BATT_4HR',          2040, 20.68336,      'M$/GW-yr','[E3]','Moderate case');
 INSERT INTO `CostFixed` VALUES ('NB', 2050, 'E_BATT_4HR',          2045, 19.04983,      'M$/GW-yr','[E3]','Moderate case');
 INSERT INTO `CostFixed` VALUES ('NB', 2050, 'E_BATT_4HR',          2050, 17.29619,      'M$/GW-yr','[E3]','Moderate case');
+
 INSERT INTO `CostFixed` VALUES ('NB', 2020, 'E_NGACC',             2020, 36.93529,      'M$/GW-yr','[E3]','Moderate case');
 INSERT INTO `CostFixed` VALUES ('NB', 2025, 'E_NGACC',             2020, 36.93529,      'M$/GW-yr','[E3]','Moderate case');
 INSERT INTO `CostFixed` VALUES ('NB', 2025, 'E_NGACC',             2025, 34.52647,      'M$/GW-yr','[E3]','Moderate case');
@@ -14556,69 +14557,277 @@ INSERT INTO `MaxSeasonalActivity` VALUES ('NB','2050','11-16','IMP_NG_ALL',0.481
 ------------------------------------ EXPORTS --------------------------------
 
 
-INSERT INTO 'technologies' VALUES ('E_TRANS-NS','p','electricity','transmission','Electricity transmission to Nova Scotia','Electricity transmission','GW','#f28900','301');
-INSERT INTO 'technologies' VALUES ('E_TRANS-PEI','p','electricity','transmission','Electricity transmission to PEI','Electricity transmission','GW','#f28900','301');
+INSERT INTO 'technologies' VALUES ('E_TRANS_EX-NS','p','electricity','transmission','Electricity transmission (to NS - existing)','Transmission','GW','#f28900','301');
+INSERT INTO 'technologies' VALUES ('E_TRANS_EX-PEI','p','electricity','transmission','Electricity transmission (to PEI - existing)','Transmission','GW','#f28900','301');
 
-INSERT INTO 'tech_reserve' VALUES ('E_TRANS-NS','');
-INSERT INTO 'tech_exchange' VALUES ('E_TRANS-NS','');
+INSERT INTO 'tech_reserve' VALUES ('E_TRANS_EX-NS','');
+INSERT INTO 'tech_exchange' VALUES ('E_TRANS_EX-NS','');
+INSERT INTO 'tech_reserve' VALUES ('E_TRANS_EX-PEI','');
+INSERT INTO 'tech_exchange' VALUES ('E_TRANS_EX-PEI','');
+
+
+INSERT INTO 'CapacityToActivity' VALUES ('R_EXP-NB','E_TRANS_EX-NS',31.536,'1 GW of capacity produces 31.536 PJ of electricity if run all year at full capacity.');
+INSERT INTO 'CapacityToActivity' VALUES ('NB-R_EXP','E_TRANS_EX-NS',31.536,'1 GW of capacity produces 31.536 PJ of electricity if run all year at full capacity.');
+INSERT INTO 'CapacityToActivity' VALUES ('R_EXP-NB','E_TRANS_EX-PEI',31.536,'1 GW of capacity produces 31.536 PJ of electricity if run all year at full capacity.');
+INSERT INTO 'CapacityToActivity' VALUES ('NB-R_EXP','E_TRANS_EX-PEI',31.536,'1 GW of capacity produces 31.536 PJ of electricity if run all year at full capacity.');
+
+INSERT INTO 'LifetimeTech' VALUES ('NB-R_EXP','E_TRANS_EX-NS',200					,''		,'Technology with no capital cost. Assume it never retires.');
+INSERT INTO 'LifetimeTech' VALUES ('R_EXP-NB','E_TRANS_EX-NS',200					,''		,'Technology with no capital cost. Assume it never retires.');
+INSERT INTO 'LifetimeTech' VALUES ('NB-R_EXP','E_TRANS_EX-PEI',200					,''		,'Technology with no capital cost. Assume it never retires.');
+INSERT INTO 'LifetimeTech' VALUES ('R_EXP-NB','E_TRANS_EX-PEI',200					,''		,'Technology with no capital cost. Assume it never retires.');
+
+INSERT INTO 'ExistingCapacity' VALUES ('R_EXP-NB','E_TRANS_EX-NS',1900,0.35,'GW','');
+INSERT INTO 'ExistingCapacity' VALUES ('NB-R_EXP','E_TRANS_EX-NS',1900,0.35,'GW','');
+INSERT INTO 'ExistingCapacity' VALUES ('R_EXP-NB','E_TRANS_EX-PEI',1900,0.56,'GW','');
+INSERT INTO 'ExistingCapacity' VALUES ('NB-R_EXP','E_TRANS_EX-PEI',1900,0.56,'GW','');
+
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS_EX-NS',					1900,'ELC' ,1.0,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS_EX-NS',					1900,'ELC' ,1.0,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS_EX-PEI',					1900,'ELC' ,1.0,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS_EX-PEI',					1900,'ELC' ,1.0,'','');
+
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2020, 'E_TRANS_EX-PEI',      1900, -6.0199,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2025, 'E_TRANS_EX-PEI',      1900, -5.6273,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2030, 'E_TRANS_EX-PEI',      1900, -5.54,         'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2035, 'E_TRANS_EX-PEI',      1900, -5.4092,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2040, 'E_TRANS_EX-PEI',      1900, -5.3655,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2045, 'E_TRANS_EX-PEI',      1900, -5.3219,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2050, 'E_TRANS_EX-PEI',      1900, -5.2347,       'M$/PJ', '[E13]','Price for electricity exports.');
+
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2020, 'E_TRANS_EX-PEI',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2025, 'E_TRANS_EX-PEI',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2030, 'E_TRANS_EX-PEI',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2035, 'E_TRANS_EX-PEI',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2040, 'E_TRANS_EX-PEI',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2045, 'E_TRANS_EX-PEI',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2050, 'E_TRANS_EX-PEI',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2020, 'E_TRANS_EX-NS',      1900, -6.0199,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2025, 'E_TRANS_EX-NS',      1900, -5.6273,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2030, 'E_TRANS_EX-NS',      1900, -5.54,         'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2035, 'E_TRANS_EX-NS',      1900, -5.4092,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2040, 'E_TRANS_EX-NS',      1900, -5.3655,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2045, 'E_TRANS_EX-NS',      1900, -5.3219,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2050, 'E_TRANS_EX-NS',      1900, -5.2347,       'M$/PJ', '[E13]','Price for electricity exports.');
+
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2020, 'E_TRANS_EX-NS',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2025, 'E_TRANS_EX-NS',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2030, 'E_TRANS_EX-NS',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2035, 'E_TRANS_EX-NS',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2040, 'E_TRANS_EX-NS',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2045, 'E_TRANS_EX-NS',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2050, 'E_TRANS_EX-NS',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+
+
+INSERT INTO 'technologies' VALUES ('E_TRANS-PEI','p','electricity','transmission','Electricity transmission (to PEI - new)','Transmission','GW','#f28900','301');
 INSERT INTO 'tech_reserve' VALUES ('E_TRANS-PEI','');
 INSERT INTO 'tech_exchange' VALUES ('E_TRANS-PEI','');
 
-
-INSERT INTO 'CapacityToActivity' VALUES ('R_EXP-NB','E_TRANS-NS',31.536,'1 GW of capacity produces 31.536 PJ of electricity if run all year at full capacity.');
-INSERT INTO 'CapacityToActivity' VALUES ('NB-R_EXP','E_TRANS-NS',31.536,'1 GW of capacity produces 31.536 PJ of electricity if run all year at full capacity.');
 INSERT INTO 'CapacityToActivity' VALUES ('R_EXP-NB','E_TRANS-PEI',31.536,'1 GW of capacity produces 31.536 PJ of electricity if run all year at full capacity.');
 INSERT INTO 'CapacityToActivity' VALUES ('NB-R_EXP','E_TRANS-PEI',31.536,'1 GW of capacity produces 31.536 PJ of electricity if run all year at full capacity.');
 
-INSERT INTO 'LifetimeTech' VALUES ('NB-R_EXP','E_TRANS-NS',200					,''		,'Technology with no capital cost. Assume it never retires.');
-INSERT INTO 'LifetimeTech' VALUES ('R_EXP-NB','E_TRANS-NS',200					,''		,'Technology with no capital cost. Assume it never retires.');
-INSERT INTO 'LifetimeTech' VALUES ('NB-R_EXP','E_TRANS-PEI',200					,''		,'Technology with no capital cost. Assume it never retires.');
-INSERT INTO 'LifetimeTech' VALUES ('R_EXP-NB','E_TRANS-PEI',200					,''		,'Technology with no capital cost. Assume it never retires.');
 
-INSERT INTO 'ExistingCapacity' VALUES ('R_EXP-NB','E_TRANS-NS',1900,0.35,'GW','');
-INSERT INTO 'ExistingCapacity' VALUES ('NB-R_EXP','E_TRANS-NS',1900,0.35,'GW','');
-INSERT INTO 'ExistingCapacity' VALUES ('R_EXP-NB','E_TRANS-PEI',1900,0.56,'GW','');
-INSERT INTO 'ExistingCapacity' VALUES ('NB-R_EXP','E_TRANS-PEI',1900,0.56,'GW','');
-
-INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-NS',					1900,'ELC' ,1.0,'','');
-INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-NS',					1900,'ELC' ,1.0,'','');
-INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-PEI',					1900,'ELC' ,1.0,'','');
-INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-PEI',					1900,'ELC' ,1.0,'','');
-
-INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2020, 'E_TRANS-PEI',      1900, -6.0199,       'M$/PJ', '[E13]','Price for electricity exports.');
-INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2025, 'E_TRANS-PEI',      1900, -5.6273,       'M$/PJ', '[E13]','Price for electricity exports.');
-INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2030, 'E_TRANS-PEI',      1900, -5.54,         'M$/PJ', '[E13]','Price for electricity exports.');
-INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2035, 'E_TRANS-PEI',      1900, -5.4092,       'M$/PJ', '[E13]','Price for electricity exports.');
-INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2040, 'E_TRANS-PEI',      1900, -5.3655,       'M$/PJ', '[E13]','Price for electricity exports.');
-INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2045, 'E_TRANS-PEI',      1900, -5.3219,       'M$/PJ', '[E13]','Price for electricity exports.');
-INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2050, 'E_TRANS-PEI',      1900, -5.2347,       'M$/PJ', '[E13]','Price for electricity exports.');
-
-INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2020, 'E_TRANS-PEI',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
-INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2025, 'E_TRANS-PEI',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
-INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2030, 'E_TRANS-PEI',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
-INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2035, 'E_TRANS-PEI',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
-INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2040, 'E_TRANS-PEI',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
-INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2045, 'E_TRANS-PEI',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
-INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2050, 'E_TRANS-PEI',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
-
-INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2020, 'E_TRANS-NS',      1900, -6.0199,       'M$/PJ', '[E13]','Price for electricity exports.');
-INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2025, 'E_TRANS-NS',      1900, -5.6273,       'M$/PJ', '[E13]','Price for electricity exports.');
-INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2030, 'E_TRANS-NS',      1900, -5.54,         'M$/PJ', '[E13]','Price for electricity exports.');
-INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2035, 'E_TRANS-NS',      1900, -5.4092,       'M$/PJ', '[E13]','Price for electricity exports.');
-INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2040, 'E_TRANS-NS',      1900, -5.3655,       'M$/PJ', '[E13]','Price for electricity exports.');
-INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2045, 'E_TRANS-NS',      1900, -5.3219,       'M$/PJ', '[E13]','Price for electricity exports.');
-INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2050, 'E_TRANS-NS',      1900, -5.2347,       'M$/PJ', '[E13]','Price for electricity exports.');
-
-INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2020, 'E_TRANS-NS',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
-INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2025, 'E_TRANS-NS',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
-INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2030, 'E_TRANS-NS',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
-INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2035, 'E_TRANS-NS',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
-INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2040, 'E_TRANS-NS',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
-INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2045, 'E_TRANS-NS',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
-INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2050, 'E_TRANS-NS',      1900, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'LifetimeTech' VALUES ('R_EXP-NB','E_TRANS-PEI',             60,'[E1]',  '');
+INSERT INTO 'LifetimeTech' VALUES ('NB-R_EXP','E_TRANS-PEI',             60,'[E1]',  '');
+INSERT INTO 'LifetimeLoanTech' VALUES ('NB-R_EXP','E_TRANS-PEI',             25,'[E21]',' ');
+INSERT INTO 'LifetimeLoanTech' VALUES ('R_EXP-NB','E_TRANS-PEI',             25,'[E21]',' ');
 
 
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-PEI',					     2020,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-PEI',					     2020,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-PEI',					     2025,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-PEI',					     2025,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-PEI',					     2030,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-PEI',					     2030,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-PEI',					     2035,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-PEI',					     2035,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-PEI',					     2040,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-PEI',					     2040,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-PEI',					     2045,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-PEI',					     2045,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-PEI',					     2050,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-PEI',					     2050,'ELC' ,0.99,'','');
 
+
+INSERT INTO 'CostInvest' VALUES ('R_EXP-NB','E_TRANS-PEI',             2020, 194.5,         'M$/GW', '[E9]','Most recent interconnection upgrade cost M40 and added 360 MW. Equivalent to 389 M$/GW. Costs are divided by two to account for double counting in Temoa.');
+INSERT INTO 'CostInvest' VALUES ('R_EXP-NB','E_TRANS-PEI',             2025, 194.5,         'M$/GW', '[E9]','Most recent interconnection upgrade cost M40 and added 360 MW. Equivalent to 389 M$/GW. Costs are divided by two to account for double counting in Temoa.');
+INSERT INTO 'CostInvest' VALUES ('R_EXP-NB','E_TRANS-PEI',             2030, 194.5,         'M$/GW', '[E9]','Most recent interconnection upgrade cost M40 and added 360 MW. Equivalent to 389 M$/GW. Costs are divided by two to account for double counting in Temoa.');
+INSERT INTO 'CostInvest' VALUES ('R_EXP-NB','E_TRANS-PEI',             2035, 194.5,         'M$/GW', '[E9]','Most recent interconnection upgrade cost M40 and added 360 MW. Equivalent to 389 M$/GW. Costs are divided by two to account for double counting in Temoa.');
+INSERT INTO 'CostInvest' VALUES ('R_EXP-NB','E_TRANS-PEI',             2040, 194.5,         'M$/GW', '[E9]','Most recent interconnection upgrade cost M40 and added 360 MW. Equivalent to 389 M$/GW. Costs are divided by two to account for double counting in Temoa.');
+INSERT INTO 'CostInvest' VALUES ('R_EXP-NB','E_TRANS-PEI',             2045, 194.5,         'M$/GW', '[E9]','Most recent interconnection upgrade cost M40 and added 360 MW. Equivalent to 389 M$/GW. Costs are divided by two to account for double counting in Temoa.');
+INSERT INTO 'CostInvest' VALUES ('R_EXP-NB','E_TRANS-PEI',             2050, 194.5,         'M$/GW', '[E9]','Most recent interconnection upgrade cost M40 and added 360 MW. Equivalent to 389 M$/GW. Costs are divided by two to account for double counting in Temoa.');
+INSERT INTO 'CostInvest' VALUES ('NB-R_EXP','E_TRANS-PEI',             2020, 0.0,           'M$/GW', '','By convention, transmission costs are evenly split between the two regions. This database/model is only concerned with costs to NB, so we set the R_EXP costs to 0.0.');
+INSERT INTO 'CostInvest' VALUES ('NB-R_EXP','E_TRANS-PEI',             2025, 0.0,           'M$/GW', '','By convention, transmission costs are evenly split between the two regions. This database/model is only concerned with costs to NB, so we set the R_EXP costs to 0.0.');
+INSERT INTO 'CostInvest' VALUES ('NB-R_EXP','E_TRANS-PEI',             2030, 0.0,           'M$/GW', '','By convention, transmission costs are evenly split between the two regions. This database/model is only concerned with costs to NB, so we set the R_EXP costs to 0.0.');
+INSERT INTO 'CostInvest' VALUES ('NB-R_EXP','E_TRANS-PEI',             2035, 0.0,           'M$/GW', '','By convention, transmission costs are evenly split between the two regions. This database/model is only concerned with costs to NB, so we set the R_EXP costs to 0.0.');
+INSERT INTO 'CostInvest' VALUES ('NB-R_EXP','E_TRANS-PEI',             2040, 0.0,           'M$/GW', '','By convention, transmission costs are evenly split between the two regions. This database/model is only concerned with costs to NB, so we set the R_EXP costs to 0.0.');
+INSERT INTO 'CostInvest' VALUES ('NB-R_EXP','E_TRANS-PEI',             2045, 0.0,           'M$/GW', '','By convention, transmission costs are evenly split between the two regions. This database/model is only concerned with costs to NB, so we set the R_EXP costs to 0.0.');
+INSERT INTO 'CostInvest' VALUES ('NB-R_EXP','E_TRANS-PEI',             2050, 0.0,           'M$/GW', '','By convention, transmission costs are evenly split between the two regions. This database/model is only concerned with costs to NB, so we set the R_EXP costs to 0.0.');
+
+
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2020, 'E_TRANS-PEI',      2020, -6.0199,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2025, 'E_TRANS-PEI',      2020, -5.6273,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2025, 'E_TRANS-PEI',      2025, -5.6273,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2030, 'E_TRANS-PEI',      2020, -5.54,         'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2030, 'E_TRANS-PEI',      2025, -5.54,         'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2030, 'E_TRANS-PEI',      2030, -5.54,         'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2035, 'E_TRANS-PEI',      2020, -5.4092,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2035, 'E_TRANS-PEI',      2025, -5.4092,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2035, 'E_TRANS-PEI',      2030, -5.4092,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2035, 'E_TRANS-PEI',      2035, -5.4092,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2040, 'E_TRANS-PEI',      2020, -5.3655,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2040, 'E_TRANS-PEI',      2025, -5.3655,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2040, 'E_TRANS-PEI',      2030, -5.3655,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2040, 'E_TRANS-PEI',      2035, -5.3655,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2040, 'E_TRANS-PEI',      2040, -5.3655,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2045, 'E_TRANS-PEI',      2020, -5.3219,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2045, 'E_TRANS-PEI',      2025, -5.3219,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2045, 'E_TRANS-PEI',      2030, -5.3219,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2045, 'E_TRANS-PEI',      2035, -5.3219,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2045, 'E_TRANS-PEI',      2040, -5.3219,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2045, 'E_TRANS-PEI',      2045, -5.3219,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2050, 'E_TRANS-PEI',      2020, -5.2347,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2050, 'E_TRANS-PEI',      2025, -5.2347,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2050, 'E_TRANS-PEI',      2030, -5.2347,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2050, 'E_TRANS-PEI',      2035, -5.2347,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2050, 'E_TRANS-PEI',      2040, -5.2347,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2050, 'E_TRANS-PEI',      2045, -5.2347,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2050, 'E_TRANS-PEI',      2050, -5.2347,       'M$/PJ', '[E13]','Price for electricity exports.');
+
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2020, 'E_TRANS-PEI',      2020, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2025, 'E_TRANS-PEI',      2020, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2025, 'E_TRANS-PEI',      2025, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2030, 'E_TRANS-PEI',      2020, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2030, 'E_TRANS-PEI',      2025, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2030, 'E_TRANS-PEI',      2030, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2035, 'E_TRANS-PEI',      2020, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2035, 'E_TRANS-PEI',      2025, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2035, 'E_TRANS-PEI',      2030, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2035, 'E_TRANS-PEI',      2035, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2040, 'E_TRANS-PEI',      2020, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2040, 'E_TRANS-PEI',      2025, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2040, 'E_TRANS-PEI',      2030, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2040, 'E_TRANS-PEI',      2035, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2040, 'E_TRANS-PEI',      2040, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2045, 'E_TRANS-PEI',      2020, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2045, 'E_TRANS-PEI',      2025, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2045, 'E_TRANS-PEI',      2030, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2045, 'E_TRANS-PEI',      2035, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2045, 'E_TRANS-PEI',      2040, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2045, 'E_TRANS-PEI',      2045, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2050, 'E_TRANS-PEI',      2020, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2050, 'E_TRANS-PEI',      2025, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2050, 'E_TRANS-PEI',      2030, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2050, 'E_TRANS-PEI',      2035, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2050, 'E_TRANS-PEI',      2040, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2050, 'E_TRANS-PEI',      2045, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2050, 'E_TRANS-PEI',      2050, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+
+
+
+
+INSERT INTO 'technologies' VALUES ('E_TRANS-NS','p','electricity','transmission','Electricity transmission (to NS - new)','Transmission','GW','#f28900','301');
+INSERT INTO 'tech_reserve' VALUES ('E_TRANS-NS','');
+INSERT INTO 'tech_exchange' VALUES ('E_TRANS-NS','');
+
+INSERT INTO 'CapacityToActivity' VALUES ('R_EXP-NB','E_TRANS-NS',31.536,'1 GW of capacity produces 31.536 PJ of electricity if run all year at full capacity.');
+INSERT INTO 'CapacityToActivity' VALUES ('NB-R_EXP','E_TRANS-NS',31.536,'1 GW of capacity produces 31.536 PJ of electricity if run all year at full capacity.');
+
+INSERT INTO 'LifetimeTech' VALUES ('R_EXP-NB','E_TRANS-NS',             60,'[E1]',  '');
+INSERT INTO 'LifetimeTech' VALUES ('NB-R_EXP','E_TRANS-NS',             60,'[E1]',  '');
+INSERT INTO 'LifetimeLoanTech' VALUES ('NB-R_EXP','E_TRANS-NS',             25,'[E21]',' ');
+INSERT INTO 'LifetimeLoanTech' VALUES ('R_EXP-NB','E_TRANS-NS',             25,'[E21]',' ');
+
+
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-NS',					     2020,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-NS',					     2020,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-NS',					     2025,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-NS',					     2025,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-NS',					     2030,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-NS',					     2030,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-NS',					     2035,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-NS',					     2035,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-NS',					     2040,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-NS',					     2040,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-NS',					     2045,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-NS',					     2045,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-NS',					     2050,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-NS',					     2050,'ELC' ,0.99,'','');
+
+
+INSERT INTO 'CostInvest' VALUES ('R_EXP-NB','E_TRANS-NS',             2020,  431.0,         'M$/GW', '[E8]','Costs are based off source data of M07 for 240 MW = 862 M$/GW. Transmission CapEx costs are divided by two to account for double counting in Temoa.');
+INSERT INTO 'CostInvest' VALUES ('R_EXP-NB','E_TRANS-NS',             2025,  431.0,         'M$/GW', '[E8]','Costs are based off source data of M07 for 240 MW = 862 M$/GW. Transmission CapEx costs are divided by two to account for double counting in Temoa.');
+INSERT INTO 'CostInvest' VALUES ('R_EXP-NB','E_TRANS-NS',             2030,  431.0,         'M$/GW', '[E8]','Costs are based off source data of M07 for 240 MW = 862 M$/GW. Transmission CapEx costs are divided by two to account for double counting in Temoa.');
+INSERT INTO 'CostInvest' VALUES ('R_EXP-NB','E_TRANS-NS',             2035,  431.0,         'M$/GW', '[E8]','Costs are based off source data of M07 for 240 MW = 862 M$/GW. Transmission CapEx costs are divided by two to account for double counting in Temoa.');
+INSERT INTO 'CostInvest' VALUES ('R_EXP-NB','E_TRANS-NS',             2040,  431.0,         'M$/GW', '[E8]','Costs are based off source data of M07 for 240 MW = 862 M$/GW. Transmission CapEx costs are divided by two to account for double counting in Temoa.');
+INSERT INTO 'CostInvest' VALUES ('R_EXP-NB','E_TRANS-NS',             2045,  431.0,         'M$/GW', '[E8]','Costs are based off source data of M07 for 240 MW = 862 M$/GW. Transmission CapEx costs are divided by two to account for double counting in Temoa.');
+INSERT INTO 'CostInvest' VALUES ('R_EXP-NB','E_TRANS-NS',             2050,  431.0,         'M$/GW', '[E8]','Costs are based off source data of M07 for 240 MW = 862 M$/GW. Transmission CapEx costs are divided by two to account for double counting in Temoa.');
+INSERT INTO 'CostInvest' VALUES ('NB-R_EXP','E_TRANS-NS',             2020, 0.0,           'M$/GW', '','By convention, transmission costs are evenly split between the two regions. This database/model is only concerned with costs to NB, so we set the R_EXP costs to 0.0.');
+INSERT INTO 'CostInvest' VALUES ('NB-R_EXP','E_TRANS-NS',             2025, 0.0,           'M$/GW', '','By convention, transmission costs are evenly split between the two regions. This database/model is only concerned with costs to NB, so we set the R_EXP costs to 0.0.');
+INSERT INTO 'CostInvest' VALUES ('NB-R_EXP','E_TRANS-NS',             2030, 0.0,           'M$/GW', '','By convention, transmission costs are evenly split between the two regions. This database/model is only concerned with costs to NB, so we set the R_EXP costs to 0.0.');
+INSERT INTO 'CostInvest' VALUES ('NB-R_EXP','E_TRANS-NS',             2035, 0.0,           'M$/GW', '','By convention, transmission costs are evenly split between the two regions. This database/model is only concerned with costs to NB, so we set the R_EXP costs to 0.0.');
+INSERT INTO 'CostInvest' VALUES ('NB-R_EXP','E_TRANS-NS',             2040, 0.0,           'M$/GW', '','By convention, transmission costs are evenly split between the two regions. This database/model is only concerned with costs to NB, so we set the R_EXP costs to 0.0.');
+INSERT INTO 'CostInvest' VALUES ('NB-R_EXP','E_TRANS-NS',             2045, 0.0,           'M$/GW', '','By convention, transmission costs are evenly split between the two regions. This database/model is only concerned with costs to NB, so we set the R_EXP costs to 0.0.');
+INSERT INTO 'CostInvest' VALUES ('NB-R_EXP','E_TRANS-NS',             2050, 0.0,           'M$/GW', '','By convention, transmission costs are evenly split between the two regions. This database/model is only concerned with costs to NB, so we set the R_EXP costs to 0.0.');
+
+
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2020, 'E_TRANS-NS',      2020, -6.0199,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2025, 'E_TRANS-NS',      2020, -5.6273,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2025, 'E_TRANS-NS',      2025, -5.6273,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2030, 'E_TRANS-NS',      2020, -5.54,         'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2030, 'E_TRANS-NS',      2025, -5.54,         'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2030, 'E_TRANS-NS',      2030, -5.54,         'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2035, 'E_TRANS-NS',      2020, -5.4092,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2035, 'E_TRANS-NS',      2025, -5.4092,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2035, 'E_TRANS-NS',      2030, -5.4092,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2035, 'E_TRANS-NS',      2035, -5.4092,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2040, 'E_TRANS-NS',      2020, -5.3655,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2040, 'E_TRANS-NS',      2025, -5.3655,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2040, 'E_TRANS-NS',      2030, -5.3655,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2040, 'E_TRANS-NS',      2035, -5.3655,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2040, 'E_TRANS-NS',      2040, -5.3655,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2045, 'E_TRANS-NS',      2020, -5.3219,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2045, 'E_TRANS-NS',      2025, -5.3219,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2045, 'E_TRANS-NS',      2030, -5.3219,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2045, 'E_TRANS-NS',      2035, -5.3219,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2045, 'E_TRANS-NS',      2040, -5.3219,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2045, 'E_TRANS-NS',      2045, -5.3219,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2050, 'E_TRANS-NS',      2020, -5.2347,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2050, 'E_TRANS-NS',      2025, -5.2347,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2050, 'E_TRANS-NS',      2030, -5.2347,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2050, 'E_TRANS-NS',      2035, -5.2347,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2050, 'E_TRANS-NS',      2040, -5.2347,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2050, 'E_TRANS-NS',      2045, -5.2347,       'M$/PJ', '[E13]','Price for electricity exports.');
+INSERT INTO 'CostVariable' VALUES ('NB-R_EXP', 2050, 'E_TRANS-NS',      2050, -5.2347,       'M$/PJ', '[E13]','Price for electricity exports.');
+
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2020, 'E_TRANS-NS',      2020, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2025, 'E_TRANS-NS',      2020, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2025, 'E_TRANS-NS',      2025, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2030, 'E_TRANS-NS',      2020, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2030, 'E_TRANS-NS',      2025, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2030, 'E_TRANS-NS',      2030, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2035, 'E_TRANS-NS',      2020, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2035, 'E_TRANS-NS',      2025, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2035, 'E_TRANS-NS',      2030, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2035, 'E_TRANS-NS',      2035, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2040, 'E_TRANS-NS',      2020, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2040, 'E_TRANS-NS',      2025, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2040, 'E_TRANS-NS',      2030, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2040, 'E_TRANS-NS',      2035, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2040, 'E_TRANS-NS',      2040, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2045, 'E_TRANS-NS',      2020, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2045, 'E_TRANS-NS',      2025, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2045, 'E_TRANS-NS',      2030, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2045, 'E_TRANS-NS',      2035, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2045, 'E_TRANS-NS',      2040, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2045, 'E_TRANS-NS',      2045, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2050, 'E_TRANS-NS',      2020, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2050, 'E_TRANS-NS',      2025, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2050, 'E_TRANS-NS',      2030, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2050, 'E_TRANS-NS',      2035, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2050, 'E_TRANS-NS',      2040, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2050, 'E_TRANS-NS',      2045, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
+INSERT INTO 'CostVariable' VALUES ('R_EXP-NB', 2050, 'E_TRANS-NS',      2050, 15.833,       'M$/PJ', 'NS Utility and Review Board 2020-2022 Fuel Stability Plan Page 43.','Price for electricity imports.');
 
 
 

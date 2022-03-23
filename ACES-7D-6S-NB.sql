@@ -162,6 +162,7 @@ INSERT INTO "technologies" VALUES ('CO2_TRNSPSEQ','p','electricity','misc.','Tra
 
 INSERT INTO "technologies" VALUES ('E_TRANS-DIST','p','electricity','T&D','Electricity transmission and distribution (intra-regional)','','GW','','');
 INSERT INTO "technologies" VALUES ('E_AC-TO-DC','p','electricity','misc.','AC to DC Electricity Transformation','','GW','','');
+INSERT INTO "technologies" VALUES ('E_RPS-COUNTER','p','electricity','dummy','Accounting technology for RPS','','GW','','');
 INSERT INTO "technologies" VALUES ('E_EXPORT_PASSTHROUGH','p','electricity','dummy','','','GW','','');
 INSERT INTO "technologies" VALUES ('E_EXPORT_DUMMY','p','electricity','dummy','','','GW','','');
 
@@ -483,6 +484,14 @@ CREATE TABLE "tech_flex" (
 );
 
 
+CREATE TABLE "tech_variable" (
+	"tech"	text,
+	"notes"	TEXT,
+	PRIMARY KEY("tech"),
+	FOREIGN KEY("tech") REFERENCES "technologies"("tech")
+);
+INSERT INTO `tech_variable` VALUES ('E_RPS-COUNTER','');
+
 CREATE TABLE IF NOT EXISTS "tech_annual" (
 	"tech"	text,
 	"notes"	TEXT,
@@ -783,9 +792,6 @@ CREATE TABLE IF NOT EXISTS "groups" (
 	PRIMARY KEY("group_name")
 );
 
---INSERT INTO `groups` VALUES ('NS-RPS','');
-
-
 
 CREATE TABLE IF NOT EXISTS "commodity_labels" (
 	"comm_labels"	text,
@@ -823,7 +829,9 @@ INSERT INTO "commodities" VALUES ('CH4','e','CH4 emissions commodity','kt');
 
 -------------------------- Electricity --------------------------------
 
-INSERT INTO "commodities" VALUES ('ELC','p','electricity','PJ');
+INSERT INTO "commodities" VALUES ('ELC','p','Electricity','PJ');
+INSERT INTO "commodities" VALUES ('ELCG','p','Generated Electricity (Non-Renewable)','PJ');
+INSERT INTO "commodities" VALUES ('ELCG-RPS','p','Generated Electricity (Renewable)','PJ');
 INSERT INTO "commodities" VALUES ('ELC_DC','p','DC Electricity','PJ');
 INSERT INTO "commodities" VALUES ('H2P','p','Hydrogen produced via electrolysis or SMR','PJ');
 INSERT INTO "commodities" VALUES ('H2_10','p','Hydrogen at 10 bar','PJ');
@@ -1397,6 +1405,28 @@ INSERT INTO `TechInputSplit` VALUES ('NB', 2045,'I_NGL', 'I_MANUF-OTH_GEN',     
 INSERT INTO `TechInputSplit` VALUES ('NB', 2050,'I_NGL', 'I_MANUF-OTH_GEN',     0.06017,'[I20]', 'Relative shares are calculated from data tabulated in the source. It is assumed that these stay fixed over the model time horizon.');
 
 
+
+
+CREATE TABLE "TechInputSplitAverage" (
+	"regions"	TEXT,
+	"periods"	integer,
+	"input_comm"	text,
+	"tech"	text,
+	"ti_split"	real CHECK("ti_split" < 1.0),
+	"ti_split_notes"	text,
+	PRIMARY KEY("regions","periods","input_comm","tech"),
+	FOREIGN KEY("input_comm") REFERENCES "commodities"("comm_name"),
+	FOREIGN KEY("tech") REFERENCES "tech_variable"("tech"),
+	FOREIGN KEY("periods") REFERENCES "time_periods"("t_periods")
+);
+
+INSERT INTO `TechInputSplitAverage` VALUES ('NB',2020,'ELCG-RPS','E_RPS-COUNTER',0.4,'NB has a renewable portfolio standard of 40% from 2020 onwards. Source: Electricity from Renewable Resources Regulation - Electricity Act');
+INSERT INTO `TechInputSplitAverage` VALUES ('NB',2025,'ELCG-RPS','E_RPS-COUNTER',0.4,'NB has a renewable portfolio standard of 40% from 2020 onwards. Source: Electricity from Renewable Resources Regulation - Electricity Act');
+INSERT INTO `TechInputSplitAverage` VALUES ('NB',2030,'ELCG-RPS','E_RPS-COUNTER',0.4,'NB has a renewable portfolio standard of 40% from 2020 onwards. Source: Electricity from Renewable Resources Regulation - Electricity Act');
+INSERT INTO `TechInputSplitAverage` VALUES ('NB',2035,'ELCG-RPS','E_RPS-COUNTER',0.4,'NB has a renewable portfolio standard of 40% from 2020 onwards. Source: Electricity from Renewable Resources Regulation - Electricity Act');
+INSERT INTO `TechInputSplitAverage` VALUES ('NB',2040,'ELCG-RPS','E_RPS-COUNTER',0.4,'NB has a renewable portfolio standard of 40% from 2020 onwards. Source: Electricity from Renewable Resources Regulation - Electricity Act');
+INSERT INTO `TechInputSplitAverage` VALUES ('NB',2045,'ELCG-RPS','E_RPS-COUNTER',0.4,'NB has a renewable portfolio standard of 40% from 2020 onwards. Source: Electricity from Renewable Resources Regulation - Electricity Act');
+INSERT INTO `TechInputSplitAverage` VALUES ('NB',2050,'ELCG-RPS','E_RPS-COUNTER',0.4,'NB has a renewable portfolio standard of 40% from 2020 onwards. Source: Electricity from Renewable Resources Regulation - Electricity Act');
 
 CREATE TABLE IF NOT EXISTS "StorageDuration" (
 	"regions"	text,
@@ -2792,24 +2822,24 @@ INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','ethos','IMP_HFO_ELC',       
 
 ------------------------------------------------ Existing Technologies ----------------------------------------------
 
-INSERT INTO "EmissionActivity" VALUES ('NB','PM10','E_HFO','E_HFO-CT_EX',1991,'ELC',0.011,'kt/PJout','[Ex3]','');
-INSERT INTO "EmissionActivity" VALUES ('NB','PM10','COAL-BIT','E_COAL-BIT_EX-1',1980,'ELC',0.0378,'kt/PJout','[Ex3]','');
+INSERT INTO "EmissionActivity" VALUES ('NB','PM10','E_HFO','E_HFO-CT_EX',1991,'ELCG',0.011,'kt/PJout','[Ex3]','');
+INSERT INTO "EmissionActivity" VALUES ('NB','PM10','COAL-BIT','E_COAL-BIT_EX-1',1980,'ELCG',0.0378,'kt/PJout','[Ex3]','');
 
-INSERT INTO "EmissionActivity" VALUES ('NB','PM25','E_HFO','E_HFO-CT_EX',1991,'ELC',0.007,'kt/PJout','[Ex3]','');
-INSERT INTO "EmissionActivity" VALUES ('NB','PM25','COAL-BIT','E_COAL-BIT_EX-1',1980,'ELC',0.027,'kt/PJout','[Ex3]','');
+INSERT INTO "EmissionActivity" VALUES ('NB','PM25','E_HFO','E_HFO-CT_EX',1991,'ELCG',0.007,'kt/PJout','[Ex3]','');
+INSERT INTO "EmissionActivity" VALUES ('NB','PM25','COAL-BIT','E_COAL-BIT_EX-1',1980,'ELCG',0.027,'kt/PJout','[Ex3]','');
 
-INSERT INTO "EmissionActivity" VALUES ('NB','SO2','E_HFO','E_HFO-CT_EX',			 1991,'ELC',0.921,'kt/PJout','[Ex3]','');
-INSERT INTO "EmissionActivity" VALUES ('NB','SO2','COAL-BIT','E_COAL-BIT_EX-1',1980,'ELC',0.397,'kt/PJout','[Ex3]','');
-INSERT INTO "EmissionActivity" VALUES ('NB','SO2','E_NG','E_NGACC_EX',					 1977,'ELC',0.003,'kt/PJout','[Ex3]','');
+INSERT INTO "EmissionActivity" VALUES ('NB','SO2','E_HFO','E_HFO-CT_EX',			 1991,'ELCG',0.921,'kt/PJout','[Ex3]','');
+INSERT INTO "EmissionActivity" VALUES ('NB','SO2','COAL-BIT','E_COAL-BIT_EX-1',1980,'ELCG',0.397,'kt/PJout','[Ex3]','');
+INSERT INTO "EmissionActivity" VALUES ('NB','SO2','E_NG','E_NGACC_EX',					 1977,'ELCG',0.003,'kt/PJout','[Ex3]','');
 
-INSERT INTO "EmissionActivity" VALUES ('NB','NOX','E_HFO','E_HFO-CT_EX',			 1991,'ELC',0.404,'kt/PJout','[Ex3]','');
-INSERT INTO "EmissionActivity" VALUES ('NB','NOX','COAL-BIT','E_COAL-BIT_EX-1',1980,'ELC',0.447,'kt/PJout','[Ex3]','');
-INSERT INTO "EmissionActivity" VALUES ('NB','NOX','E_NG','E_NGACC_EX',					 1977,'ELC',0.025,'kt/PJout','[Ex3]','');
+INSERT INTO "EmissionActivity" VALUES ('NB','NOX','E_HFO','E_HFO-CT_EX',			 1991,'ELCG',0.404,'kt/PJout','[Ex3]','');
+INSERT INTO "EmissionActivity" VALUES ('NB','NOX','COAL-BIT','E_COAL-BIT_EX-1',1980,'ELCG',0.447,'kt/PJout','[Ex3]','');
+INSERT INTO "EmissionActivity" VALUES ('NB','NOX','E_NG','E_NGACC_EX',					 1977,'ELCG',0.025,'kt/PJout','[Ex3]','');
 
-INSERT INTO "EmissionActivity" VALUES ('NB','Hg','E_HFO','E_HFO-CT_EX',			  1991,'ELC',0.001,'kt/PJout','[Ex3]','');
-INSERT INTO "EmissionActivity" VALUES ('NB','Hg','COAL-BIT','E_COAL-BIT_EX-1',1980,'ELC',0.003,'kt/PJout','[Ex3]','');
+INSERT INTO "EmissionActivity" VALUES ('NB','Hg','E_HFO','E_HFO-CT_EX',			  1991,'ELCG',0.001,'kt/PJout','[Ex3]','');
+INSERT INTO "EmissionActivity" VALUES ('NB','Hg','COAL-BIT','E_COAL-BIT_EX-1',1980,'ELCG',0.003,'kt/PJout','[Ex3]','');
 
-INSERT INTO "EmissionActivity" VALUES ('NB','N2O','E_NG','E_NGACC_EX',					 1977,'ELC',0.025,'kt/PJout','[Ex3]','');
+INSERT INTO "EmissionActivity" VALUES ('NB','N2O','E_NG','E_NGACC_EX',					 1977,'ELCG',0.025,'kt/PJout','[Ex3]','');
 
 
 
@@ -2822,62 +2852,62 @@ INSERT INTO "EmissionActivity" VALUES ('NB','N2O','E_NG','E_NGACC_EX',					 1977
 
 ----------------------------------------------------- New Technologies ----------------------------------------------
 
-INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC',             2020, 'ELC', 0.0088,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC',             2025, 'ELC', 0.0088,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC',             2030, 'ELC', 0.0088,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC',             2035, 'ELC', 0.0088,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC',             2040, 'ELC', 0.0088,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC',             2045, 'ELC', 0.0088,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC',             2050, 'ELC', 0.0088,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_NG','E_NGACC-CCS',         2020, 'ELC', -98.563,       'kt/PJ', 'Calculated', 'Total CO2 emission per Pjout is 109.51 kt out (i.e. the CO2 content of one PJ of NG divdided by the NGCC-CCS efficiency [49.61/0.453]) of which 10.95 kt is not captured.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_NG','E_NGACC-CCS',         2025, 'ELC', -98.563,       'kt/PJ', 'Calculated', 'Total CO2 emission per Pjout is 109.51 kt out (i.e. the CO2 content of one PJ of NG divdided by the NGCC-CCS efficiency [49.61/0.453]) of which 10.95 kt is not captured.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_NG','E_NGACC-CCS',         2030, 'ELC', -98.563,       'kt/PJ', 'Calculated', 'Total CO2 emission per Pjout is 109.51 kt out (i.e. the CO2 content of one PJ of NG divdided by the NGCC-CCS efficiency [49.61/0.453]) of which 10.95 kt is not captured.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_NG','E_NGACC-CCS',         2035, 'ELC', -98.563,       'kt/PJ', 'Calculated', 'Total CO2 emission per Pjout is 109.51 kt out (i.e. the CO2 content of one PJ of NG divdided by the NGCC-CCS efficiency [49.61/0.453]) of which 10.95 kt is not captured.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_NG','E_NGACC-CCS',         2040, 'ELC', -98.563,       'kt/PJ', 'Calculated', 'Total CO2 emission per Pjout is 109.51 kt out (i.e. the CO2 content of one PJ of NG divdided by the NGCC-CCS efficiency [49.61/0.453]) of which 10.95 kt is not captured.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_NG','E_NGACC-CCS',         2045, 'ELC', -98.563,       'kt/PJ', 'Calculated', 'Total CO2 emission per Pjout is 109.51 kt out (i.e. the CO2 content of one PJ of NG divdided by the NGCC-CCS efficiency [49.61/0.453]) of which 10.95 kt is not captured.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_NG','E_NGACC-CCS',         2050, 'ELC', -98.563,       'kt/PJ', 'Calculated', 'Total CO2 emission per Pjout is 109.51 kt out (i.e. the CO2 content of one PJ of NG divdided by the NGCC-CCS efficiency [49.61/0.453]) of which 10.95 kt is not captured.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_NG','E_NGACC-CCS',         2020, 'ELC', -98.563,       'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_NG','E_NGACC-CCS',         2025, 'ELC', -98.563,       'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_NG','E_NGACC-CCS',         2030, 'ELC', -98.563,       'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_NG','E_NGACC-CCS',         2035, 'ELC', -98.563,       'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_NG','E_NGACC-CCS',         2040, 'ELC', -98.563,       'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_NG','E_NGACC-CCS',         2045, 'ELC', -98.563,       'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_NG','E_NGACC-CCS',         2050, 'ELC', -98.563,       'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC-CCS',         2020, 'ELC', 0.0194,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC-CCS',         2025, 'ELC', 0.0194,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC-CCS',         2030, 'ELC', 0.0194,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC-CCS',         2035, 'ELC', 0.0194,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC-CCS',         2040, 'ELC', 0.0194,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC-CCS',         2045, 'ELC', 0.0194,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC-CCS',         2050, 'ELC', 0.0194,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACT',             2020, 'ELC', 0.012,         'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACT',             2025, 'ELC', 0.012,         'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACT',             2030, 'ELC', 0.012,         'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACT',             2035, 'ELC', 0.012,         'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACT',             2040, 'ELC', 0.012,         'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACT',             2045, 'ELC', 0.012,         'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACT',             2050, 'ELC', 0.012,         'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','SO2','E_NG','E_NGACT',             2020, 'ELC', 0.0006,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','SO2','E_NG','E_NGACT',             2025, 'ELC', 0.0006,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','SO2','E_NG','E_NGACT',             2030, 'ELC', 0.0006,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','SO2','E_NG','E_NGACT',             2035, 'ELC', 0.0006,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','SO2','E_NG','E_NGACT',             2040, 'ELC', 0.0006,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','SO2','E_NG','E_NGACT',             2045, 'ELC', 0.0006,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','SO2','E_NG','E_NGACT',             2050, 'ELC', 0.0006,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_WOOD','E_BECCS',             2020, 'ELC', -345.652,      'kt/PJ', 'Calculated', 'Total CO2e emission per Pjout is 384 kt out (i.e. the CO2 content of on PJ of wood divdided by the BECCS efficiency [93.71/0.244])  of which 38.4 kt is not captured.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_WOOD','E_BECCS',             2025, 'ELC', -345.652,      'kt/PJ', 'Calculated', 'Total CO2e emission per Pjout is 384 kt out (i.e. the CO2 content of on PJ of wood divdided by the BECCS efficiency [93.71/0.244])  of which 38.4 kt is not captured.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_WOOD','E_BECCS',             2030, 'ELC', -345.652,      'kt/PJ', 'Calculated', 'Total CO2e emission per Pjout is 384 kt out (i.e. the CO2 content of on PJ of wood divdided by the BECCS efficiency [93.71/0.244])  of which 38.4 kt is not captured.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_WOOD','E_BECCS',             2035, 'ELC', -345.652,      'kt/PJ', 'Calculated', 'Total CO2e emission per Pjout is 384 kt out (i.e. the CO2 content of on PJ of wood divdided by the BECCS efficiency [93.71/0.244])  of which 38.4 kt is not captured.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_WOOD','E_BECCS',             2040, 'ELC', -345.652,      'kt/PJ', 'Calculated', 'Total CO2e emission per Pjout is 384 kt out (i.e. the CO2 content of on PJ of wood divdided by the BECCS efficiency [93.71/0.244])  of which 38.4 kt is not captured.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_WOOD','E_BECCS',             2045, 'ELC', -345.652,      'kt/PJ', 'Calculated', 'Total CO2e emission per Pjout is 384 kt out (i.e. the CO2 content of on PJ of wood divdided by the BECCS efficiency [93.71/0.244])  of which 38.4 kt is not captured.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_WOOD','E_BECCS',             2050, 'ELC', -345.652,      'kt/PJ', 'Calculated', 'Total CO2e emission per Pjout is 384 kt out (i.e. the CO2 content of on PJ of wood divdided by the BECCS efficiency [93.71/0.244])  of which 38.4 kt is not captured.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_WOOD','E_BECCS',             2020, 'ELC', -345.652,      'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_WOOD','E_BECCS',             2025, 'ELC', -345.652,      'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_WOOD','E_BECCS',             2030, 'ELC', -345.652,      'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_WOOD','E_BECCS',             2035, 'ELC', -345.652,      'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_WOOD','E_BECCS',             2040, 'ELC', -345.652,      'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_WOOD','E_BECCS',             2045, 'ELC', -345.652,      'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
-INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_WOOD','E_BECCS',             2050, 'ELC', -345.652,      'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC',             2020, 'ELCG', 0.0088,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC',             2025, 'ELCG', 0.0088,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC',             2030, 'ELCG', 0.0088,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC',             2035, 'ELCG', 0.0088,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC',             2040, 'ELCG', 0.0088,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC',             2045, 'ELCG', 0.0088,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC',             2050, 'ELCG', 0.0088,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_NG','E_NGACC-CCS',         2020, 'ELCG', -98.563,       'kt/PJ', 'Calculated', 'Total CO2 emission per Pjout is 109.51 kt out (i.e. the CO2 content of one PJ of NG divdided by the NGCC-CCS efficiency [49.61/0.453]) of which 10.95 kt is not captured.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_NG','E_NGACC-CCS',         2025, 'ELCG', -98.563,       'kt/PJ', 'Calculated', 'Total CO2 emission per Pjout is 109.51 kt out (i.e. the CO2 content of one PJ of NG divdided by the NGCC-CCS efficiency [49.61/0.453]) of which 10.95 kt is not captured.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_NG','E_NGACC-CCS',         2030, 'ELCG', -98.563,       'kt/PJ', 'Calculated', 'Total CO2 emission per Pjout is 109.51 kt out (i.e. the CO2 content of one PJ of NG divdided by the NGCC-CCS efficiency [49.61/0.453]) of which 10.95 kt is not captured.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_NG','E_NGACC-CCS',         2035, 'ELCG', -98.563,       'kt/PJ', 'Calculated', 'Total CO2 emission per Pjout is 109.51 kt out (i.e. the CO2 content of one PJ of NG divdided by the NGCC-CCS efficiency [49.61/0.453]) of which 10.95 kt is not captured.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_NG','E_NGACC-CCS',         2040, 'ELCG', -98.563,       'kt/PJ', 'Calculated', 'Total CO2 emission per Pjout is 109.51 kt out (i.e. the CO2 content of one PJ of NG divdided by the NGCC-CCS efficiency [49.61/0.453]) of which 10.95 kt is not captured.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_NG','E_NGACC-CCS',         2045, 'ELCG', -98.563,       'kt/PJ', 'Calculated', 'Total CO2 emission per Pjout is 109.51 kt out (i.e. the CO2 content of one PJ of NG divdided by the NGCC-CCS efficiency [49.61/0.453]) of which 10.95 kt is not captured.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_NG','E_NGACC-CCS',         2050, 'ELCG', -98.563,       'kt/PJ', 'Calculated', 'Total CO2 emission per Pjout is 109.51 kt out (i.e. the CO2 content of one PJ of NG divdided by the NGCC-CCS efficiency [49.61/0.453]) of which 10.95 kt is not captured.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_NG','E_NGACC-CCS',         2020, 'ELCG', -98.563,       'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_NG','E_NGACC-CCS',         2025, 'ELCG', -98.563,       'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_NG','E_NGACC-CCS',         2030, 'ELCG', -98.563,       'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_NG','E_NGACC-CCS',         2035, 'ELCG', -98.563,       'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_NG','E_NGACC-CCS',         2040, 'ELCG', -98.563,       'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_NG','E_NGACC-CCS',         2045, 'ELCG', -98.563,       'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_NG','E_NGACC-CCS',         2050, 'ELCG', -98.563,       'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC-CCS',         2020, 'ELCG', 0.0194,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC-CCS',         2025, 'ELCG', 0.0194,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC-CCS',         2030, 'ELCG', 0.0194,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC-CCS',         2035, 'ELCG', 0.0194,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC-CCS',         2040, 'ELCG', 0.0194,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC-CCS',         2045, 'ELCG', 0.0194,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACC-CCS',         2050, 'ELCG', 0.0194,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACT',             2020, 'ELCG', 0.012,         'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACT',             2025, 'ELCG', 0.012,         'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACT',             2030, 'ELCG', 0.012,         'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACT',             2035, 'ELCG', 0.012,         'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACT',             2040, 'ELCG', 0.012,         'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACT',             2045, 'ELCG', 0.012,         'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','NOX','E_NG','E_NGACT',             2050, 'ELCG', 0.012,         'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','SO2','E_NG','E_NGACT',             2020, 'ELCG', 0.0006,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','SO2','E_NG','E_NGACT',             2025, 'ELCG', 0.0006,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','SO2','E_NG','E_NGACT',             2030, 'ELCG', 0.0006,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','SO2','E_NG','E_NGACT',             2035, 'ELCG', 0.0006,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','SO2','E_NG','E_NGACT',             2040, 'ELCG', 0.0006,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','SO2','E_NG','E_NGACT',             2045, 'ELCG', 0.0006,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','SO2','E_NG','E_NGACT',             2050, 'ELCG', 0.0006,        'kt/PJ', '[E1]', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_WOOD','E_BECCS',             2020, 'ELCG-RPS', -345.652,      'kt/PJ', 'Calculated', 'Total CO2e emission per Pjout is 384 kt out (i.e. the CO2 content of on PJ of wood divdided by the BECCS efficiency [93.71/0.244])  of which 38.4 kt is not captured.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_WOOD','E_BECCS',             2025, 'ELCG-RPS', -345.652,      'kt/PJ', 'Calculated', 'Total CO2e emission per Pjout is 384 kt out (i.e. the CO2 content of on PJ of wood divdided by the BECCS efficiency [93.71/0.244])  of which 38.4 kt is not captured.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_WOOD','E_BECCS',             2030, 'ELCG-RPS', -345.652,      'kt/PJ', 'Calculated', 'Total CO2e emission per Pjout is 384 kt out (i.e. the CO2 content of on PJ of wood divdided by the BECCS efficiency [93.71/0.244])  of which 38.4 kt is not captured.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_WOOD','E_BECCS',             2035, 'ELCG-RPS', -345.652,      'kt/PJ', 'Calculated', 'Total CO2e emission per Pjout is 384 kt out (i.e. the CO2 content of on PJ of wood divdided by the BECCS efficiency [93.71/0.244])  of which 38.4 kt is not captured.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_WOOD','E_BECCS',             2040, 'ELCG-RPS', -345.652,      'kt/PJ', 'Calculated', 'Total CO2e emission per Pjout is 384 kt out (i.e. the CO2 content of on PJ of wood divdided by the BECCS efficiency [93.71/0.244])  of which 38.4 kt is not captured.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_WOOD','E_BECCS',             2045, 'ELCG-RPS', -345.652,      'kt/PJ', 'Calculated', 'Total CO2e emission per Pjout is 384 kt out (i.e. the CO2 content of on PJ of wood divdided by the BECCS efficiency [93.71/0.244])  of which 38.4 kt is not captured.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_WOOD','E_BECCS',             2050, 'ELCG-RPS', -345.652,      'kt/PJ', 'Calculated', 'Total CO2e emission per Pjout is 384 kt out (i.e. the CO2 content of on PJ of wood divdided by the BECCS efficiency [93.71/0.244])  of which 38.4 kt is not captured.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_WOOD','E_BECCS',             2020, 'ELCG-RPS', -345.652,      'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_WOOD','E_BECCS',             2025, 'ELCG-RPS', -345.652,      'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_WOOD','E_BECCS',             2030, 'ELCG-RPS', -345.652,      'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_WOOD','E_BECCS',             2035, 'ELCG-RPS', -345.652,      'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_WOOD','E_BECCS',             2040, 'ELCG-RPS', -345.652,      'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_WOOD','E_BECCS',             2045, 'ELCG-RPS', -345.652,      'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
+INSERT INTO `EmissionActivity` VALUES ('NB','CO2e','E_WOOD','E_BECCS',             2050, 'ELCG-RPS', -345.652,      'kt/PJ', 'Calculated', 'This value is calculated by using warming potentials of 1 for CO2, 25 for CH4 and 298 for N2O.');
 INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_NG','H2_SMR-CCS',          2020, 'H2P', -64.71,        'kt/PJ', 'Calculated', 'Total CO2 emission per Pjout is 71.90 kt out (i.e. the CO2 content of one PJ of NG divdided by the SMR-CCS efficiency [49.61/0.69])  of which 7.19 kt is not captured.');
 INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_NG','H2_SMR-CCS',          2025, 'H2P', -64.71,        'kt/PJ', 'Calculated', 'Total CO2 emission per Pjout is 71.90 kt out (i.e. the CO2 content of one PJ of NG divdided by the SMR-CCS efficiency [49.61/0.69])  of which 7.19 kt is not captured.');
 INSERT INTO `EmissionActivity` VALUES ('NB','CO2','E_NG','H2_SMR-CCS',          2030, 'H2P', -64.71,        'kt/PJ', 'Calculated', 'Total CO2 emission per Pjout is 71.90 kt out (i.e. the CO2 content of one PJ of NG divdided by the SMR-CCS efficiency [49.61/0.69])  of which 7.19 kt is not captured.');
@@ -3874,12 +3904,16 @@ INSERT INTO `Efficiency` VALUES ('NB','ethos','IMP_WOOD-REN_ELC',				2020,'E_WOO
 INSERT INTO `Efficiency` VALUES ('NB','ethos','IMP_COAL-BIT_ELC',				2020,'COAL-BIT',1.0,'','');
 INSERT INTO `Efficiency` VALUES ('NB','ethos','IMP_DSL_ELC',						2020,'E_DSL',1.0,'','');
 INSERT INTO `Efficiency` VALUES ('NB','ethos','IMP_HFO_ELC',						2020,'E_HFO',1.0,'','');
-INSERT INTO `Efficiency` VALUES ('R_EXP-NB','ELC','E_TRANS-QC',							1900,'ELC',0.99,'','');
-INSERT INTO `Efficiency` VALUES ('NB-R_EXP','ELC','E_TRANS-QC',							1900,'ELC',0.99,'','');
-INSERT INTO `Efficiency` VALUES ('R_EXP-NB','ELC','E_TRANS-USA',						1900,'ELC',0.99,'','');
-INSERT INTO `Efficiency` VALUES ('NB-R_EXP','ELC','E_TRANS-USA',						1900,'ELC',0.99,'','');
+INSERT INTO `Efficiency` VALUES ('R_EXP-NB','ELC','E_TRANS-QC',					1900,'ELCG-RPS',0.99,'','');
+INSERT INTO `Efficiency` VALUES ('NB-R_EXP','ELCG','E_TRANS-QC',				1900,'ELC',0.99,'','');
+INSERT INTO `Efficiency` VALUES ('NB-R_EXP','ELCG-RPS','E_TRANS-QC',		1900,'ELC',0.99,'','');
+INSERT INTO `Efficiency` VALUES ('R_EXP-NB','ELC','E_TRANS-USA',				1900,'ELCG',0.99,'','');
+INSERT INTO `Efficiency` VALUES ('NB-R_EXP','ELCG','E_TRANS-USA',				1900,'ELC',0.99,'','');
+INSERT INTO `Efficiency` VALUES ('NB-R_EXP','ELCG-RPS','E_TRANS-USA',		1900,'ELC',0.99,'','');
 
 
+INSERT INTO `Efficiency` VALUES ('NB','ELCG','E_RPS-COUNTER',								2020,'ELC',1.0,'','');
+INSERT INTO `Efficiency` VALUES ('NB','ELCG-RPS','E_RPS-COUNTER',						2020,'ELC',1.0,'','');
 
 
 INSERT INTO `Efficiency` VALUES ('NB', 'CO2_DUMMY','CO2_PASSTHROUGH',   2020, 'CO2_SEQ', 1.0,'','');
@@ -3939,19 +3973,20 @@ INSERT INTO `Efficiency` VALUES ('R_EXP','ELC','E_EXPORT_PASSTHROUGH',				2020,'
 ----------------------------------------------------- Existing Technologies ----------------------------------------------
 
 
-INSERT INTO `Efficiency` VALUES ('NB','COAL-BIT','E_COAL-BIT_EX-1',			1980,'ELC',0.348,'[Ex3]','Calculated using reported emission intensities from the [Ex3] and assumptions on fuel emission intensity.');
-INSERT INTO `Efficiency` VALUES ('NB','E_HFO','E_HFO-CT_EX',						1991,'ELC',0.2857,'[E13]','');
-INSERT INTO `Efficiency` VALUES ('NB','E_NG','E_NGACC_EX',							1977,'ELC',0.525,'[E1]','');
-INSERT INTO `Efficiency` VALUES ('NB','E_DSL','E_DIESEL-CT_EX',					1981,'ELC',0.3900,'[E21]','');
-INSERT INTO `Efficiency` VALUES ('NB','E_DSL','E_DIESEL-CT_EX',					1976,'ELC',0.3900,'[E21]','');
-INSERT INTO `Efficiency` VALUES ('NB','E_WOOD','E_BIO-COGEN_EX',				2000,'ELC',0.108,'[E13]','');
-INSERT INTO `Efficiency` VALUES ('NB','E_NG','E_NG-COGEN_EX',						1975,'ELC',0.2136,'[E13]','');
-INSERT INTO `Efficiency` VALUES ('NB','URN','E_NUC-LWR_EX',							1980,'ELC',0.326,'[E1]','');
+INSERT INTO `Efficiency` VALUES ('NB','COAL-BIT','E_COAL-BIT_EX-1',			1980,'ELCG',0.348,'[Ex3]','Calculated using reported emission intensities from the [Ex3] and assumptions on fuel emission intensity.');
+INSERT INTO `Efficiency` VALUES ('NB','E_HFO','E_HFO-CT_EX',						1991,'ELCG',0.2857,'[E13]','');
+INSERT INTO `Efficiency` VALUES ('NB','E_NG','E_NGACC_EX',							1977,'ELCG',0.525,'[E1]','');
+INSERT INTO `Efficiency` VALUES ('NB','E_DSL','E_DIESEL-CT_EX',					1981,'ELCG',0.3900,'[E21]','');
+INSERT INTO `Efficiency` VALUES ('NB','E_DSL','E_DIESEL-CT_EX',					1976,'ELCG',0.3900,'[E21]','');
+INSERT INTO `Efficiency` VALUES ('NB','E_WOOD','E_BIO-COGEN_EX',				2000,'ELCG-RPS',0.108,'[E13]','');
+INSERT INTO `Efficiency` VALUES ('NB','E_NG','E_NG-COGEN_EX',						1975,'ELCG',0.2136,'[E13]','');
+INSERT INTO `Efficiency` VALUES ('NB','URN','E_NUC-LWR_EX',							1980,'ELCG',0.326,'[E1]','');
 
-INSERT INTO `Efficiency` VALUES ('NB','ethos','E_WIND-ON_EX',						2009,'ELC',1.0,'','Performance dictacted by Capacity Factors');
-INSERT INTO `Efficiency` VALUES ('NB','ethos','E_WIND-ON_EX',						2011,'ELC',1.0,'','Performance dictacted by Capacity Factors');
-INSERT INTO `Efficiency` VALUES ('NB','ethos','E_WIND-ON_EX',						2019,'ELC',1.0,'','Performance dictacted by Capacity Factors');
-INSERT INTO `Efficiency` VALUES ('NB','ethos','E_HYDRO-LIMDSP_EX',			2000,'ELC',1.0,'','');
+INSERT INTO `Efficiency` VALUES ('NB','ethos','E_WIND-ON_EX',						2009,'ELCG-RPS',1.0,'','Performance dictacted by Capacity Factors');
+INSERT INTO `Efficiency` VALUES ('NB','ethos','E_WIND-ON_EX',						2011,'ELCG-RPS',1.0,'','Performance dictacted by Capacity Factors');
+INSERT INTO `Efficiency` VALUES ('NB','ethos','E_WIND-ON_EX',						2019,'ELCG-RPS',1.0,'','Performance dictacted by Capacity Factors');
+INSERT INTO `Efficiency` VALUES ('NB','ethos','E_HYDRO-LIMDSP_EX',			2000,'ELCG-RPS',1.0,'','');
+
 
 
 
@@ -3971,20 +4006,20 @@ INSERT INTO `Efficiency` VALUES ('NB','ethos','E_HYDRO-LIMDSP_EX',			2000,'ELC',
 
 
 
-INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BIO',               2020, 'ELC', 0.25274,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BIO',               2025, 'ELC', 0.25274,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BIO',               2030, 'ELC', 0.25274,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BIO',               2035, 'ELC', 0.25274,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BIO',               2040, 'ELC', 0.25274,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BIO',               2045, 'ELC', 0.25274,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BIO',               2050, 'ELC', 0.25274,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BECCS',             2020, 'ELC', 0.244,'[E1]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BECCS',             2025, 'ELC', 0.244,'[E1]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BECCS',             2030, 'ELC', 0.244,'[E1]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BECCS',             2035, 'ELC', 0.244,'[E1]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BECCS',             2040, 'ELC', 0.244,'[E1]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BECCS',             2045, 'ELC', 0.244,'[E1]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BECCS',             2050, 'ELC', 0.244,'[E1]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BIO',               2020, 'ELCG-RPS', 0.25274,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BIO',               2025, 'ELCG-RPS', 0.25274,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BIO',               2030, 'ELCG-RPS', 0.25274,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BIO',               2035, 'ELCG-RPS', 0.25274,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BIO',               2040, 'ELCG-RPS', 0.25274,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BIO',               2045, 'ELCG-RPS', 0.25274,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BIO',               2050, 'ELCG-RPS', 0.25274,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BECCS',             2020, 'ELCG-RPS', 0.244,'[E1]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BECCS',             2025, 'ELCG-RPS', 0.244,'[E1]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BECCS',             2030, 'ELCG-RPS', 0.244,'[E1]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BECCS',             2035, 'ELCG-RPS', 0.244,'[E1]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BECCS',             2040, 'ELCG-RPS', 0.244,'[E1]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BECCS',             2045, 'ELCG-RPS', 0.244,'[E1]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_WOOD',   'E_BECCS',             2050, 'ELCG-RPS', 0.244,'[E1]', 'Moderate case');
 INSERT INTO `Efficiency` VALUES ('NB', 'ELC',      'E_BATT_2HR',          2020, 'ELC', 0.85,'[E3]', 'Moderate case');
 INSERT INTO `Efficiency` VALUES ('NB', 'ELC',      'E_BATT_2HR',          2025, 'ELC', 0.85,'[E3]', 'Moderate case');
 INSERT INTO `Efficiency` VALUES ('NB', 'ELC',      'E_BATT_2HR',          2030, 'ELC', 0.85,'[E3]', 'Moderate case');
@@ -3999,34 +4034,34 @@ INSERT INTO `Efficiency` VALUES ('NB', 'ELC',      'E_BATT_4HR',          2035, 
 INSERT INTO `Efficiency` VALUES ('NB', 'ELC',      'E_BATT_4HR',          2040, 'ELC', 0.85,'[E3]', 'Moderate case');
 INSERT INTO `Efficiency` VALUES ('NB', 'ELC',      'E_BATT_4HR',          2045, 'ELC', 0.85,'[E3]', 'Moderate case');
 INSERT INTO `Efficiency` VALUES ('NB', 'ELC',      'E_BATT_4HR',          2050, 'ELC', 0.85,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC',             2020, 'ELC', 0.53648,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC',             2025, 'ELC', 0.53648,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC',             2030, 'ELC', 0.53648,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC',             2035, 'ELC', 0.53648,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC',             2040, 'ELC', 0.53648,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC',             2045, 'ELC', 0.53648,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC',             2050, 'ELC', 0.53648,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC-CCS',         2020, 'ELC', 0.47654,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC-CCS',         2025, 'ELC', 0.47654,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC-CCS',         2030, 'ELC', 0.47654,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC-CCS',         2035, 'ELC', 0.47654,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC-CCS',         2040, 'ELC', 0.47654,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC-CCS',         2045, 'ELC', 0.47654,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC-CCS',         2050, 'ELC', 0.47654,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACT',             2020, 'ELC', 0.35103,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACT',             2025, 'ELC', 0.35103,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACT',             2030, 'ELC', 0.35103,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACT',             2035, 'ELC', 0.35103,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACT',             2040, 'ELC', 0.35103,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACT',             2045, 'ELC', 0.35103,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACT',             2050, 'ELC', 0.35103,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'URN',      'E_NUC-LWR',           2020, 'ELC', 0.3262,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'URN',      'E_NUC-LWR',           2025, 'ELC', 0.3262,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'URN',      'E_NUC-LWR',           2030, 'ELC', 0.3262,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'URN',      'E_NUC-LWR',           2035, 'ELC', 0.3262,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'URN',      'E_NUC-LWR',           2040, 'ELC', 0.3262,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'URN',      'E_NUC-LWR',           2045, 'ELC', 0.3262,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'URN',      'E_NUC-LWR',           2050, 'ELC', 0.3262,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC',             2020, 'ELCG', 0.53648,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC',             2025, 'ELCG', 0.53648,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC',             2030, 'ELCG', 0.53648,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC',             2035, 'ELCG', 0.53648,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC',             2040, 'ELCG', 0.53648,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC',             2045, 'ELCG', 0.53648,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC',             2050, 'ELCG', 0.53648,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC-CCS',         2020, 'ELCG', 0.47654,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC-CCS',         2025, 'ELCG', 0.47654,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC-CCS',         2030, 'ELCG', 0.47654,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC-CCS',         2035, 'ELCG', 0.47654,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC-CCS',         2040, 'ELCG', 0.47654,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC-CCS',         2045, 'ELCG', 0.47654,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACC-CCS',         2050, 'ELCG', 0.47654,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACT',             2020, 'ELCG', 0.35103,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACT',             2025, 'ELCG', 0.35103,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACT',             2030, 'ELCG', 0.35103,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACT',             2035, 'ELCG', 0.35103,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACT',             2040, 'ELCG', 0.35103,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACT',             2045, 'ELCG', 0.35103,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'E_NGACT',             2050, 'ELCG', 0.35103,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'URN',      'E_NUC-LWR',           2020, 'ELCG', 0.3262,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'URN',      'E_NUC-LWR',           2025, 'ELCG', 0.3262,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'URN',      'E_NUC-LWR',           2030, 'ELCG', 0.3262,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'URN',      'E_NUC-LWR',           2035, 'ELCG', 0.3262,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'URN',      'E_NUC-LWR',           2040, 'ELCG', 0.3262,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'URN',      'E_NUC-LWR',           2045, 'ELCG', 0.3262,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'URN',      'E_NUC-LWR',           2050, 'ELCG', 0.3262,'[E3]', 'Moderate case');
 INSERT INTO `Efficiency` VALUES ('NB', 'ELC_DC',   'E_ELCZR-PEM',         2020, 'H2P', 0.821,'[E1]', 'Moderate case');
 INSERT INTO `Efficiency` VALUES ('NB', 'ELC_DC',   'E_ELCZR-PEM',         2025, 'H2P', 0.821,'[E1]', 'Moderate case');
 INSERT INTO `Efficiency` VALUES ('NB', 'ELC_DC',   'E_ELCZR-PEM',         2030, 'H2P', 0.838,'[E1]', 'Moderate case');
@@ -4041,13 +4076,13 @@ INSERT INTO `Efficiency` VALUES ('NB', 'ELC_DC',   'E_ELCZR-ALK',         2035, 
 INSERT INTO `Efficiency` VALUES ('NB', 'ELC_DC',   'E_ELCZR-ALK',         2040, 'H2P', 0.717,'[E1]', 'Moderate case');
 INSERT INTO `Efficiency` VALUES ('NB', 'ELC_DC',   'E_ELCZR-ALK',         2045, 'H2P', 0.717,'[E1]', 'Moderate case');
 INSERT INTO `Efficiency` VALUES ('NB', 'ELC_DC',   'E_ELCZR-ALK',         2050, 'H2P', 0.717,'[E1]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'H2_100',   'E_H2CC',              2020, 'ELC', 0.53648,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'H2_100',   'E_H2CC',              2025, 'ELC', 0.53648,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'H2_100',   'E_H2CC',              2030, 'ELC', 0.53648,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'H2_100',   'E_H2CC',              2035, 'ELC', 0.53648,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'H2_100',   'E_H2CC',              2040, 'ELC', 0.53648,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'H2_100',   'E_H2CC',              2045, 'ELC', 0.53648,'[E3]', 'Moderate case');
-INSERT INTO `Efficiency` VALUES ('NB', 'H2_100',   'E_H2CC',              2050, 'ELC', 0.53648,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'H2_100',   'E_H2CC',              2020, 'ELCG', 0.53648,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'H2_100',   'E_H2CC',              2025, 'ELCG', 0.53648,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'H2_100',   'E_H2CC',              2030, 'ELCG', 0.53648,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'H2_100',   'E_H2CC',              2035, 'ELCG', 0.53648,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'H2_100',   'E_H2CC',              2040, 'ELCG', 0.53648,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'H2_100',   'E_H2CC',              2045, 'ELCG', 0.53648,'[E3]', 'Moderate case');
+INSERT INTO `Efficiency` VALUES ('NB', 'H2_100',   'E_H2CC',              2050, 'ELCG', 0.53648,'[E3]', 'Moderate case');
 INSERT INTO `Efficiency` VALUES ('NB', 'H2_10',    'H2_COMP-10-100',      2020, 'H2_100', 1.0,'[E1]', 'The energetic value of the H2 is conserved.');
 INSERT INTO `Efficiency` VALUES ('NB', 'H2_10',    'H2_COMP-10-100',      2025, 'H2_100', 1.0,'[E1]', 'The energetic value of the H2 is conserved.');
 INSERT INTO `Efficiency` VALUES ('NB', 'H2_10',    'H2_COMP-10-100',      2030, 'H2_100', 1.0,'[E1]', 'The energetic value of the H2 is conserved.');
@@ -4090,48 +4125,48 @@ INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'H2_SMR-CCS',          2035, 
 INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'H2_SMR-CCS',          2040, 'H2P', 0.69,'[E18]', 'Electricity is only used to compress the H2. This value should be 0 in theory but is set to a small number to avoid division by zero errors in the model.');
 INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'H2_SMR-CCS',          2045, 'H2P', 0.69,'[E18]', 'Electricity is only used to compress the H2. This value should be 0 in theory but is set to a small number to avoid division by zero errors in the model.');
 INSERT INTO `Efficiency` VALUES ('NB', 'E_NG',     'H2_SMR-CCS',          2050, 'H2P', 0.69,'[E18]', 'Electricity is only used to compress the H2. This value should be 0 in theory but is set to a small number to avoid division by zero errors in the model.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-1',         2020, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-2',         2020, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-3',         2020, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-4',         2020, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-1',         2025, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-2',         2025, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-3',         2025, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-4',         2025, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-1',         2030, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-2',         2030, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-3',         2030, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-4',         2030, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-1',         2035, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-2',         2035, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-3',         2035, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-4',         2035, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-1',         2040, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-2',         2040, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-3',         2040, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-4',         2040, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-1',         2045, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-2',         2045, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-3',         2045, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-4',         2045, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-1',         2050, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-2',         2050, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-3',         2050, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-4',         2050, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-OFF',          2020, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-OFF',          2025, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-OFF',          2030, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-OFF',          2035, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-OFF',          2040, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-OFF',          2045, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-OFF',          2050, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_SOLPV-CEN',         2020, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_SOLPV-CEN',         2025, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_SOLPV-CEN',         2030, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_SOLPV-CEN',         2035, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_SOLPV-CEN',         2040, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_SOLPV-CEN',         2045, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_SOLPV-CEN',         2050, 'ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-1',         2020, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-2',         2020, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-3',         2020, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-4',         2020, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-1',         2025, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-2',         2025, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-3',         2025, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-4',         2025, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-1',         2030, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-2',         2030, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-3',         2030, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-4',         2030, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-1',         2035, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-2',         2035, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-3',         2035, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-4',         2035, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-1',         2040, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-2',         2040, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-3',         2040, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-4',         2040, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-1',         2045, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-2',         2045, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-3',         2045, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-4',         2045, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-1',         2050, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-2',         2050, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-3',         2050, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-ON-4',         2050, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-OFF',          2020, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-OFF',          2025, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-OFF',          2030, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-OFF',          2035, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-OFF',          2040, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-OFF',          2045, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_WIND-OFF',          2050, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_SOLPV-CEN',         2020, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_SOLPV-CEN',         2025, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_SOLPV-CEN',         2030, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_SOLPV-CEN',         2035, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_SOLPV-CEN',         2040, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_SOLPV-CEN',         2045, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_SOLPV-CEN',         2050, 'ELCG-RPS', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
 INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_SOLPV-RES',         2020, 'R_ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
 INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_SOLPV-RES',         2025, 'R_ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
 INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_SOLPV-RES',         2030, 'R_ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
@@ -4139,20 +4174,28 @@ INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_SOLPV-RES',         2035, 'R
 INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_SOLPV-RES',         2040, 'R_ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
 INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_SOLPV-RES',         2045, 'R_ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
 INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_SOLPV-RES',         2050, 'R_ELC', 1.0,'[E18]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-F',             2020, 'ELC', 1.0,'[E3]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-F',             2025, 'ELC', 1.0,'[E3]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-F',             2030, 'ELC', 1.0,'[E3]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-F',             2035, 'ELC', 1.0,'[E3]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-F',             2040, 'ELC', 1.0,'[E3]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-F',             2045, 'ELC', 1.0,'[E3]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-F',             2050, 'ELC', 1.0,'[E3]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-B',             2020, 'ELC', 1.0,'[E3]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-B',             2025, 'ELC', 1.0,'[E3]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-B',             2030, 'ELC', 1.0,'[E3]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-B',             2035, 'ELC', 1.0,'[E3]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-B',             2040, 'ELC', 1.0,'[E3]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-B',             2045, 'ELC', 1.0,'[E3]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
-INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-B',             2050, 'ELC', 1.0,'[E3]', 'Variable renewables are considered to be perfectly efficient. Instead, their output is governed by their capacity factors.');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-F',             2020, 'ELCG-RPS', 1.0,'[E3]', '');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-F',             2025, 'ELCG-RPS', 1.0,'[E3]', '');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-F',             2030, 'ELCG-RPS', 1.0,'[E3]', '');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-F',             2035, 'ELCG-RPS', 1.0,'[E3]', '');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-F',             2040, 'ELCG-RPS', 1.0,'[E3]', '');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-F',             2045, 'ELCG-RPS', 1.0,'[E3]', '');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-F',             2050, 'ELCG-RPS', 1.0,'[E3]', '');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-B',             2020, 'ELCG-RPS', 1.0,'[E3]', '');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-B',             2025, 'ELCG-RPS', 1.0,'[E3]', '');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-B',             2030, 'ELCG-RPS', 1.0,'[E3]', '');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-B',             2035, 'ELCG-RPS', 1.0,'[E3]', '');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-B',             2040, 'ELCG-RPS', 1.0,'[E3]', '');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-B',             2045, 'ELCG-RPS', 1.0,'[E3]', '');
+INSERT INTO `Efficiency` VALUES ('NB', 'ethos',  'E_GEO-B',             2050, 'ELCG-RPS', 1.0,'[E3]', '');
+
+
+
+
+
+
+
+
 
 
 
@@ -4232,9 +4275,6 @@ INSERT INTO `Efficiency` VALUES ('NB', 'CO2_TO_GROUND', 'CO2_TRNSPSEQ',        2
 INSERT INTO `Efficiency` VALUES ('NB', 'CO2_TO_GROUND', 'CO2_TRNSPSEQ',        2050, 'CO2_SEQ', 1.0,' ','');
 
 INSERT INTO `Efficiency` VALUES ('NB', 'ELC',      'E_TRANS-DIST',        2020, 'NI_ELC', 0.933,'[E32]', 'Assume no change over time.');
-
-
-
 
 
 --------------------------------- Transportation ------------------------------------
@@ -4595,7 +4635,6 @@ INSERT INTO `Efficiency` VALUES ('NB', 'ELC',      'E_TRANS-DIST',        2020, 
 
 
 
-
 ------------------------------------ Buildings ------------------------------------
 
 
@@ -4782,8 +4821,6 @@ INSERT INTO `Efficiency` VALUES ('NB', 'C_LPG',    'C_OTH-GEN',           2020, 
 INSERT INTO `Efficiency` VALUES ('NB', 'ELC',      'E_TRANS-DIST',        2020, 'R_ELC', 0.933,'[E32]', 'Assume no change over time.');
 INSERT INTO `Efficiency` VALUES ('NB', 'ELC',      'E_TRANS-DIST',        2020, 'C_ELC', 0.933,'[E32]', 'Assume no change over time.');
 
-
-
 ------------------------------------- Industry -------------------------------
 
 INSERT INTO `Efficiency` VALUES ('NB', 'I_ELC',    'I_PULPPAPER_GEN',     2020, 'D_I_PULPPAPER', 1.0,'', 'Efficiencies for generic processes are set to one. This is done to properly account for the energy use.');
@@ -4822,7 +4859,6 @@ INSERT INTO `Efficiency` VALUES ('NB', 'ethos',    'IMP_OTH_I',           2020, 
 INSERT INTO `Efficiency` VALUES ('NB', 'ethos',    'IMP_WOOD_I',          2020, 'I_WOOD', 1.0,' ', ' ');
 INSERT INTO `Efficiency` VALUES ('NB', 'NG',       'IMP_NG_I',            2020, 'I_NG', 1.0,' ', ' ');
 INSERT INTO `Efficiency` VALUES ('NB', 'ELC',      'E_TRANS-DIST',        2020, 'I_ELC', 0.933,'[E32]', 'Assume no change over time.');
-
 
 -------------------------------------- Agriculture -------------------------------
 
@@ -14587,10 +14623,12 @@ INSERT INTO 'ExistingCapacity' VALUES ('NB-R_EXP','E_TRANS_EX-NS',1900,0.35,'GW'
 INSERT INTO 'ExistingCapacity' VALUES ('R_EXP-NB','E_TRANS_EX-PEI',1900,0.56,'GW','');
 INSERT INTO 'ExistingCapacity' VALUES ('NB-R_EXP','E_TRANS_EX-PEI',1900,0.56,'GW','');
 
-INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS_EX-NS',					1900,'ELC' ,1.0,'','');
-INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS_EX-NS',					1900,'ELC' ,1.0,'','');
-INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS_EX-PEI',					1900,'ELC' ,1.0,'','');
-INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS_EX-PEI',					1900,'ELC' ,1.0,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG'  					,'E_TRANS_EX-NS',				  	1900,'ELC' ,1.0,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG'  					,'E_TRANS_EX-PEI',					1900,'ELC' ,1.0,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG-RPS'				,'E_TRANS_EX-NS',			  		1900,'ELC' ,1.0,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG-RPS'				,'E_TRANS_EX-PEI',					1900,'ELC' ,1.0,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  		  			,'E_TRANS_EX-NS',			  		1900,'ELC' ,1.0,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  		  			,'E_TRANS_EX-PEI',					1900,'ELC' ,1.0,'','');
 
 
 
@@ -14642,20 +14680,28 @@ INSERT INTO 'LifetimeLoanTech' VALUES ('NB-R_EXP','E_TRANS-PEI',             25,
 INSERT INTO 'LifetimeLoanTech' VALUES ('R_EXP-NB','E_TRANS-PEI',             25,'[E21]',' ');
 
 
-INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-PEI',					     2020,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-PEI',					     2020,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-PEI',					     2025,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-PEI',					     2025,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-PEI',					     2030,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-PEI',					     2030,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-PEI',					     2035,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-PEI',					     2035,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-PEI',					     2040,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-PEI',					     2040,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-PEI',					     2045,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-PEI',					     2045,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-PEI',					     2050,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-PEI',					     2050,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG'  					,'E_TRANS-PEI',					     2020,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG'  					,'E_TRANS-PEI',					     2025,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG'  					,'E_TRANS-PEI',					     2030,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG'  					,'E_TRANS-PEI',					     2035,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG'  					,'E_TRANS-PEI',					     2040,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG'  					,'E_TRANS-PEI',					     2045,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG'  					,'E_TRANS-PEI',					     2050,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG-RPS'				,'E_TRANS-PEI',					     2020,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG-RPS'				,'E_TRANS-PEI',					     2025,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG-RPS'				,'E_TRANS-PEI',					     2030,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG-RPS'				,'E_TRANS-PEI',					     2035,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG-RPS'				,'E_TRANS-PEI',					     2040,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG-RPS'				,'E_TRANS-PEI',					     2045,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG-RPS'				,'E_TRANS-PEI',					     2050,'ELC' ,0.99,'','');
+
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  		  			,'E_TRANS-PEI',					     2020,'ELCG' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  		  			,'E_TRANS-PEI',					     2025,'ELCG' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  		  			,'E_TRANS-PEI',					     2030,'ELCG' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  		  			,'E_TRANS-PEI',					     2035,'ELCG' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  		  			,'E_TRANS-PEI',					     2040,'ELCG' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  		  			,'E_TRANS-PEI',					     2045,'ELCG' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  		  			,'E_TRANS-PEI',					     2050,'ELCG' ,0.99,'','');
 
 
 INSERT INTO 'CostInvest' VALUES ('R_EXP-NB','E_TRANS-PEI',             2020, 194.5,         'M$/GW', '[E9]','Most recent interconnection upgrade cost M40 and added 360 MW. Equivalent to 389 M$/GW. Costs are divided by two to account for double counting in Temoa.');
@@ -14749,20 +14795,27 @@ INSERT INTO 'LifetimeLoanTech' VALUES ('NB-R_EXP','E_TRANS-NS',             25,'
 INSERT INTO 'LifetimeLoanTech' VALUES ('R_EXP-NB','E_TRANS-NS',             25,'[E21]',' ');
 
 
-INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-NS',					     2020,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-NS',					     2020,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-NS',					     2025,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-NS',					     2025,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-NS',					     2030,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-NS',					     2030,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-NS',					     2035,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-NS',					     2035,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-NS',					     2040,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-NS',					     2040,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-NS',					     2045,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-NS',					     2045,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELC'  					,'E_TRANS-NS',					     2050,'ELC' ,0.99,'','');
-INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  					,'E_TRANS-NS',					     2050,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG'  					,'E_TRANS-NS',					     2020,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG'  					,'E_TRANS-NS',					     2025,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG'  					,'E_TRANS-NS',					     2030,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG'  					,'E_TRANS-NS',					     2035,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG'  					,'E_TRANS-NS',					     2040,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG'  					,'E_TRANS-NS',					     2045,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG'  					,'E_TRANS-NS',					     2050,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG-RPS'				,'E_TRANS-NS',					     2020,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG-RPS'				,'E_TRANS-NS',					     2025,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG-RPS'				,'E_TRANS-NS',					     2030,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG-RPS'				,'E_TRANS-NS',					     2035,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG-RPS'				,'E_TRANS-NS',					     2040,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG-RPS'				,'E_TRANS-NS',					     2045,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('NB-R_EXP','ELCG-RPS'				,'E_TRANS-NS',					     2050,'ELC' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  		 	 		  ,'E_TRANS-NS',					     2020,'ELCG' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  		 	 		  ,'E_TRANS-NS',					     2025,'ELCG' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  		 	 		  ,'E_TRANS-NS',					     2030,'ELCG' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  		 	 		  ,'E_TRANS-NS',					     2035,'ELCG' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  		 	 		  ,'E_TRANS-NS',					     2040,'ELCG' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  		 	 		  ,'E_TRANS-NS',					     2045,'ELCG' ,0.99,'','');
+INSERT INTO 'Efficiency' VALUES ('R_EXP-NB','ELC'  		 	 		  ,'E_TRANS-NS',					     2050,'ELCG' ,0.99,'','');
 
 
 INSERT INTO 'CostInvest' VALUES ('R_EXP-NB','E_TRANS-NS',             2020,  431.0,         'M$/GW', '[E8]','Costs are based off source data of M07 for 240 MW = 862 M$/GW. Transmission CapEx costs are divided by two to account for double counting in Temoa.');

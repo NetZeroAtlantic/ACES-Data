@@ -1561,7 +1561,7 @@ CREATE TABLE IF NOT EXISTS "Output_Emissions" (
 	"emissions"	real,
 	FOREIGN KEY("tech") REFERENCES "technologies"("tech"),
 	PRIMARY KEY("regions","scenario","t_periods","emissions_comm","tech","vintage"),
-	FOREIGN KEY("emissions_comm") REFERENCES "EmissionActivity"("emis_comm"),
+	FOREIGN KEY("emissions_comm") REFERENCES "commodities"("comm_name"),
 	FOREIGN KEY("sector") REFERENCES "sector_labels"("sector"),
 	FOREIGN KEY("t_periods") REFERENCES "time_periods"("t_periods"),
 	FOREIGN KEY("vintage") REFERENCES "time_periods"("t_periods")
@@ -1587,7 +1587,7 @@ CREATE TABLE "Output_ImplicitEmissionsPrice" (
 	"emissions_comm"	text,
 	"emissions_price"	real,
 	PRIMARY KEY("regions","scenario","t_periods","emissions_comm"),
-	FOREIGN KEY("emissions_comm") REFERENCES "EmissionActivity"("emis_comm"),
+	FOREIGN KEY("emissions_comm") REFERENCES "commodities"("comm_name"),
 	FOREIGN KEY("t_periods") REFERENCES "time_periods"("t_periods")
 );
 CREATE TABLE IF NOT EXISTS "Output_Curtailment" (
@@ -17437,4 +17437,3 @@ INSERT INTO 'MaxActivity' VALUES ('NL-R_EXP',2045,'E_TRANS',20.0,'PJ','','A limi
 INSERT INTO 'MaxActivity' VALUES ('NL-R_EXP',2050,'E_TRANS',20.0,'PJ','','A limit must be imposed for computational reasons.');
 
 COMMIT;
-

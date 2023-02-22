@@ -317,7 +317,7 @@ CREATE TABLE IF NOT EXISTS "Output_ImplicitEmissionsPrice" (
 	FOREIGN KEY("emissions_comm") REFERENCES "commodities"("comm_name"),
 	FOREIGN KEY("sector") REFERENCES "sector_labels"("sector"),
 	FOREIGN KEY("t_periods") REFERENCES "time_periods"("t_periods"),
-	PRIMARY KEY("regions","scenario","t_periods","emissions_comm")
+	PRIMARY KEY("regions","scenario","sector","t_periods","emissions_comm")
 );
 CREATE TABLE IF NOT EXISTS "Output_Curtailment" (
 	"regions"	text,
@@ -1013,6 +1013,7 @@ INSERT INTO "technologies" VALUES ('E_TRANS-INTRA','p','electricity','T&D','Elec
 INSERT INTO "technologies" VALUES ('E_DIST','p','electricity','T&D','Electricity distribution (intra-regional)','','GW','','');
 INSERT INTO "technologies" VALUES ('E_AC-TO-DC','p','electricity','misc.','AC to DC Electricity Transformation','','GW','','');
 INSERT INTO "technologies" VALUES ('E_RPS-COUNTER','p','electricity','dummy','Accounting technology for RPS','','GW','','');
+INSERT INTO "technologies" VALUES ('E_CO2_OFFSETS','p','electricity','misc.','CO2 Offsets (Electricity Sector)','','Mt/year','','');
 INSERT INTO "technologies" VALUES ('H2_distribution','p','electricity','T&D','Hydrogen distribution','','PJ','','');
 INSERT INTO "technologies" VALUES ('H2_COMP-10-100','p','electricity','misc.','Hydrogen compression from 10 to 100 bar','','GW','','');
 INSERT INTO "technologies" VALUES ('H2_STORAGE','ps','electricity','storage','Hydrogen storage','','GW','113','#492254');
@@ -1065,6 +1066,7 @@ INSERT INTO "technologies" VALUES ('T_HDV_WTR_MGO','p','transport','HDV-Marine',
 INSERT INTO "technologies" VALUES ('T_HDV_WTR_LH2','p','transport','HDV-Marine','Marine Vessel (Liquified H2)','','btkm','#86f0f0','74');
 INSERT INTO "technologies" VALUES ('T_HDV_AJP','p','transport','HDV-Air','Jet Plane','','bpkm','#a5e09f','80');
 INSERT INTO "technologies" VALUES ('T_OTH-GEN','p','transport','Other','Remaining transportation fleet','','PJ','#cc473d','101');
+INSERT INTO "technologies" VALUES ('T_CO2_OFFSETS','p','transport','misc.','CO2 Offsets (Transportation Sector)','','Mt/year','','');
 INSERT INTO "technologies" VALUES ('IMP_DSL_T','p','transport','generation-imports','imported diesel to transportation sector','Imports','PJ','#cc473d','9999');
 INSERT INTO "technologies" VALUES ('IMP_GAS_T','p','transport','generation-imports','imported gasoline to transportation sector','Imports','PJ','#7db0c9','9999');
 INSERT INTO "technologies" VALUES ('IMP_CNG_T','p','transport','generation-imports','imported CNG to transportation sector','Imports','PJ','#48a88a','9999');
@@ -1106,6 +1108,8 @@ INSERT INTO "technologies" VALUES ('IMP_NG_R','p','Residential','generation-impo
 INSERT INTO "technologies" VALUES ('IMP_WOOD_R','p','Residential','generation-imports','imported wood to residential sector','Imports','PJ','','');
 INSERT INTO "technologies" VALUES ('IMP_OIL_C','p','Commercial','generation-imports','imported heating oil to commerciall sector','Imports','PJ','','');
 INSERT INTO "technologies" VALUES ('IMP_NG_C','p','Commercial','generation-imports','imported natural gas to commercial sector','Imports','PJ','','');
+INSERT INTO "technologies" VALUES ('R_CO2_OFFSETS','p','Residential','misc.','CO2 Offsets (Residential Sector)','','Mt/year','','');
+INSERT INTO "technologies" VALUES ('C_CO2_OFFSETS','p','Commercial','misc.','CO2 Offsets (Commercial Sector)','','Mt/year','','');
 INSERT INTO "technologies" VALUES ('I_MANUF-OTH_GEN','p','Industry','generation','Generic "Other Manufacturing"','','PJ','','');
 INSERT INTO "technologies" VALUES ('I_CONSTR_GEN','p','Industry','generation','Generic Construction','','PJ','','');
 INSERT INTO "technologies" VALUES ('I_FORESTRY_GEN','p','Industry','generation','Generic Forestry Activities','','PJ','','');
@@ -1113,6 +1117,7 @@ INSERT INTO "technologies" VALUES ('IMP_NG_I','p','Industry','generation-imports
 INSERT INTO "technologies" VALUES ('IMP_DSL_I','p','Industry','generation-imports','Imported Diesel to the Industrial Sector','','PJ','','');
 INSERT INTO "technologies" VALUES ('IMP_HFO_I','p','Industry','generation-imports','Imported Heavy Fuel Oil to the Industrial Sector','','PJ','','');
 INSERT INTO "technologies" VALUES ('IMP_NGL_I','p','Industry','generation-imports','Imported Natural Gas Liquids to the Industrial Sector','','PJ','','');
+INSERT INTO "technologies" VALUES ('I_CO2_OFFSETS','p','Industry','misc.','CO2 Offsets (Industry Sector)','','Mt/year','','');
 INSERT INTO "technologies" VALUES ('A_CATTLE_EX','p','Agriculture','generation','Cattle; Existing','Cattle','k head','','');
 INSERT INTO "technologies" VALUES ('A_CATTLE','p','Agriculture','generation','Cattle','Cattle','k head','','');
 INSERT INTO "technologies" VALUES ('A_CATTLE-AMV','p','Agriculture','generation','Cattle with anti methanogenic vaccination','Cattle (AMV)','k head','','');
@@ -1121,6 +1126,7 @@ INSERT INTO "technologies" VALUES ('A_MANURE-MGMT-SSD','p','Agriculture','genera
 INSERT INTO "technologies" VALUES ('A_SOIL-MGMT','p','Agriculture','generation','Generic Soil Management Process','','normalized units','','');
 INSERT INTO "technologies" VALUES ('A_LIMING','p','Agriculture','generation','Generic Liming & Urea Application','','normalized units','','');
 INSERT INTO "technologies" VALUES ('A_FUELUSE','p','Agriculture','generation','Generic Technology for On-Farm Fuel Use','','normalized units','','');
+INSERT INTO "technologies" VALUES ('A_CO2_OFFSETS','p','Agriculture','misc.','CO2 Offsets (Agriculture Sector)','','Mt/year','','');
 INSERT INTO "technologies" VALUES ('W_LANDFILL_EX','p','Waste','generation','Landfill (Existing)','Landfill','Mt / year','','');
 INSERT INTO "technologies" VALUES ('W_WTE_EX','p','Waste','generation','Waste-to-Enegy','','Mt / year','','');
 INSERT INTO "technologies" VALUES ('W_COMPOST_EX','p','Waste','generation','Aerobic Composting','','Mt / year','','');
@@ -1130,6 +1136,7 @@ INSERT INTO "technologies" VALUES ('W_DIGESTER','p','Waste','generation','Anaero
 INSERT INTO "technologies" VALUES ('W_SORTER_EX','p','Waste','dummy','Dummy technology that sorts waste.','','Mt / year','','');
 INSERT INTO "technologies" VALUES ('W_WTR-TRTMNT-GEN','p','Waste','generation','Generic waste water treatment technology. Calibrated for emissions.','','billion m3 / year','','');
 INSERT INTO "technologies" VALUES ('W_LANDFILL-WOOD-GEN','p','Waste','generation','Generic industrial wood landfill. Calibrated for emissions.','','Mt / year','','');
+INSERT INTO "technologies" VALUES ('W_CO2_OFFSETS','p','Waste','misc.','CO2 Offsets (Waste Sector)','','Mt/year','','');
 INSERT INTO "technologies" VALUES ('T_LDV_C_AT','p','transport','LDV-Car','Active transportation (Alternative for Cars)',NULL,'MMkm','#c8ff05',NULL);
 INSERT INTO "technologies" VALUES ('T_LDV_PLT_AT','p','transport','LDV-PLT','Active transportation (Alternative for Passenger Trucks)',NULL,'MMKm','#c8ff05',NULL);
 INSERT INTO "tech_reserve" VALUES ('E_WIND-ON-1','');
@@ -1405,6 +1412,7 @@ INSERT INTO "commodities" VALUES ('PM25','e','PM25 emissions commodity','kt');
 INSERT INTO "commodities" VALUES ('SO2','e','SO2 emissions commodity','kt');
 INSERT INTO "commodities" VALUES ('Hg','e','Hg emissions commodity','kt');
 INSERT INTO "commodities" VALUES ('CH4','e','CH4 emissions commodity','kt');
+INSERT INTO "commodities" VALUES ('CO2e-Imports-Tax','e','This is used as a carbon intensity on imports so that their cost is affected by the carbon tax. Note: This is not an actual emission commodity.','kt');
 INSERT INTO "commodities" VALUES ('D_ELEC','d','electricity demand','PJ');
 INSERT INTO "commodities" VALUES ('ELC','p','Electricity','PJ');
 INSERT INTO "commodities" VALUES ('ELCG','p','Generated Electricity (Non-Renewable)','PJ');
@@ -2704,6 +2712,13 @@ INSERT INTO "LifetimeTech" VALUES ('PEI','W_WTR-TRTMNT-GEN',200.0,' ','The techn
 INSERT INTO "LifetimeTech" VALUES ('PEI','W_LANDFILL-WOOD-GEN',200.0,' ','The technology is assumed never to retire.');
 INSERT INTO "LifetimeTech" VALUES ('PEI','T_LDV_C_AT',200.0,NULL,'No end of life');
 INSERT INTO "LifetimeTech" VALUES ('PEI','T_LDV_PLT_AT',200.0,NULL,'No end of life');
+INSERT INTO "LifetimeTech" VALUES ('PEI','E_CO2_OFFSETS',200.0,' ','The technology is assumed never to retire.');
+INSERT INTO "LifetimeTech" VALUES ('PEI','R_CO2_OFFSETS',200.0,' ','The technology is assumed never to retire.');
+INSERT INTO "LifetimeTech" VALUES ('PEI','C_CO2_OFFSETS',200.0,' ','The technology is assumed never to retire.');
+INSERT INTO "LifetimeTech" VALUES ('PEI','T_CO2_OFFSETS',200.0,' ','The technology is assumed never to retire.');
+INSERT INTO "LifetimeTech" VALUES ('PEI','I_CO2_OFFSETS',200.0,' ','The technology is assumed never to retire.');
+INSERT INTO "LifetimeTech" VALUES ('PEI','W_CO2_OFFSETS',200.0,' ','The technology is assumed never to retire.');
+INSERT INTO "LifetimeTech" VALUES ('PEI','A_CO2_OFFSETS',200.0,' ','The technology is assumed never to retire.');
 INSERT INTO "LifetimeLoanTech" VALUES ('PEI','E_WIND-ON-1',30.0,'[E33]','');
 INSERT INTO "LifetimeLoanTech" VALUES ('PEI','E_WIND-ON-2',30.0,'[E33]','');
 INSERT INTO "LifetimeLoanTech" VALUES ('PEI','E_WIND-ON-3',30.0,'[E33]','');
@@ -3588,6 +3603,112 @@ INSERT INTO "EmissionActivity" VALUES ('PEI','N2O','ethos','W_WTR-TRTMNT-GEN',20
 INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','W_WTR-TRTMNT-GEN',2022,'D_W_WASTEWTR',0.56638,'kt emitted / M m3 waste',' ','Emission factors are are calculated as follows: The total reported emissions from [6] are divided by the total amount of waste [3].');
 INSERT INTO "EmissionActivity" VALUES ('PEI','CH4','ethos','W_LANDFILL-WOOD-GEN',2022,'D_W_WOOD',0.0002,'kt emitted / kt waste',' ','Emission factors are are calculated as follows: The total reported emissions from [6] are divided by the total amount of waste [3].');
 INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','W_LANDFILL-WOOD-GEN',2022,'D_W_WOOD',0.0049,'kt emitted / kt waste',' ','Emission factors are are calculated as follows: The total reported emissions from [6] are divided by the total amount of waste [3].');
+
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','E_CO2_OFFSETS',2022,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','E_CO2_OFFSETS',2025,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','E_CO2_OFFSETS',2030,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','E_CO2_OFFSETS',2035,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','E_CO2_OFFSETS',2040,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','E_CO2_OFFSETS',2045,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','E_CO2_OFFSETS',2050,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','E_CO2_OFFSETS',2022,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','E_CO2_OFFSETS',2025,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','E_CO2_OFFSETS',2030,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','E_CO2_OFFSETS',2035,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','E_CO2_OFFSETS',2040,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','E_CO2_OFFSETS',2045,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','E_CO2_OFFSETS',2050,'CO2_SEQ',-1.0,'kt CO2',' ','');
+
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','R_CO2_OFFSETS',2022,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','R_CO2_OFFSETS',2025,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','R_CO2_OFFSETS',2030,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','R_CO2_OFFSETS',2035,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','R_CO2_OFFSETS',2040,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','R_CO2_OFFSETS',2045,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','R_CO2_OFFSETS',2050,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','R_CO2_OFFSETS',2022,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','R_CO2_OFFSETS',2025,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','R_CO2_OFFSETS',2030,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','R_CO2_OFFSETS',2035,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','R_CO2_OFFSETS',2040,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','R_CO2_OFFSETS',2045,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','R_CO2_OFFSETS',2050,'CO2_SEQ',-1.0,'kt CO2',' ','');
+
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','C_CO2_OFFSETS',2022,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','C_CO2_OFFSETS',2025,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','C_CO2_OFFSETS',2030,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','C_CO2_OFFSETS',2035,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','C_CO2_OFFSETS',2040,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','C_CO2_OFFSETS',2045,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','C_CO2_OFFSETS',2050,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','C_CO2_OFFSETS',2022,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','C_CO2_OFFSETS',2025,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','C_CO2_OFFSETS',2030,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','C_CO2_OFFSETS',2035,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','C_CO2_OFFSETS',2040,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','C_CO2_OFFSETS',2045,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','C_CO2_OFFSETS',2050,'CO2_SEQ',-1.0,'kt CO2',' ','');
+
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','T_CO2_OFFSETS',2022,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','T_CO2_OFFSETS',2025,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','T_CO2_OFFSETS',2030,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','T_CO2_OFFSETS',2035,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','T_CO2_OFFSETS',2040,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','T_CO2_OFFSETS',2045,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','T_CO2_OFFSETS',2050,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','T_CO2_OFFSETS',2022,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','T_CO2_OFFSETS',2025,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','T_CO2_OFFSETS',2030,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','T_CO2_OFFSETS',2035,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','T_CO2_OFFSETS',2040,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','T_CO2_OFFSETS',2045,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','T_CO2_OFFSETS',2050,'CO2_SEQ',-1.0,'kt CO2',' ','');
+
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','I_CO2_OFFSETS',2022,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','I_CO2_OFFSETS',2025,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','I_CO2_OFFSETS',2030,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','I_CO2_OFFSETS',2035,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','I_CO2_OFFSETS',2040,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','I_CO2_OFFSETS',2045,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','I_CO2_OFFSETS',2050,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','I_CO2_OFFSETS',2022,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','I_CO2_OFFSETS',2025,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','I_CO2_OFFSETS',2030,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','I_CO2_OFFSETS',2035,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','I_CO2_OFFSETS',2040,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','I_CO2_OFFSETS',2045,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','I_CO2_OFFSETS',2050,'CO2_SEQ',-1.0,'kt CO2',' ','');
+
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','W_CO2_OFFSETS',2022,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','W_CO2_OFFSETS',2025,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','W_CO2_OFFSETS',2030,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','W_CO2_OFFSETS',2035,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','W_CO2_OFFSETS',2040,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','W_CO2_OFFSETS',2045,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','W_CO2_OFFSETS',2050,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','W_CO2_OFFSETS',2022,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','W_CO2_OFFSETS',2025,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','W_CO2_OFFSETS',2030,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','W_CO2_OFFSETS',2035,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','W_CO2_OFFSETS',2040,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','W_CO2_OFFSETS',2045,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','W_CO2_OFFSETS',2050,'CO2_SEQ',-1.0,'kt CO2',' ','');
+
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','A_CO2_OFFSETS',2022,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','A_CO2_OFFSETS',2025,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','A_CO2_OFFSETS',2030,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','A_CO2_OFFSETS',2035,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','A_CO2_OFFSETS',2040,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','A_CO2_OFFSETS',2045,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2', 'ethos','A_CO2_OFFSETS',2050,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','A_CO2_OFFSETS',2022,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','A_CO2_OFFSETS',2025,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','A_CO2_OFFSETS',2030,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','A_CO2_OFFSETS',2035,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','A_CO2_OFFSETS',2040,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','A_CO2_OFFSETS',2045,'CO2_SEQ',-1.0,'kt CO2',' ','');
+INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','A_CO2_OFFSETS',2050,'CO2_SEQ',-1.0,'kt CO2',' ','');
+
 INSERT INTO "OutputBasedStandard" VALUES ('PEI',2022,'CO2e','E_DSL','E_DIESEL-CT_EX','ELCG',152.77778,'kt/PJ','[E50]','See "OBPS" sheet for further information.');
 INSERT INTO "OutputBasedStandard" VALUES ('PEI',2025,'CO2e','E_DSL','E_DIESEL-CT_EX','ELCG',152.77778,'kt/PJ','[E50]','See "OBPS" sheet for further information.');
 INSERT INTO "OutputBasedStandard" VALUES ('PEI',2030,'CO2e','E_DSL','E_DIESEL-CT_EX','ELCG',152.77778,'kt/PJ','[E50]','See "OBPS" sheet for further information.');
@@ -4329,6 +4450,62 @@ INSERT INTO "Efficiency" VALUES ('PEI','ethos','W_WTR-TRTMNT-GEN',2022,'D_W_WAST
 INSERT INTO "Efficiency" VALUES ('PEI','ethos','W_LANDFILL-WOOD-GEN',2022,'D_W_WOOD',1.0,' ',' ');
 INSERT INTO "Efficiency" VALUES ('PEI','ethos','T_LDV_C_AT',2022,'D_TKM_LDV_C',1.0,NULL,NULL);
 INSERT INTO "Efficiency" VALUES ('PEI','ethos','T_LDV_PLT_AT',2022,'D_TKM_LDV_C',1.0,NULL,NULL);
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','E_CO2_OFFSETS',2022,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','E_CO2_OFFSETS',2025,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','E_CO2_OFFSETS',2030,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','E_CO2_OFFSETS',2035,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','E_CO2_OFFSETS',2040,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','E_CO2_OFFSETS',2045,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','E_CO2_OFFSETS',2050,'CO2_SEQ',1.0,'','');
+
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','R_CO2_OFFSETS',2022,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','R_CO2_OFFSETS',2025,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','R_CO2_OFFSETS',2030,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','R_CO2_OFFSETS',2035,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','R_CO2_OFFSETS',2040,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','R_CO2_OFFSETS',2045,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','R_CO2_OFFSETS',2050,'CO2_SEQ',1.0,'','');
+
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','C_CO2_OFFSETS',2022,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','C_CO2_OFFSETS',2025,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','C_CO2_OFFSETS',2030,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','C_CO2_OFFSETS',2035,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','C_CO2_OFFSETS',2040,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','C_CO2_OFFSETS',2045,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','C_CO2_OFFSETS',2050,'CO2_SEQ',1.0,'','');
+
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','T_CO2_OFFSETS',2022,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','T_CO2_OFFSETS',2025,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','T_CO2_OFFSETS',2030,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','T_CO2_OFFSETS',2035,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','T_CO2_OFFSETS',2040,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','T_CO2_OFFSETS',2045,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','T_CO2_OFFSETS',2050,'CO2_SEQ',1.0,'','');
+
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','I_CO2_OFFSETS',2022,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','I_CO2_OFFSETS',2025,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','I_CO2_OFFSETS',2030,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','I_CO2_OFFSETS',2035,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','I_CO2_OFFSETS',2040,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','I_CO2_OFFSETS',2045,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','I_CO2_OFFSETS',2050,'CO2_SEQ',1.0,'','');
+
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','W_CO2_OFFSETS',2022,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','W_CO2_OFFSETS',2025,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','W_CO2_OFFSETS',2030,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','W_CO2_OFFSETS',2035,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','W_CO2_OFFSETS',2040,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','W_CO2_OFFSETS',2045,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','W_CO2_OFFSETS',2050,'CO2_SEQ',1.0,'','');
+
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','A_CO2_OFFSETS',2022,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','A_CO2_OFFSETS',2025,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','A_CO2_OFFSETS',2030,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','A_CO2_OFFSETS',2035,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','A_CO2_OFFSETS',2040,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','A_CO2_OFFSETS',2045,'CO2_SEQ',1.0,'','');
+INSERT INTO "Efficiency" VALUES ('PEI','ethos','A_CO2_OFFSETS',2050,'CO2_SEQ',1.0,'','');
+
 INSERT INTO "EfficiencyVariable" VALUES ('PEI','R_ELC','R_SH_DHPCC-ELCB','01-02','H00','D_R_SH',1.9622,'','');
 INSERT INTO "EfficiencyVariable" VALUES ('PEI','R_ELC','R_SH_DHPCC-ELCB','01-02','H01','D_R_SH',1.8843,'','');
 INSERT INTO "EfficiencyVariable" VALUES ('PEI','R_ELC','R_SH_DHPCC-ELCB','01-02','H02','D_R_SH',1.83561,'','');
@@ -24422,6 +24599,13 @@ INSERT INTO "CapacityToActivity" VALUES ('PEI','W_WTR-TRTMNT-GEN',1000.0,'Mt to 
 INSERT INTO "CapacityToActivity" VALUES ('PEI','W_LANDFILL-WOOD-GEN',1000.0,'Mt to kt');
 INSERT INTO "CapacityToActivity" VALUES ('PEI','T_LDV_C_AT',1000.0,'This number is somewhat arbitrary. It states that 1 capacity units can serve 1000 activity units per year. The overall activity of this technology is limited by its annual capacity factor, though.');
 INSERT INTO "CapacityToActivity" VALUES ('PEI','T_LDV_PLT_AT',1000.0,NULL);
+INSERT INTO "CapacityToActivity" VALUES ('PEI','E_CO2_OFFSETS',1000.0,'1 Mt to 1000 kt.');
+INSERT INTO "CapacityToActivity" VALUES ('PEI','R_CO2_OFFSETS',1000.0,'1 Mt to 1000 kt.');
+INSERT INTO "CapacityToActivity" VALUES ('PEI','C_CO2_OFFSETS',1000.0,'1 Mt to 1000 kt.');
+INSERT INTO "CapacityToActivity" VALUES ('PEI','T_CO2_OFFSETS',1000.0,'1 Mt to 1000 kt.');
+INSERT INTO "CapacityToActivity" VALUES ('PEI','I_CO2_OFFSETS',1000.0,'1 Mt to 1000 kt.');
+INSERT INTO "CapacityToActivity" VALUES ('PEI','A_CO2_OFFSETS',1000.0,'1 Mt to 1000 kt.');
+INSERT INTO "CapacityToActivity" VALUES ('PEI','W_CO2_OFFSETS',1000.0,'1 Mt to 1000 kt.');
 INSERT INTO "CapacityFactorTech" VALUES ('PEI','01-02','H00','E_WIND-ON_EX',0.1526,'');
 INSERT INTO "CapacityFactorTech" VALUES ('PEI','01-02','H01','E_WIND-ON_EX',0.1361,'');
 INSERT INTO "CapacityFactorTech" VALUES ('PEI','01-02','H02','E_WIND-ON_EX',0.1276,'');
@@ -35140,6 +35324,237 @@ INSERT INTO "CostVariable" VALUES ('PEI',2035,'IMP_NGL_I',2022,14.998,'M$/PJ','[
 INSERT INTO "CostVariable" VALUES ('PEI',2040,'IMP_NGL_I',2022,16.122,'M$/PJ','[I5]','Case: Reference Case. Region: New England');
 INSERT INTO "CostVariable" VALUES ('PEI',2045,'IMP_NGL_I',2022,16.874,'M$/PJ','[I5]','Case: Reference Case. Region: New England');
 INSERT INTO "CostVariable" VALUES ('PEI',2050,'IMP_NGL_I',2022,17.767,'M$/PJ','[I5]','Case: Reference Case. Region: New England');
+
+
+INSERT INTO "CostVariable" VALUES ('PEI',2022,'E_CO2_OFFSETS',2022,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2025,'E_CO2_OFFSETS',2022,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2025,'E_CO2_OFFSETS',2025,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2030,'E_CO2_OFFSETS',2022,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2030,'E_CO2_OFFSETS',2025,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2030,'E_CO2_OFFSETS',2030,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'E_CO2_OFFSETS',2022,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'E_CO2_OFFSETS',2025,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'E_CO2_OFFSETS',2030,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'E_CO2_OFFSETS',2035,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'E_CO2_OFFSETS',2022,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'E_CO2_OFFSETS',2025,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'E_CO2_OFFSETS',2030,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'E_CO2_OFFSETS',2035,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'E_CO2_OFFSETS',2040,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'E_CO2_OFFSETS',2022,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'E_CO2_OFFSETS',2025,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'E_CO2_OFFSETS',2030,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'E_CO2_OFFSETS',2035,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'E_CO2_OFFSETS',2040,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'E_CO2_OFFSETS',2045,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'E_CO2_OFFSETS',2022,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'E_CO2_OFFSETS',2025,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'E_CO2_OFFSETS',2030,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'E_CO2_OFFSETS',2035,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'E_CO2_OFFSETS',2040,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'E_CO2_OFFSETS',2045,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'E_CO2_OFFSETS',2050,0.5,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+
+
+
+
+
+INSERT INTO "CostVariable" VALUES ('PEI',2022,'T_CO2_OFFSETS',2022,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2025,'T_CO2_OFFSETS',2022,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2025,'T_CO2_OFFSETS',2025,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2030,'T_CO2_OFFSETS',2022,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2030,'T_CO2_OFFSETS',2025,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2030,'T_CO2_OFFSETS',2030,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'T_CO2_OFFSETS',2022,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'T_CO2_OFFSETS',2025,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'T_CO2_OFFSETS',2030,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'T_CO2_OFFSETS',2035,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'T_CO2_OFFSETS',2022,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'T_CO2_OFFSETS',2025,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'T_CO2_OFFSETS',2030,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'T_CO2_OFFSETS',2035,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'T_CO2_OFFSETS',2040,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'T_CO2_OFFSETS',2022,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'T_CO2_OFFSETS',2025,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'T_CO2_OFFSETS',2030,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'T_CO2_OFFSETS',2035,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'T_CO2_OFFSETS',2040,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'T_CO2_OFFSETS',2045,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'T_CO2_OFFSETS',2022,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'T_CO2_OFFSETS',2025,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'T_CO2_OFFSETS',2030,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'T_CO2_OFFSETS',2035,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'T_CO2_OFFSETS',2040,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'T_CO2_OFFSETS',2045,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'T_CO2_OFFSETS',2050,0.5001,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+
+
+
+
+
+INSERT INTO "CostVariable" VALUES ('PEI',2022,'R_CO2_OFFSETS',2022,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2025,'R_CO2_OFFSETS',2022,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2025,'R_CO2_OFFSETS',2025,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2030,'R_CO2_OFFSETS',2022,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2030,'R_CO2_OFFSETS',2025,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2030,'R_CO2_OFFSETS',2030,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'R_CO2_OFFSETS',2022,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'R_CO2_OFFSETS',2025,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'R_CO2_OFFSETS',2030,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'R_CO2_OFFSETS',2035,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'R_CO2_OFFSETS',2022,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'R_CO2_OFFSETS',2025,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'R_CO2_OFFSETS',2030,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'R_CO2_OFFSETS',2035,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'R_CO2_OFFSETS',2040,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'R_CO2_OFFSETS',2022,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'R_CO2_OFFSETS',2025,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'R_CO2_OFFSETS',2030,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'R_CO2_OFFSETS',2035,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'R_CO2_OFFSETS',2040,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'R_CO2_OFFSETS',2045,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'R_CO2_OFFSETS',2022,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'R_CO2_OFFSETS',2025,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'R_CO2_OFFSETS',2030,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'R_CO2_OFFSETS',2035,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'R_CO2_OFFSETS',2040,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'R_CO2_OFFSETS',2045,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'R_CO2_OFFSETS',2050,0.5002,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+
+
+
+
+
+INSERT INTO "CostVariable" VALUES ('PEI',2022,'C_CO2_OFFSETS',2022,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2025,'C_CO2_OFFSETS',2022,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2025,'C_CO2_OFFSETS',2025,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2030,'C_CO2_OFFSETS',2022,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2030,'C_CO2_OFFSETS',2025,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2030,'C_CO2_OFFSETS',2030,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'C_CO2_OFFSETS',2022,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'C_CO2_OFFSETS',2025,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'C_CO2_OFFSETS',2030,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'C_CO2_OFFSETS',2035,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'C_CO2_OFFSETS',2022,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'C_CO2_OFFSETS',2025,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'C_CO2_OFFSETS',2030,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'C_CO2_OFFSETS',2035,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'C_CO2_OFFSETS',2040,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'C_CO2_OFFSETS',2022,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'C_CO2_OFFSETS',2025,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'C_CO2_OFFSETS',2030,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'C_CO2_OFFSETS',2035,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'C_CO2_OFFSETS',2040,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'C_CO2_OFFSETS',2045,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'C_CO2_OFFSETS',2022,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'C_CO2_OFFSETS',2025,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'C_CO2_OFFSETS',2030,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'C_CO2_OFFSETS',2035,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'C_CO2_OFFSETS',2040,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'C_CO2_OFFSETS',2045,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'C_CO2_OFFSETS',2050,0.5003,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+
+
+
+
+
+INSERT INTO "CostVariable" VALUES ('PEI',2022,'I_CO2_OFFSETS',2022,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2025,'I_CO2_OFFSETS',2022,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2025,'I_CO2_OFFSETS',2025,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2030,'I_CO2_OFFSETS',2022,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2030,'I_CO2_OFFSETS',2025,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2030,'I_CO2_OFFSETS',2030,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'I_CO2_OFFSETS',2022,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'I_CO2_OFFSETS',2025,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'I_CO2_OFFSETS',2030,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'I_CO2_OFFSETS',2035,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'I_CO2_OFFSETS',2022,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'I_CO2_OFFSETS',2025,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'I_CO2_OFFSETS',2030,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'I_CO2_OFFSETS',2035,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'I_CO2_OFFSETS',2040,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'I_CO2_OFFSETS',2022,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'I_CO2_OFFSETS',2025,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'I_CO2_OFFSETS',2030,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'I_CO2_OFFSETS',2035,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'I_CO2_OFFSETS',2040,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'I_CO2_OFFSETS',2045,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'I_CO2_OFFSETS',2022,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'I_CO2_OFFSETS',2025,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'I_CO2_OFFSETS',2030,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'I_CO2_OFFSETS',2035,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'I_CO2_OFFSETS',2040,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'I_CO2_OFFSETS',2045,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'I_CO2_OFFSETS',2050,0.5004,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+
+
+
+
+
+INSERT INTO "CostVariable" VALUES ('PEI',2022,'W_CO2_OFFSETS',2022,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2025,'W_CO2_OFFSETS',2022,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2025,'W_CO2_OFFSETS',2025,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2030,'W_CO2_OFFSETS',2022,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2030,'W_CO2_OFFSETS',2025,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2030,'W_CO2_OFFSETS',2030,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'W_CO2_OFFSETS',2022,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'W_CO2_OFFSETS',2025,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'W_CO2_OFFSETS',2030,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'W_CO2_OFFSETS',2035,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'W_CO2_OFFSETS',2022,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'W_CO2_OFFSETS',2025,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'W_CO2_OFFSETS',2030,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'W_CO2_OFFSETS',2035,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'W_CO2_OFFSETS',2040,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'W_CO2_OFFSETS',2022,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'W_CO2_OFFSETS',2025,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'W_CO2_OFFSETS',2030,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'W_CO2_OFFSETS',2035,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'W_CO2_OFFSETS',2040,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'W_CO2_OFFSETS',2045,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'W_CO2_OFFSETS',2022,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'W_CO2_OFFSETS',2025,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'W_CO2_OFFSETS',2030,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'W_CO2_OFFSETS',2035,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'W_CO2_OFFSETS',2040,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'W_CO2_OFFSETS',2045,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'W_CO2_OFFSETS',2050,0.5005,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+
+
+
+
+
+INSERT INTO "CostVariable" VALUES ('PEI',2022,'A_CO2_OFFSETS',2022,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2025,'A_CO2_OFFSETS',2022,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2025,'A_CO2_OFFSETS',2025,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2030,'A_CO2_OFFSETS',2022,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2030,'A_CO2_OFFSETS',2025,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2030,'A_CO2_OFFSETS',2030,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'A_CO2_OFFSETS',2022,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'A_CO2_OFFSETS',2025,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'A_CO2_OFFSETS',2030,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2035,'A_CO2_OFFSETS',2035,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'A_CO2_OFFSETS',2022,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'A_CO2_OFFSETS',2025,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'A_CO2_OFFSETS',2030,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'A_CO2_OFFSETS',2035,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2040,'A_CO2_OFFSETS',2040,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'A_CO2_OFFSETS',2022,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'A_CO2_OFFSETS',2025,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'A_CO2_OFFSETS',2030,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'A_CO2_OFFSETS',2035,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'A_CO2_OFFSETS',2040,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2045,'A_CO2_OFFSETS',2045,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'A_CO2_OFFSETS',2022,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'A_CO2_OFFSETS',2025,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'A_CO2_OFFSETS',2030,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'A_CO2_OFFSETS',2035,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'A_CO2_OFFSETS',2040,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'A_CO2_OFFSETS',2045,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+INSERT INTO "CostVariable" VALUES ('PEI',2050,'A_CO2_OFFSETS',2050,0.5006,'$M/kt','[E34]','$500/tonne - Taken from Nova Scotia Power Evergreen IRP Assumptions.');
+
+
+
 INSERT INTO "time_periods" VALUES (1900,'e');
 INSERT INTO "time_periods" VALUES (1901,'e');
 INSERT INTO "time_periods" VALUES (1964,'e');

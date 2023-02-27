@@ -24587,6 +24587,7 @@ INSERT INTO "CapacityToActivity" VALUES ('PEI','R_SH_FOIL_EX',1000.0,'PJ to GJ')
 INSERT INTO "CapacityToActivity" VALUES ('PEI','R_SH_EBB_EX',1000.0,'PJ to GJ');
 INSERT INTO "CapacityToActivity" VALUES ('PEI','R_SH_DHP_EX',1000.0,'PJ to GJ');
 INSERT INTO "CapacityToActivity" VALUES ('PEI','R_SH_WOOD_EX',1000.0,'PJ to GJ');
+INSERT INTO "CapacityToActivity" VALUES ('PEI','R_SH_WOODOIL_EX',1000.0,'PJ to GJ');
 INSERT INTO "CapacityToActivity" VALUES ('PEI','C_SH_OIL_EX',1000.0,'PJ to GJ');
 INSERT INTO "CapacityToActivity" VALUES ('PEI','C_SH_ELC_EX',1000.0,'PJ to GJ');
 INSERT INTO "CapacityToActivity" VALUES ('PEI','R_WH_ELC_EX',1000.0,'PJ to GJ');

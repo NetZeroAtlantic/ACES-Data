@@ -1331,6 +1331,7 @@ INSERT INTO "data_sources" VALUES ('[E48]','Nova Scotia Power (2021). Integrated
 INSERT INTO "data_sources" VALUES ('[E49]','Nova Scotia Environment (2019). Nova Scotia Cap-and-Trade Program: Regulatory Framework. Available Online: https://climatechange.novascotia.ca/sites/default/files/Nova-Scotia-Cap-and-Trade-Regulatory-Framework.pdf');
 INSERT INTO "data_sources" VALUES ('[E50]','Government of Canada (2019). Output-Based Pricing System Regulations SOR/2019-266. Available Online: https://laws-lois.justice.gc.ca/PDF/SOR-2019-266.pdf');
 INSERT INTO "data_sources" VALUES ('[E51]','ISO New England (2022). Energy, Load, and Demand Reports. Available online: https://www.iso-ne.com/isoexpress/web/reports/load-and-demand/-/tree/monthly-wholesale-load-cost-report');
+INSERT INTO "data_sources" VALUES ('[E52]','U.S. Energy Information Administration. Annual Energy Outlook 2022. Table 54: Electric Power Projections by Electricity Market Module Region. Case: Reference Case. Region: New England [Online]. Available: https://www.eia.gov/outlooks/aeo/data/browser/#/?id=62-AEO2022&region=5-7&cases=ref2022&start=2020&end=2050&f=A&linechart=ref2022-d011222a.5-62-AEO2022.5-7&map=&sourcekey=0');
 INSERT INTO "data_sources" VALUES ('[I1]','NRCan, "Comprehensive Energy Use Database. Industrial Sector. Atlantic Provinces. Table 1: Secondary Energy Use and GHG Emissions by Energy Source". [Online]. Available: https://oee.nrcan.gc.ca/corporate/statistics/neud/dpa/showTable.cfm?type=CP&sector=agg&juris=atl&rn=1&page=0');
 INSERT INTO "data_sources" VALUES ('[I2]','Keith, David W., et al. "A process for capturing CO2 from the atmosphere." Joule 2.8 (2018): 1573-1594.');
 INSERT INTO "data_sources" VALUES ('[I3]','Open Energy Outlook for the United States (2021), GitHub Repository, https://github.com/TemoaProject/oeo');
@@ -3708,6 +3709,7 @@ INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','A_CO2_OFFSETS',2035
 INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','A_CO2_OFFSETS',2040,'CO2_SEQ',-1.0,'kt CO2',' ','');
 INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','A_CO2_OFFSETS',2045,'CO2_SEQ',-1.0,'kt CO2',' ','');
 INSERT INTO "EmissionActivity" VALUES ('PEI','CO2e','ethos','A_CO2_OFFSETS',2050,'CO2_SEQ',-1.0,'kt CO2',' ','');
+
 
 INSERT INTO "OutputBasedStandard" VALUES ('PEI',2022,'CO2e','E_DSL','E_DIESEL-CT_EX','ELCG',152.77778,'kt/PJ','[E50]','See "OBPS" sheet for further information.');
 INSERT INTO "OutputBasedStandard" VALUES ('PEI',2025,'CO2e','E_DSL','E_DIESEL-CT_EX','ELCG',152.77778,'kt/PJ','[E50]','See "OBPS" sheet for further information.');
@@ -24507,6 +24509,9 @@ INSERT INTO "CostEmissions" VALUES ('PEI',2035,'CO2e',0.134,'$M/kt','Federal Car
 INSERT INTO "CostEmissions" VALUES ('PEI',2040,'CO2e',0.134,'$M/kt','Federal Carbon Tax');
 INSERT INTO "CostEmissions" VALUES ('PEI',2045,'CO2e',0.134,'$M/kt','Federal Carbon Tax');
 INSERT INTO "CostEmissions" VALUES ('PEI',2050,'CO2e',0.134,'$M/kt','Federal Carbon Tax');
+
+
+
 INSERT INTO "CapacityToActivity" VALUES ('PEI','E_WIND-ON-1',31.536,'1 GW of capacity produces 31.536 PJ of energy if run all year at full capacity.');
 INSERT INTO "CapacityToActivity" VALUES ('PEI','E_WIND-ON-2',31.536,'1 GW of capacity produces 31.536 PJ of energy if run all year at full capacity.');
 INSERT INTO "CapacityToActivity" VALUES ('PEI','E_WIND-ON-3',31.536,'1 GW of capacity produces 31.536 PJ of energy if run all year at full capacity.');
@@ -35620,31 +35625,24 @@ INSERT INTO 'CapacityCredit' VALUES ('R_EXP-PEI', 2040, 'E_TRANS_EX-NB',        
 INSERT INTO 'CapacityCredit' VALUES ('R_EXP-PEI', 2045, 'E_TRANS_EX-NB',          1900, 0.73333, ' ', 'PEI has contracted out 220 MW of firm capacity through the 300 MW intertie.');
 INSERT INTO 'CapacityCredit' VALUES ('R_EXP-PEI', 2050, 'E_TRANS_EX-NB',          1900, 0.73333, ' ', 'PEI has contracted out 220 MW of firm capacity through the 300 MW intertie.');
 
-INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2','ELC','E_TRANS_EX-NB',1900,'ELCG',92.42,'kt/PJ','','Assumption: Equivalent to the emission intensity of a high-efficiency Natural Gas Combined Cycle plant.');
-INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2','ELC','E_TRANS-NB',   2022,'ELCG',92.42,'kt/PJ','','Assumption: Equivalent to the emission intensity of a high-efficiency Natural Gas Combined Cycle plant.');
-INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2','ELC','E_TRANS-NB',   2025,'ELCG',92.42,'kt/PJ','','Assumption: Equivalent to the emission intensity of a high-efficiency Natural Gas Combined Cycle plant.');
-INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2','ELC','E_TRANS-NB',   2030,'ELCG',92.42,'kt/PJ','','Assumption: Equivalent to the emission intensity of a high-efficiency Natural Gas Combined Cycle plant.');
-INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2','ELC','E_TRANS-NB',   2035,'ELCG',92.42,'kt/PJ','','Assumption: Equivalent to the emission intensity of a high-efficiency Natural Gas Combined Cycle plant.');
-INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2','ELC','E_TRANS-NB',   2040,'ELCG',92.42,'kt/PJ','','Assumption: Equivalent to the emission intensity of a high-efficiency Natural Gas Combined Cycle plant.');
-INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2','ELC','E_TRANS-NB',   2045,'ELCG',92.42,'kt/PJ','','Assumption: Equivalent to the emission intensity of a high-efficiency Natural Gas Combined Cycle plant.');
-INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2','ELC','E_TRANS-NB',   2050,'ELCG',92.42,'kt/PJ','','Assumption: Equivalent to the emission intensity of a high-efficiency Natural Gas Combined Cycle plant.');
+INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2e-Imports-Tax','ELC','E_TRANS_EX-NB',1900,'ELCG',49.17,'kt CO2','[E52]','The average emission intensity of electricity generation in New England in 2022. This is included to have electricity imports affected by emissions pricing.');
+INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2e-Imports-Tax','ELC','E_TRANS-NB',   2022,'ELCG',49.17,'kt CO2','[E52]','The average emission intensity of electricity generation in New England in 2022. This is included to have electricity imports affected by emissions pricing.');
+INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2e-Imports-Tax','ELC','E_TRANS-NB',   2025,'ELCG',49.17,'kt CO2','[E52]','The average emission intensity of electricity generation in New England in 2022. This is included to have electricity imports affected by emissions pricing.');
+INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2e-Imports-Tax','ELC','E_TRANS-NB',   2030,'ELCG',49.17,'kt CO2','[E52]','The average emission intensity of electricity generation in New England in 2022. This is included to have electricity imports affected by emissions pricing.');
+INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2e-Imports-Tax','ELC','E_TRANS-NB',   2035,'ELCG',49.17,'kt CO2','[E52]','The average emission intensity of electricity generation in New England in 2022. This is included to have electricity imports affected by emissions pricing.');
+INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2e-Imports-Tax','ELC','E_TRANS-NB',   2040,'ELCG',49.17,'kt CO2','[E52]','The average emission intensity of electricity generation in New England in 2022. This is included to have electricity imports affected by emissions pricing.');
+INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2e-Imports-Tax','ELC','E_TRANS-NB',   2045,'ELCG',49.17,'kt CO2','[E52]','The average emission intensity of electricity generation in New England in 2022. This is included to have electricity imports affected by emissions pricing.');
+INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2e-Imports-Tax','ELC','E_TRANS-NB',   2050,'ELCG',49.17,'kt CO2','[E52]','The average emission intensity of electricity generation in New England in 2022. This is included to have electricity imports affected by emissions pricing.');
 
-INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2e','ELC','E_TRANS_EX-NB',1900,'ELCG',93.72,'kt/PJ','','Assumption: Equivalent to the emission intensity of a high-efficiency Natural Gas Combined Cycle plant.');
-INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2e','ELC','E_TRANS-NB',   2022,'ELCG',93.72,'kt/PJ','','Assumption: Equivalent to the emission intensity of a high-efficiency Natural Gas Combined Cycle plant.');
-INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2e','ELC','E_TRANS-NB',   2025,'ELCG',93.72,'kt/PJ','','Assumption: Equivalent to the emission intensity of a high-efficiency Natural Gas Combined Cycle plant.');
-INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2e','ELC','E_TRANS-NB',   2030,'ELCG',93.72,'kt/PJ','','Assumption: Equivalent to the emission intensity of a high-efficiency Natural Gas Combined Cycle plant.');
-INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2e','ELC','E_TRANS-NB',   2035,'ELCG',93.72,'kt/PJ','','Assumption: Equivalent to the emission intensity of a high-efficiency Natural Gas Combined Cycle plant.');
-INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2e','ELC','E_TRANS-NB',   2040,'ELCG',93.72,'kt/PJ','','Assumption: Equivalent to the emission intensity of a high-efficiency Natural Gas Combined Cycle plant.');
-INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2e','ELC','E_TRANS-NB',   2045,'ELCG',93.72,'kt/PJ','','Assumption: Equivalent to the emission intensity of a high-efficiency Natural Gas Combined Cycle plant.');
-INSERT INTO 'EmissionActivity' VALUES ('R_EXP-PEI','CO2e','ELC','E_TRANS-NB',   2050,'ELCG',93.72,'kt/PJ','','Assumption: Equivalent to the emission intensity of a high-efficiency Natural Gas Combined Cycle plant.');
 
-INSERT INTO 'CostEmissions' VALUES ('R_EXP-PEI',2022,'CO2e',0.0462,'/kt','Federal Carbon Tax');
-INSERT INTO 'CostEmissions' VALUES ('R_EXP-PEI',2025,'CO2e',0.0827,'/kt','Federal Carbon Tax');
-INSERT INTO 'CostEmissions' VALUES ('R_EXP-PEI',2030,'CO2e',0.134,'/kt','Federal Carbon Tax');
-INSERT INTO 'CostEmissions' VALUES ('R_EXP-PEI',2035,'CO2e',0.134,'/kt','Federal Carbon Tax');
-INSERT INTO 'CostEmissions' VALUES ('R_EXP-PEI',2040,'CO2e',0.134,'/kt','Federal Carbon Tax');
-INSERT INTO 'CostEmissions' VALUES ('R_EXP-PEI',2045,'CO2e',0.134,'/kt','Federal Carbon Tax');
-INSERT INTO 'CostEmissions' VALUES ('R_EXP-PEI',2050,'CO2e',0.134,'/kt','Federal Carbon Tax');
+
+INSERT INTO 'CostEmissions' VALUES ('R_EXP-PEI',2022,'CO2e-Imports-Tax',0.0462,'/kt','Federal Carbon Tax');
+INSERT INTO 'CostEmissions' VALUES ('R_EXP-PEI',2025,'CO2e-Imports-Tax',0.0827,'/kt','Federal Carbon Tax');
+INSERT INTO 'CostEmissions' VALUES ('R_EXP-PEI',2030,'CO2e-Imports-Tax',0.134,'/kt','Federal Carbon Tax');
+INSERT INTO 'CostEmissions' VALUES ('R_EXP-PEI',2035,'CO2e-Imports-Tax',0.134,'/kt','Federal Carbon Tax');
+INSERT INTO 'CostEmissions' VALUES ('R_EXP-PEI',2040,'CO2e-Imports-Tax',0.134,'/kt','Federal Carbon Tax');
+INSERT INTO 'CostEmissions' VALUES ('R_EXP-PEI',2045,'CO2e-Imports-Tax',0.134,'/kt','Federal Carbon Tax');
+INSERT INTO 'CostEmissions' VALUES ('R_EXP-PEI',2050,'CO2e-Imports-Tax',0.134,'/kt','Federal Carbon Tax');
 
 
 

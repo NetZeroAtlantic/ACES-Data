@@ -1296,7 +1296,7 @@ INSERT INTO "data_sources" VALUES ('[E13]','Princeton Net Zero America Project (
 INSERT INTO "data_sources" VALUES ('[E14]','NB Power (2019). NB Power’s 10-Year Plan – Fiscal Years 2021 to 2030. [Online]. Available: https://www.nbpower.com/en/about-us/accountability-reports/strategic-plans');
 INSERT INTO "data_sources" VALUES ('[E15]','Nova Scotia Utility and Review Board (2019). 2020-2022 Fuel Stability Plan – Nova Scotia Power Inc. Application. [Online]. Available: https://www.nspower.ca/about-us/who-we-are/how-we-operate/regulations/rate-stability-plan');
 INSERT INTO "data_sources" VALUES ('[E16]','U.S. Energy Information Administration. Annual Energy Outlook 2021. Table 8: Electricity Supply, Disposition, Prices, and Emissions [Online]. Available: https://www.eia.gov/outlooks/aeo/data/browser/#/?id=8-AEO2021&cases=ref2021&sourcekey=0');
-INSERT INTO "data_sources" VALUES ('[E17]','Canada Energy Regulator. Canada Energy Future 2020 Data Appendices (Reference Case). DOI: https://doi.org/10.35002/zjr8-8x75');
+INSERT INTO "data_sources" VALUES ('[E17]','Canada Energy Regulator. Canada Energy Future 2021 Data Appendices (Evolving Policies Case). DOI: https://doi.org/10.35002/zjr8-8x75');
 INSERT INTO "data_sources" VALUES ('[E18]','International Energy Agency (2019). The Future of Hydrogen – Data and assumptions annex. [Online] Available: https://www.iea.org/reports/the-future-of-hydrogen/data-and-assumptions');
 INSERT INTO "data_sources" VALUES ('[E19]','Trottier Energy Futures Project (TEFP). 2016. Canada’s challenge and opportunity: Transformation for major reductions in GHG emissions.Vancouver, Canada: Trottier Energy Futures Project. ');
 INSERT INTO "data_sources" VALUES ('[E20]','Nova Scotia Power. “Maritime Link”. [Online]. Avalaible: https://www.nspower.ca/oasis/maritime-link');
@@ -2536,6 +2536,11 @@ INSERT INTO "MaxCapacity" VALUES ('PEI',2022,'A_CATTLE-AMV',0.0,'k heads','Assum
 INSERT INTO "MaxCapacity" VALUES ('PEI',2022,'A_MANURE-MGMT-SSD',0.0,'k TLU','Assumption: this technology can not be built in first model year.');
 INSERT INTO "MaxCapacity" VALUES ('PEI',2022,'W_DIGESTER',0.0,'Mt waste','Assumption: this technology can not be built in first model year.');
 INSERT INTO "MaxCapacity" VALUES ('PEI',2022,'W_LANDFILL-LFG',0.0,'Mt waste','Assumption: this technology can not be built in first model year.');
+
+
+
+
+
 INSERT INTO "MaxActivity" VALUES ('PEI',2022,'IMP_WOOD-REN_ELC',7.7175,'PJ','','PEI does not provide information regarding amount of woody biomass that is considered renewable. We assume it has the same regulation as NS.');
 INSERT INTO "MaxActivity" VALUES ('PEI',2025,'IMP_WOOD-REN_ELC',7.7175,'PJ','','PEI does not provide information regarding amount of woody biomass that is considered renewable. We assume it has the same regulation as NS.');
 INSERT INTO "MaxActivity" VALUES ('PEI',2030,'IMP_WOOD-REN_ELC',7.7175,'PJ','','PEI does not provide information regarding amount of woody biomass that is considered renewable. We assume it has the same regulation as NS.');

@@ -386,21 +386,6 @@ CREATE TABLE IF NOT EXISTS "LinkedTechs" (
 	FOREIGN KEY("primary_tech") REFERENCES "technologies"("tech"),
 	PRIMARY KEY("primary_region","primary_tech","emis_comm")
 );
-CREATE TABLE IF NOT EXISTS "MinGenGroupWeight" (
-	"regions"	text,
-	"tech"	text,
-	"group_name"	text,
-	"act_fraction"	REAL,
-	"tech_desc"	text,
-	PRIMARY KEY("tech","group_name","regions")
-);
-CREATE TABLE IF NOT EXISTS "MinGenGroupTarget" (
-	"periods"	integer,
-	"group_name"	text,
-	"min_act_g"	real,
-	"notes"	text,
-	PRIMARY KEY("periods","group_name")
-);
 CREATE TABLE IF NOT EXISTS "MinCapacity" (
 	"regions"	text,
 	"periods"	integer,

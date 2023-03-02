@@ -627,6 +627,26 @@ CREATE TABLE IF NOT EXISTS "MaxSeasonalActivity" (
 	FOREIGN KEY("tech") REFERENCES "technologies"("tech"),
 	PRIMARY KEY("regions","periods","season_name","tech")
 );
+CREATE TABLE IF NOT EXISTS "MaxAsynchronousShare" (
+	"regions"	text,
+	"periods"	integer,
+	"share"	real,
+  "source" text,
+	"notes"	text,
+	PRIMARY KEY("regions","periods"),
+	FOREIGN KEY("periods") REFERENCES "time_periods"("t_periods")
+);
+
+
+INSERT INTO "MaxAsynchronousShare" VALUES ('PEI',2022, 0.7, '[E34]', 'Assumption: same as NS. Caveat: constraints of this nature are system-specific. This constraint should be updated should region-specific data become available.');
+INSERT INTO "MaxAsynchronousShare" VALUES ('PEI',2024, 0.7, '[E34]', 'Assumption: same as NS. Caveat: constraints of this nature are system-specific. This constraint should be updated should region-specific data become available.');
+INSERT INTO "MaxAsynchronousShare" VALUES ('PEI',2026, 0.7, '[E34]', 'Assumption: same as NS. Caveat: constraints of this nature are system-specific. This constraint should be updated should region-specific data become available.');
+INSERT INTO "MaxAsynchronousShare" VALUES ('PEI',2028, 0.7, '[E34]', 'Assumption: same as NS. Caveat: constraints of this nature are system-specific. This constraint should be updated should region-specific data become available.');
+INSERT INTO "MaxAsynchronousShare" VALUES ('PEI',2030, 0.9, '[E34]', 'Assumption: same as NS. Caveat: constraints of this nature are system-specific. This constraint should be updated should region-specific data become available.');
+INSERT INTO "MaxAsynchronousShare" VALUES ('PEI',2035, 0.9, '[E34]', 'Assumption: same as NS. Caveat: constraints of this nature are system-specific. This constraint should be updated should region-specific data become available.');
+
+
+
 CREATE TABLE IF NOT EXISTS "RampUp" (
 	"regions"	text,
 	"tech"	text,

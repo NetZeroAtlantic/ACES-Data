@@ -624,9 +624,7 @@ CREATE TABLE IF NOT EXISTS "MaxAsynchronousShare" (
 
 
 INSERT INTO "MaxAsynchronousShare" VALUES ('PEI',2022, 0.7, '[E34]', 'Assumption: same as NS. Caveat: constraints of this nature are system-specific. This constraint should be updated should region-specific data become available.');
-INSERT INTO "MaxAsynchronousShare" VALUES ('PEI',2024, 0.7, '[E34]', 'Assumption: same as NS. Caveat: constraints of this nature are system-specific. This constraint should be updated should region-specific data become available.');
-INSERT INTO "MaxAsynchronousShare" VALUES ('PEI',2026, 0.7, '[E34]', 'Assumption: same as NS. Caveat: constraints of this nature are system-specific. This constraint should be updated should region-specific data become available.');
-INSERT INTO "MaxAsynchronousShare" VALUES ('PEI',2028, 0.7, '[E34]', 'Assumption: same as NS. Caveat: constraints of this nature are system-specific. This constraint should be updated should region-specific data become available.');
+INSERT INTO "MaxAsynchronousShare" VALUES ('PEI',2025, 0.7, '[E34]', 'Assumption: same as NS. Caveat: constraints of this nature are system-specific. This constraint should be updated should region-specific data become available.');
 INSERT INTO "MaxAsynchronousShare" VALUES ('PEI',2030, 0.9, '[E34]', 'Assumption: same as NS. Caveat: constraints of this nature are system-specific. This constraint should be updated should region-specific data become available.');
 INSERT INTO "MaxAsynchronousShare" VALUES ('PEI',2035, 0.9, '[E34]', 'Assumption: same as NS. Caveat: constraints of this nature are system-specific. This constraint should be updated should region-specific data become available.');
 
@@ -36490,4 +36488,3 @@ INSERT INTO 'CostVariableVariable' VALUES ('R_EXP-PEI','E_TRANS-NB','07-16','H23
 
 
 COMMIT;
-

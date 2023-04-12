@@ -621,7 +621,30 @@ CREATE TABLE IF NOT EXISTS "MaxAsynchronousShare" (
 	PRIMARY KEY("regions","periods"),
 	FOREIGN KEY("periods") REFERENCES "time_periods"("t_periods")
 );
-
+CREATE TABLE IF NOT EXISTS "MinActivityShare" (
+	"regions"	text,
+	"periods"	integer,
+	"tech"	text,
+	"group_name" text,
+	"minactshare"	real,
+	"minactshare_notes"	text,
+	PRIMARY KEY("regions","periods","tech","group_name"),
+	FOREIGN KEY("periods") REFERENCES "time_periods"("t_periods"),
+	FOREIGN KEY("tech") REFERENCES "technologies"("tech")
+	FOREIGN KEY("group_name") REFERENCES "groups"("group_name")
+);
+CREATE TABLE IF NOT EXISTS "MaxActivityShare" (
+	"regions"	text,
+	"periods"	integer,
+	"tech"	text,
+	"group_name" text,
+	"maxactshare"	real,
+	"maxactshare_notes"	text,
+	PRIMARY KEY("regions","periods","tech","group_name"),
+	FOREIGN KEY("periods") REFERENCES "time_periods"("t_periods"),
+	FOREIGN KEY("tech") REFERENCES "technologies"("tech")
+	FOREIGN KEY("group_name") REFERENCES "groups"("group_name")
+);
 
 INSERT INTO "MaxAsynchronousShare" VALUES ('PEI',2022, 0.7, '[E34]', 'Assumption: same as NS. Caveat: constraints of this nature are system-specific. This constraint should be updated should region-specific data become available.');
 INSERT INTO "MaxAsynchronousShare" VALUES ('PEI',2025, 0.7, '[E34]', 'Assumption: same as NS. Caveat: constraints of this nature are system-specific. This constraint should be updated should region-specific data become available.');
@@ -36488,4 +36511,3 @@ INSERT INTO 'CostVariableVariable' VALUES ('R_EXP-PEI','E_TRANS-NB','07-16','H23
 
 
 COMMIT;
-
